@@ -1,0 +1,79 @@
+<div class="lm-popup">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>        
+        <h3 class="modal-title">{{ 'ADD_ACTIVE_VEH' | translate}}</h3>
+    </div>
+    <form name="addVehicleForm" >
+        <div class="modal-body lm-popup-body">
+            <div class="container-fluid">
+                <div class="row">
+
+                        <div class="col-md-12" super-user>
+                            <div class="form-group">
+                                <div class="error-container">
+                                    <div ng-show="addVehicleForm.buildingId.$error.required && afterSubmit">{{
+                                        'BUILDING_LIST_TITLE' | translate}}{{ 'REQUIRED' | translate}}
+                                    </div>
+                                    <div>{{serverError.buildingId.toString()}}</div>
+                                </div>
+                                <select ng-change="changeHub()" class="form-control" name="buildingId" ng-model="vehicle.hubId"
+                                        ng-options="building.id  as building.name for building in buildingList"
+                                        ng-required="userInfoService.isSuperUser()">
+                                    <option disabled hidden value="">{{'SELECT_BUILDING'|translate}}*</option>
+                                </select>
+
+                            </div>
+                        </div>
+
+
+                      <div class="col-md-12 ">
+                          <div class="error-container">
+                              <div ng-show="addVehicleForm.vehicleId.$error.required && afterSubmit">{{'VEHICLE_ID'| translate}} {{ 'REQUIRED' | translate}}*</div>
+                              <div>{{serverError.activeVehicleId.toString()}}</div>
+                              <div>{{serverError.vehicleId.toString()}}</div>
+                          </div>
+                          <select class="form-control" name="vehicleId" ng-model = "vehicle.vehicleId"
+                                  ng-options="singleVehicle.vehicleId  as singleVehicle.vehicleId + ' , ' + (singleVehicle.purpose | translate) + ' , '+singleVehicle.brand for singleVehicle in allVehicles" required>
+                              <option disabled hidden value="">{{'SELECT_VEHICLE'| translate}}*</option>
+                          </select>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div class="error-container">
+                            <div>{{serverError.driverId.toString()}}</div>
+                            <div ng-show="addVehicleForm.driverId.$error.required && afterSubmit">{{'DRIVER_NAME'| translate}} {{ 'REQUIRED' | translate}}*</div>
+                        </div>
+                        <select class="form-control" name="driverId" ng-model = "vehicle.driverId"
+                                ng-options="driver.userId  as driver.username for driver in drivers" required>
+                            <option disabled hidden value="">{{'SELECT_DRIVER'| translate}}*</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div class="error-container">
+                            <div>{{serverError.deviceId.toString()}}</div>
+                            <div ng-show="addVehicleForm.deviceId.$error.required && afterSubmit">{{'DEVICE_ID'| translate}} {{ 'REQUIRED' | translate}}*</div>
+                        </div>
+                        <select class="form-control" name="deviceId" ng-model = "vehicle.deviceId"
+                                ng-options="device.deviceId  as device.deviceId + ' , ' + device.brandName + ' , ' + device.phoneNumber for device in devices" required>
+                            <option disabled hidden value="">{{'SELECT_DEVICE'| translate}}*</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="error-container">
+                            <div>{{serverError.workShiftId.toString()}}</div>
+                            <div ng-show="addVehicleForm.workShiftId.$error.required && afterSubmit">{{'WORKSHIFT'| translate}} {{ 'REQUIRED' | translate}}*</div>
+                        </div>
+                        <select class="form-control" name="workShiftId" ng-model = "vehicle.workShiftId"
+                                ng-options="workshift.id  as (workshift.from | date : 'shortTime') + '-' + (workshift.to | date : 'shortTime') for workshift in workshifts" required>
+                            <option disabled hidden value="">{{'SELECT_WORKSHIFT'| translate}}*</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer margin-top-10">
+                <button class="btn lm-btn blue-btn" id="addActiveVehicleBtn" type="button" ng-disabled="disableBTN" ng-click="create()">{{'SUBMIT'|translate}}</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,54 @@
+
+<div class="lm-popup">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title">{{'CONFIRM_CANCELLATION'| translate}}</h3>
+    </div>
+    <form name="cancelRequestForm" novalidate>
+        <div class="modal-body lm-popup-body">
+            <div class="container-fluid">
+                <div class="row margin-bottom-15">
+                    <div class="text-center">
+                        <h4>{{'CONFIRM_MSG_CANCELLATION'| translate}}</h4>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show=" cancelRequestForm.reasonId.$invalid && afterSubmit">
+                                    <div ng-show="cancelRequestForm.reasonId.$error.required">{{'CANCELLATION_REASON'| translate}} {{ 'REQUIRED' | translate}}*</div>
+                                </div>
+                                <div  ng-hide="cancelRequestForm.reasonId.key">{{serverError.packageId.toString()}}</div>
+                                <div  ng-hide="cancelRequestForm.reasonId.key">{{serverError.reasonId.toString()}}</div>
+                            </div>
+                            <select 
+                                class="form-control" name="reasonId" ng-model="cancelRequestObj.reasonId"
+                                ng-options="reason.reasonId  as reason.reason | translate  for reason in cancellationReason " required>
+                                <option disabled hidden value="">{{'SELECT_CANCELLATION_REASON'| translate}}*</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show="cancelRequestForm.description.$dirty && cancelRequestForm.description.$invalid">
+                                    <div ng-show="cancelRequestForm.description.$error.maxlength">{{'ADDITIONAL_NOTES'| translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 500}'}}</div>
+                                </div>
+                                <div  ng-hide="cancelRequestForm.description.key">{{serverError.description.toString()}}</div>
+                            </div>
+                            <textarea id="description" class="form-control" placeholder="{{'ADDITIONAL_NOTES'| translate}}..." rows="3"
+                                      ng-model = "cancelRequestObj.description" name="description" ng-maxlength="500"
+                                      ng-keydown="backendVisibilityService.checkKey(cancelRequestForm.description, serverError)"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn lm-btn blue-btn" ng-disabled="disableBTN" ng-click="cancelReq()" data-toggle="tooltip"
+                        data-placement="top" title="Submit"  type="submit">{{'CONFIRM'| translate}}</button>
+            </div>
+        </div>
+
+    </form>
+</div>

@@ -1,0 +1,50 @@
+<script src="request/js/scheduleDetailsController.js"></script>
+<script src="request/js/detailsDirective.js"></script>
+
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="row entity-title margin-bottom-15"><p>{{'SCHEDULED_PICKUP_DETAILS'| translate}}</p></div>
+        <div class="reschduleContainer">
+
+            <h2 class="text-center reschduleInner">{{'PICKUP_SCHEDULED_FOR'| translate}}<strong> {{requstObj.pickupDate| date: ('DATE_FORMAT' | translate)}} </strong>{{'WITH_TIME_INTERVAL'| translate}}<strong> {{requstObj.pickupTime}}</strong></h2>
+            <form class="datepickerContainer container" name="rescheduled">
+                <div class="col-md-4 col-md-offset-2 col-sm-6 margin-bottom-15">
+                    <div class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup="{{'DATE_FORMAT' | translate}}"
+                               onkeydown="return false" unselectable="on" ondrop="return false;" onselectstart="return false;" onmousedown="return false;"
+                               ng-click="datePopup(3)" name="pickupDate" ng-model="reschduleObj.pickupDate" is-open="datePopupOpen[3]" 
+                               current-text="{{'TODAY'| translate}}" clear-text="{{'RESET'| translate}}"  placeholder="{{'PICKUP_DATE'| translate}}" datepicker-options="options" required/>
+                               <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="datePopup(3)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+
+                    <!--                <div class="error-container" ng-show = "rescheduled.pickupDate.$dirty && rescheduled.pickupDate.$invalid">
+                                        <span ng-show = "rescheduled.pickupDate.$error.required">
+                                            invalid date
+                                        </span>
+                                    </div>-->
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <select  class="col-md-12 col-sm-12 col-xs-12 customSelect" ng-options="time.pickupTimeId as time.fromTime + ' - ' + time.toTime for time in pickupTime track by time.pickupTimeId" name="pickupTime" ng-model="reschduleObj.pickupTime" required>
+                        <option disabled hidden value="">{{'TIME_INTERVAL'| translate}}*</option>
+                    </select>
+
+                    <!--                <div class="error-container" ng-show = "rescheduled.pickupTime.$dirty && rescheduled.pickupTime.$invalid">
+                                        <span ng-show = "rescheduled.pickupTime.$error.required">
+                                            invalid time interval
+                                        </span>
+                                    </div>-->
+                </div>
+
+
+                <div class="clearfix"></div>
+                <div class="text-center">
+                    <button class="btn reschduleBtn" id="onScheduleDetailsBtnReschedule" ng-disabled="rescheduled.$invalid" ng-click="edit()">{{'RESCHEDULE'| translate}}</button>
+                </div>
+            </form>
+
+        </div>
+        <request-details request-fun="getRequest()"></request-details>
+    </div>
+</div>

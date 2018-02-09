@@ -1,0 +1,65 @@
+<script src="distribution/js/viewPlanController.js" type="text/javascript"></script>
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="row entity-title margin-bottom-15">
+                <p class="pull-left">{{'DISTRIBUTION_PLAN'| translate}}</p>
+                <div class="col-md-12 col-lg-4 pull-right">
+                    <div class="checkboxs-container pull-right">
+                        <div class="checkboxs-filter red-square">
+                            <span class="fa fa-square"></span>
+                            <label>{{'RETURN'| translate}}</label>
+                        </div>
+                        <div class="checkboxs-filter dark-square">
+                            <span class="fa fa-square"></span>
+                            <label>{{'DELIVERY'| translate}}</label>
+                        </div>
+                        <div class="checkboxs-filter blue-square">
+                            <span class="fa fa-square "></span>
+                            <label>{{'PICKUPS'| translate}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h4 class="capitalize" ng-if='distributionMode.value === 0 ||
+                                    (distributionMode.value === 1 && isTodaysPlanExist.checkPlanExist === true)'>
+                {{'SUBMITTED_AT'| translate}} {{isTodaysPlanExist.creationDate| date:'EEEE, MMMM d, y h:mm:ss a'}}
+            </h4>
+<!--            <h4 class="capitalize" ng-if='distributionMode.value === 1 && isTodaysPlanExist.checkPlanExist === false'>
+                {{'CREATED_AT'| translate}} {{isTodaysPlanExist.creationDate| date:'EEEE, MMMM d, y h:mm:ss a'}}
+            </h4>-->
+            <div class="row margin-bottom-30">
+                <div class="dynamic-grid" angular-grid="cars" ag-grid-width="300" 
+                     ag-gutter-size="10" ag-options="{direction : direction}" >
+                    <div ng-repeat="car in cars">
+                        <div class="panel text-center vehicle-container">
+                            <h5><b>{{car.activeVehicleType}} / {{car.driverName}}</b></h5>
+                            <h5><b>{{car.activeVehicleWorkShiftFrom| date : "shortTime" }}-{{car.activeVehicleWorkShiftTo| date : "shortTime" }}</b></h5>
+                            <div class="vehicles-job-container text-align-left">
+                                <div ng-repeat="job in car.jobOrders| orderBy:job.priority" class="job-in-vehicle leftbar job-box"
+                                     ng-class="'job-border-' + job.jobType">
+                                    <h5><b>{{job.packageType |translate}} ({{job.actualWeight}}{{ 'KG' | translate}})
+                                            {{job.timeFrom}} - {{job.timeTo}}</b></h5>
+                                    <div class="status-container">
+                                        <h5>{{'STARTS_AT'| translate}} {{job.departureTime| date:'shortTime'}}</h5>
+                                        <h5><b ng-class="{'text-success': job.status === 'SUCCESS' , 'text-warning': job.status === 'IN_GRACE_PERIOD', 'text-danger': job.status === 'FAIL'}">{{job.status|translate}} {{"ETA"|translate}}</b> 
+                                            {{job.arrivalTime| date:'shortTime'}} ({{job.timeTakenRoutingEngineInText}})</h5>
+                                    </div>
+                                    <h5>{{job.jobAddress}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-bottom-30" ng-if='distributionMode.value !== 0 && isTodaysPlanExist.checkPlanExist === false'>
+                <div class="col-md-12 center-block text-center margin-bottom-30">
+                    <button class="btn lm-btn blue-btn text-uppercase" type="button" ng-click="submitPlan()">
+                        {{'SUBMIT'|translate}}
+                    </button>
+                    <button class="btn lm-btn blue-btn text-uppercase" type="button" 
+                            ng-click="replan()">{{'REPLAN'|translate}}
+                    </button>
+                </div>
+            </div>
+    </div>
+</div>

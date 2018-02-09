@@ -1,0 +1,30 @@
+<script src="archived/js/archivedPickupsController.js" type="text/javascript"></script>
+<script src="archived/js/archivedPickupsFilterDirective.js" type="text/javascript"></script>
+
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="pre-table-container">
+            <div class="row entity-title margin-bottom-15">
+                <p>{{'ARCHIVED_PICKUPS'| translate}}</p>
+            </div>
+            <archived-pickups-filter-directive></archived-pickups-filter-directive>
+        </div>
+        <div class="row lm-grid margin-bottom-15 full-height">
+            <div class="col-md-12">
+                <div ng-show='showSpinner'>
+                    <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                </div>
+                <div class="grid" ng-if="lang === 'ar'" dir='rtl' ui-if="historyListOptions.data.length>0" 
+                     ui-grid="historyListOptions" ui-grid-selection ui-grid-pagination ui-grid-resize-columns
+                     ui-grid-auto-resize ng-style="getTableHeight()" ui-grid-pinning>       
+                </div>
+                <div class="grid" ng-if="lang === 'en'" ui-if="historyListOptions.data.length>0" 
+                     ui-grid="historyListOptions" ui-grid-selection ui-grid-pagination ui-grid-resize-columns
+                     ui-grid-auto-resize ng-style="getTableHeight()" ui-grid-pinning>       
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

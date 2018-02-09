@@ -1,0 +1,71 @@
+<div class="lm-popup">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title">{{ 'EDIT_FAQ' | translate}}</h3>
+    </div>
+    <form name="editFAQForm">
+        <div class="modal-body lm-popup-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show="editFAQForm.language.$error.required && afterSubmit">
+                                    {{ 'LANGUAGE' | translate}}{{ 'REQUIRED' | translate}}
+                                </div>
+                                <div>{{serverError.language.toString()}}</div>
+                            </div>
+                            <select class="form-control" name="language" ng-model="FAQ.language" ng-change="mode()"
+                                    ng-options="language.languageCode as language.languageName |    uppercase |    translate for language in languages" required>
+                                <option disabled hidden value="">{{'SELECT_LANGUAGE'|translate}}*</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show="editFAQForm.question.$error.required && afterSubmit">
+                                    {{ 'QUESTION' | translate}}{{ 'REQUIRED' | translate}}
+                                </div>
+                                <div ng-show="editFAQForm.question.$error.maxlength">
+                                    {{ 'MAX_CHARACTERS' | translate:'{ number: 1000}'}}
+                                </div>
+                                <div>{{serverError.question.toString()}}</div>
+                            </div>
+                            <input type="text" class="form-control" required ng-maxlength="1000"
+                                   placeholder="{{'QUESTION'| translate}} *" ng-change="mode()"
+                                   ng-model="FAQ.question" name="question">
+                        </div>
+                    </div>
+                </div>
+                <div class="row margin-bottom-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show="editFAQForm.answer.$error.required && afterSubmit">
+                                    {{ 'ANSWER' | translate}}{{ 'REQUIRED' | translate}}
+                                </div>
+                                <div ng-show="editFAQForm.answer.$error.maxlength">
+                                    {{ 'MAX_CHARACTERS' | translate:'{ number: 1500}'}}
+                                </div>
+                                <div>{{serverError.answer.toString()}}</div>
+                            </div>
+                            <input type="text" class="form-control" required ng-maxlength="1500"
+                                   placeholder="{{'ANSWER'| translate}} *" ng-change="mode()"
+                                   ng-model="FAQ.answer" name="answer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn lm-btn blue-btn" type="button" ng-disabled="editFAQForm.$invalid || !editMode || disableBTN"  ng-click="create()">
+                    {{'SUBMIT'|translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,25 @@
+<div class="lm-popup">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title">{{ 'FREELANCER' | translate}}</h3>
+    </div>
+    <form name="changeStatusForm">
+        <div class="modal-body lm-popup-body">
+            <div class="center">
+                <h4 class='text-align-center'>Are you sure you want to reject?</h4>
+            </div>
+            <textarea class="form-control" placeholder="Add comment (Optional)" ng-model="comment"></textarea>
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn lm-btn blue-btn pull-left" id="confirmStatusBtn" type="button" ng-click="confirm()">
+                {{'CONFIRM'|translate}}
+            </button>
+            <button class="btn lm-btn blue-btn" id="cancelStatusBtn" type="button" ng-click="cancel()">
+                {{'CANCEL'|translate}}
+            </button>
+        </div>
+    </form>
+</div>

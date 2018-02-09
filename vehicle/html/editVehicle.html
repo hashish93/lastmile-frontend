@@ -1,0 +1,212 @@
+<div class="lm-popup editForm">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title">{{'EDIT_VEHICLE'|translate}}</h3>
+    </div>
+    <form name="editVehicleForm">
+        <div class="modal-body lm-popup-body">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editVehicleForm.purpose.$invalid}">{{'PURPOSE'|translate}}</span>
+                            <div class="error-container">
+                                <div  ng-show = "editVehicleForm.purpose.$dirty && editVehicleForm.purpose.$invalid">
+                                    <div ng-show="editVehicleForm.purpose.$error.required">{{ 'REQUIRED' | translate}}</div>
+                                </div>    
+                                <div>{{serverError.purpose.toString()}}</div>
+                            </div>
+                            <select ng-change="mode()" class="form-control" name="purpose" ng-model = "vehicle.purpose" ng-options="purpose  as purpose |  translate for purpose in purposeList" required>
+                                <option disabled hidden value="">{{'SELECT_VEHICLE_PURPOSE'|translate}}*</option> 
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editVehicleForm.vehicleTypeId.$invalid}">{{'VEHICLE_TYPE'|translate}}</span>
+                            <div class="error-container">
+                                <div  ng-show = "editVehicleForm.vehicleTypeId.$dirty && editVehicleForm.vehicleTypeId.$invalid">
+                                    <div ng-show="editVehicleForm.vehicleTypeId.$error.required">{{ 'REQUIRED' | translate}}</div>
+                                </div>    
+                                <div>{{serverError.vehicleTypeId.toString()}}</div>
+                            </div>
+                            <select ng-change="mode()" class="form-control" name="vehicleTypeId" ng-model = "vehicle.vehicleTypeId" ng-options="type.vehicleTypeId  as type.type for type in vehicleTypes" required>
+                                <option disabled hidden value="">{{'SELECT_VEHICLE_TYPE'|translate}}*</option> 
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editVehicleForm.brand.$invalid}">{{'BRAND'|translate}}</span>
+                            <div class="error-container">
+                                <div  ng-show = "editVehicleForm.brand.$dirty && editVehicleForm.brand.$invalid">
+                                    <div ng-show="editVehicleForm.brand.$error.required">{{ 'REQUIRED' | translate}}</div>
+                                    <div ng-show="editVehicleForm.brand.$error.pattern">{{ 'INVALID' | translate}}</div>
+                                    <div ng-show="editVehicleForm.brand.$error.maxlength">{{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                </div>    
+                                <div ng-hide="editVehicleForm.brand.key">{{serverError.brand.toString()}}</div>
+                            </div>
+                            <input ng-change="mode()" class="form-control" name="brand" ng-maxlength="32" ng-model = "vehicle.brand" placeholder="{{'BRAND'|translate}}*" 
+                                   ng-pattern="/^[a-zA-Z0-9 \u0621-\u064A\u0660-\u0669]*$/" required 
+                                   ng-keydown="backendVisibilityService.checkKey(editVehicleForm.brand, serverError)"/>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editVehicleForm.model.$invalid}">{{'MODEL'|translate}}</span>
+                            <div class="error-container">
+                                <div  ng-show = "editVehicleForm.model.$dirty && editVehicleForm.model.$invalid">
+                                    <div ng-show="editVehicleForm.model.$error.required">{{ 'REQUIRED' | translate}}</div>
+                                    <div ng-show="editVehicleForm.model.$error.pattern">{{ 'INVALID' | translate}}</div>
+                                    <div ng-show="editVehicleForm.model.$error.maxlength">{{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                </div>    
+                                <div ng-hide="editVehicleForm.model.key">{{serverError.model.toString()}}</div>
+                            </div>
+                            <input ng-change="mode()" class="form-control" name="model" ng-maxlength="32" ng-model = "vehicle.model" placeholder="{{'MODEL'|translate}}*"
+                                   ng-pattern="/^[a-zA-Z0-9\ \u0621-\u064A\u0660-\u0669]*$/" required 
+                                   ng-keydown="backendVisibilityService.checkKey(editVehicleForm.model, serverError)"/>
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editVehicleForm.motor.$invalid}">{{'MOTOR_NO'|translate}}</span>
+                            <div class="error-container">
+                                <div  ng-show = "editVehicleForm.motor.$dirty && editVehicleForm.motor.$invalid">
+                                    <div ng-show="editVehicleForm.motor.$error.required">{{ 'REQUIRED' | translate}}</div>
+                                    <div ng-show="editVehicleForm.motor.$error.pattern">{{ 'INVALID' | translate}}</div>
+                                    <div ng-show="editVehicleForm.motor.$error.maxlength">{{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                </div>    
+                                <div ng-hide="editVehicleForm.motor.key">{{serverError.motor.toString()}}</div>
+                            </div>
+                            <input ng-change="mode()" class="form-control" ng-trim="false" name="motor" ng-model = "vehicle.motor" placeholder="{{'MOTOR_NO'|translate}}*"  ng-maxlength="32"
+                                   ng-pattern="/^(([0-9A-Za-z])+-?)+[^-\s]$/" required
+                                   ng-keydown="backendVisibilityService.checkKey(editVehicleForm.motor, serverError)"/>
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editVehicleForm.plate.$invalid}">{{'PLATE_NO'|translate}}</span>
+                            <div class="error-container">
+                                <div  ng-show = "editVehicleForm.plate.$dirty && editVehicleForm.plate.$invalid">
+                                    <div ng-show="editVehicleForm.plate.$error.required">{{ 'REQUIRED' | translate}}</div>
+                                    <div ng-show="editVehicleForm.plate.$error.pattern">{{ 'INVALID' | translate}}</div>
+                                    <div ng-show="editVehicleForm.plate.$error.maxlength">{{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                </div>    
+                                <div ng-hide="editVehicleForm.plate.key">{{serverError.plate.toString()}}</div>
+                            </div>
+                            <input ng-change="mode()" class="form-control" name="plate" ng-model = "vehicle.plate" placeholder="{{'PLATE_NO'|translate}}*" ng-maxlength="32" 
+                                   ng-pattern="/^[a-zA-Z0-9\- \u0621-\u064A\u0660-\u0669]*$/" required 
+                                   ng-keydown="backendVisibilityService.checkKey(editVehicleForm.plate, serverError)"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editVehicleForm.color.$invalid}">{{'COLOR'|translate}}</span>
+                            <div class="error-container">
+                                <div  ng-show = "editVehicleForm.color.$dirty && editVehicleForm.color.$invalid">
+                                    <div ng-show="editVehicleForm.color.$error.required">{{ 'REQUIRED' | translate}}</div>
+                                    <div ng-show="editVehicleForm.color.$error.pattern">{{ 'INVALID' | translate}}</div>
+                                    <div ng-show="editVehicleForm.color.$error.maxlength">{{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                </div>    
+                                <div ng-hide="editVehicleForm.color.key">{{serverError.color.toString()}}</div>
+                            </div>
+                            <input ng-change="mode()" class="form-control" name="color" ng-maxlength="32" ng-model = "vehicle.color" placeholder="{{'COLOR'|translate}}*" 
+                                   ng-pattern="/^[a-zA-Z \u0621-\u064A\u0660-\u0669]*$/" required  ng-keydown="backendVisibilityService.checkKey(editVehicleForm.color, serverError)"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editVehicleForm.weight.$invalid}">{{'WEIGHT_KG'|translate}}</span>
+                            <div class="error-container">
+                                <div  ng-show = "editVehicleForm.weight.$dirty && editVehicleForm.weight.$invalid">
+                                    <div ng-show="editVehicleForm.weight.$error.required">{{ 'REQUIRED' | translate}}</div>
+                                    <div ng-show="editVehicleForm.weight.$error.pattern">{{ 'INVALID' | translate}}</div>
+                                    <div ng-show="editVehicleForm.weight.$error.maxlength">{{ 'MAX_CHARACTERS' | translate:'{ number: 10}'}}</div>
+                                </div>    
+                                <div>{{serverError.weight.toString()}}</div>
+                            </div>
+                            <input type="text" ng-change="mode()" class="form-control" name="weight" ng-model = "vehicle.weight" placeholder="{{'WEIGHT_KG'|translate}}*" maxlength="10" ng-maxlength="20" ng-pattern="/^[1-9]\d*$/" required />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span class="input-label" ng-class="{'red' : editVehicleForm.chassis.$invalid}">{{'CHASSIS'|translate}}</span>
+                                    <div class="error-container">
+                                        <div ng-show="editVehicleForm.chassis.$dirty && editVehicleForm.chassis.$invalid">
+                                            <div ng-show="editVehicleForm.chassis.$error.pattern">
+                                                {{'INVALID'| translate}}
+                                            </div>
+                                            <div ng-show="editVehicleForm.chassis.$error.required">
+                                                {{ 'REQUIRED' | translate}}
+                                            </div>
+                                            <div ng-show="editVehicleForm.chassis.$error.maxlength">
+                                                {{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}
+                                            </div>
+                                        </div>
+                                        <div>{{serverError.chassis.toString()}}</div>
+                                    </div>
+                                    <input ng-change="mode()" class="form-control" name="chassis" ng-maxlength="32" ng-model="vehicle.chassis"
+                                           placeholder="{{'CHASSIS'|translate}}*"
+                                           ng-pattern="/^[a-zA-Z0-9\u0621-\u064A\u0660-\u0669]*$/" required
+                                           ng-keydown="backendVisibilityService.checkKey(editVehicleForm.chassis, serverError)"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" super-user>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editVehicleForm.buildingId.$invalid}">{{'BUILDING_LIST_TITLE'|translate}}</span>
+                            <div class="error-container">
+                                <div  ng-show = "editVehicleForm.buildingId.$dirty && editVehicleForm.buildingId.$invalid">
+                                    <div ng-show="editVehicleForm.buildingId.$error.required">{{ 'REQUIRED' | translate}}</div>
+                                </div>    
+                                <div>{{serverError.buildingId.toString()}}</div>
+                            </div>
+                            <select ng-change="mode()" class="form-control" name="buildingId" ng-model = "vehicle.buildingId" ng-options="building.id  as building.name for building in buildingList"  ng-required="userInfoService.isSuperUser()">
+                                <option disabled hidden value="">{{'SELECT_BUILDING'|translate}}*</option> 
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row margin-bottom-15">
+                    <div class="col-md-12">
+                        <div class="error-container"> 
+                            <div ng-show="editVehicleForm.description.$error.maxlength">{{'DESCRIPTION'| translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 500}'}}</div>
+                            <div>{{serverError.description.toString()}}</div>
+                        </div>
+                        <span class="input-label" ng-class="{'red' : editVehicleForm.description.$invalid}">{{'DESCRIPTION'|translate}}</span>
+                        <textarea ng-change="mode()" class="form-control" name="description" ng-model = "vehicle.description" placeholder="{{'DESCRIPTION_OPTIONAL'|translate}}" ng-maxlength="500"></textarea>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn lm-btn blue-btn" id="editVehicleBtn" 
+                        type="button"  ng-disabled="editVehicleForm.$invalid || !editMode || requestProcessing" 
+                        ng-click="editVehicle()">{{'SUBMIT'|translate}}</button>
+            </div>
+        </div>
+    </form>
+</div>

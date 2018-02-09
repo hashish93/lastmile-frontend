@@ -1,0 +1,68 @@
+<script src="login/js/loginController.js"></script>
+<div class="body-container">
+</div>
+
+<div class="center">
+    <div class="col-lg-offset-4 col-lg-3 col-xl-offset-4 col-xl-4 col-sm-offset-3 col-sm-6 col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4 login-theme-wrapper">
+        <div class="row">
+            <div class="col-md-12 logo-img">
+                <img src="commons/images/logo.png" alt=""/>
+            </div>
+        </div>
+
+        <!--        <div class="row">
+                    <div class="col-md-12 login-header">
+                        <p class="text-center ">
+                            SIGN IN
+                        </p>
+                    </div>
+                </div>-->
+
+        <form name="loginForm" class="login-container">
+            <div class="row login-header">
+                <div class="col-md-12">
+                    <p class="text-center text-capitalize">
+                        enter your username and password
+                    </p>
+                </div>
+            </div>
+            <div class="row login-content">
+                <div class="login-error-container" ng-class="{'fade-in':serverError}" ng-show="serverError">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger" role="alert"> 
+                            <a  class="close close-alert" data-dismiss="alert" aria-label="close" ng-click="serverError = '';">&times;</a>
+                            Please check your username and password.
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-12 input-icons margin-bottom-10 text-align-left"
+                     ng-class="{'error': userError}">
+
+                    <input type="text" class="form-control" ng-pattern="valid" placeholder="Email or Phone Number" 
+                           name="username" ng-model="loginObj.username" id="username" autocomplete="true">
+                    <i class="fa fa-user"></i>
+                </div>
+                <div class="col-md-12 input-icons margin-bottom-10 text-align-left"
+                     ng-class="{'error': passwordError}">
+
+                    <input type="password" class="form-control" placeholder="Password" id="password" 
+                           name="password" ng-trim="false" ng-model="loginObj.password" autocomplete="true">
+                    <i class="fa fa-lock"></i>
+                </div>
+                <div class="col-md-12 text-center margin-top-10 margin-bottom-10">
+                    <button type="submit" class="btn-large login-btn waves-effect waves-light" id="login" ng-click="login()">LOGIN</button>
+                </div>
+                <!--                <div class="col-md-6 remem-me">
+                                    <a href="" onclick='addClassActive()' class="remem-me-btn"><i class="fa fa-check"></i></a>
+                                    <span>Remember me?</span>
+                                </div>-->
+                <div class="col-md-12 pull-right align-right">
+                    <a class='link-border-fade' ui-sref="forgotPassword">Forgot Password?</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

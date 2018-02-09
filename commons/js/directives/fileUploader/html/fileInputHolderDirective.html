@@ -1,0 +1,10 @@
+<div class="file-input" ng-repeat="file in files">
+    <file-input defaultimage="{{file.defaultImage}}" 
+                id="file{{$index}}" 
+                tooltip="{{file.toolTip|translate}} #{{$index + 1}}"
+                customId="{{$index}}"
+                file-type="{{type}}"
+                alt-text="{{file.altText|translate}} #{{$index + 1}}">
+    </file-input>
+</div>
+<div class="empty-image" ng-click="addImage()" ng-show="max > files.length"><h3>{{'ADD_IMAGE'|translate}}</h3></div>

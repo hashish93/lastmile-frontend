@@ -1,0 +1,62 @@
+<script src="employee/js/listEmployeeController.js"></script>
+<script src="employee/js/addEmployeeController.js"></script>
+<script src="employee/js/editEmployeeController.js"></script>
+<script src="employee/js/deleteEmployeeController.js"></script>
+<script src="employee/js/setRoleController.js"></script>
+<script src="employee/js/employeeFilterDirective.js"></script>
+
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="pre-table-container">
+            <div class="row entity-title margin-bottom-15">
+                <p>{{ 'USERS' | translate}}</p>
+            </div>
+            <div class="row">
+                <div class="col-md-8 col-lg-9 col-xs-12 col-sm-12">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <button class="btn lm-btn blue-btn" type="button" ng-click="addPopup()" authorized-block privilege-name="addeditemployee"><span class="fa fa-plus"></span>{{'ADD_USER'| translate}}</button>
+
+
+                            <!--<button type="button" class="btn lm-btn dark-btn" id="setRolesEmployee" ng-if="false" ng-show="show" ng-click="setRole()"><span class="fa fa-wpforms"></span>{{'SET_ROLES'| translate}}</button>-->
+
+                            <!--<button type="button" class="btn lm-btn dark-btn" id="clearAllSelectionEmployee" ng-show="show" ng-click="clearAll()"><span class="fa fa-eraser"></span>{{'CLEAR_BTN'| translate}}</button>-->
+
+
+                            <!--<button type="button" class="btn lm-btn dark-btn" id="deleteSelectionEmployee" ng-show="show" ng-click="deleteSelected()"><span class="fa fa-trash"></span>{{'DELETE_BTN'| translate}}</button>-->
+                        </div>
+                    </div>
+                </div> 
+                <!--                <div class=" col-md-4 col-lg-3 col-xs-12 col-sm-12 pull-right lm-filter">
+                                    <i class="fa fa-search"></i>
+                                    <input type="text" class="form-control"  ng-model='filterValue' ng-change="filter()" placeholder="{{ 'SEARCH' | translate}}">
+                                </div>-->
+            </div>
+            <employee-filter-directive 
+                general-search-function="filter" 
+                popup-opened="popupOpened"
+                ></employee-filter-directive>
+        </div>
+        <div class="row lm-grid full-height">
+            <div class="col-md-12 margin-bottom-15">
+                <div ng-show='showSpinner'>
+                    <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                </div>
+                <div class="grid" ng-if="lang === 'ar'" dir='rtl' ui-if="empListOptions.data.length>0" 
+                     ui-grid="empListOptions" ui-grid-pagination ui-grid-resize-columns
+                     ui-grid-auto-resize ng-style="getTableHeight()" ui-grid-pinning>
+                </div>
+                <div class="grid" ng-if="lang === 'en'" ui-if="empListOptions.data.length>0" 
+                     ui-grid="empListOptions" ui-grid-pagination ui-grid-resize-columns
+                     ui-grid-auto-resize ng-style="getTableHeight()" ui-grid-pinning>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

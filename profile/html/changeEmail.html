@@ -1,0 +1,43 @@
+<div class="lm-popup editForm">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title">{{'CHANGE_EMAIL'| translate}}</h3>
+    </div>
+    <form name="changeEmailForm">
+        <div class="modal-body lm-popup-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 padding-top-23">
+                        <div class="row margin-bottom-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span class="input-label" ng-class="{'red' : changeEmailForm.email.$invalid}">{{ 'EMAIL_ADDRESS' | translate}}</span>
+                                    <div class="error-container">
+                                        <div ng-show="changeEmailForm.email.$error.required">{{ 'REQUIRED' | translate}} *</div>
+                                        <div ng-show="changeEmailForm.email.$dirty && changeEmailForm.email.$invalid">
+                                            <div ng-show="changeEmailForm.email.$error.pattern && !changeEmailForm.email.$error.required">{{ 'FORMAT_error' | translate}}</div>
+                                            <div ng-show="changeEmailForm.email.$error.maxlength && !changeEmailForm.email.$error.pattern">{{ 'EMAIL_ADDRESS' | translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                        </div>
+                                        <div>{{serverError.EMAIL.toString()}}</div>
+                                    </div>
+                                    <input ng-change="mode()" type="email" class="form-control" required
+                                           placeholder="{{ 'EMAIL_ADDRESS' | translate}}*"
+                                           ng-model="profileObject.email" name="email" ng-maxlength="32"
+                                           ng-pattern="/^[a-zA-Z]+[a-zA-Z0-9.]+@[a-zA-Z]+\.[a-zA-Z]{2,5}$/"
+                                           ng-keydown="backendVisibilityService.checkKey(changeEmailForm.email, serverError)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn lm-btn blue-btn" type="button" 
+                        ng-disabled="changeEmailForm.$invalid || !editMode || disableBTN" ng-click="changeEmail()">{{'SUBMIT'|translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

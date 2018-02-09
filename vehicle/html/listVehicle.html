@@ -1,0 +1,44 @@
+<script src="vehicle/js/listVehicleController.js"></script>
+<script src="vehicle/js/addVehicleController.js"></script>
+<script src="vehicle/js/deleteVehicleController.js"></script>
+<script src="vehicle/js/editVehicleController.js"></script>
+<script src="vehicle/js/vehicleFilterDirective.js"></script>
+
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="pre-table-container">
+            <div class="row entity-title margin-bottom-15">
+                <p>{{'VEHICLES'|translate}}</p>
+
+            </div>
+            <div class="row">
+                <div class="col-md-9  col-xs-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-md-12">                
+                            <button class="btn lm-btn blue-btn" type="button" ng-click="addPopup()" authorized-block privilege-name="addeditvehicle"><span class="fa fa-plus"></span>{{'ADD_VEHICLE'|translate}}</button>
+                        </div>
+
+                    </div>
+                </div>
+                <!--                <div class="col-md-3 col-xs-12 col-sm-12 pull-right lm-filter">
+                                    <i class="fa fa-search"></i>
+                                    <input type="text" class="form-control" placeholder="{{'FILTER'| translate}}">
+                                </div>-->
+            </div>
+            <vehicle-filter-directive></vehicle-filter-directive>
+        </div>
+        <div class="row lm-grid full-height">
+            <div class="col-md-12 margin-bottom-15">
+                <div ng-show='showSpinner'>
+                    <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                </div>
+                <div class="grid" ng-if="lang === 'ar'" dir='rtl'  ui-if="vehicleListOptions.data.length>0" 
+                     ui-grid="vehicleListOptions" ui-grid-pagination ui-grid-resize-columns
+                     ui-grid-auto-resize ng-style="getTableHeight()"></div>
+                <div class="grid" ng-if="lang === 'en'" ui-if="vehicleListOptions.data.length>0" 
+                     ui-grid="vehicleListOptions" ui-grid-pagination ui-grid-resize-columns
+                     ui-grid-auto-resize ng-style="getTableHeight()"></div>
+            </div>
+        </div>
+    </div>
+</div>

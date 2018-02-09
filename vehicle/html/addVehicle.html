@@ -1,0 +1,267 @@
+<div class="lm-popup">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title">{{'ADD_VEHICLE'|translate}}</h3>
+    </div>
+    <form name="addVehicleForm">
+        <div class="modal-body lm-popup-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addVehicleForm.purpose.$error.required && afterSubmit">{{ 'PURPOSE' |
+                                    translate}}{{ 'REQUIRED' | translate}}
+                                </div>
+                                <div>{{serverError.purpose.toString()}}</div>
+                            </div>
+                            <select class="form-control" name="purpose" ng-model="vehicle.purpose"
+                                    ng-options="purpose  as purpose | translate for purpose in purposeList" required>
+                                <option disabled hidden value="">{{'SELECT_VEHICLE_PURPOSE'|translate}}*</option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addVehicleForm.vehicleTypeId.$error.required && afterSubmit">{{
+                                    'VEHICLE_TYPE' | translate}} {{ 'REQUIRED' | translate}}
+                                </div>
+                                <div>{{serverError.vehicleTypeId.toString()}}</div>
+                            </div>
+                            <select class="form-control" name="vehicleTypeId" ng-model="vehicle.vehicleTypeId"
+                                    ng-options="type.vehicleTypeId  as type.type for type in vehicleTypes" required>
+                                <option disabled hidden value="">{{'SELECT_VEHICLE_TYPE'|translate}}*</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addVehicleForm.brand.$error.required && afterSubmit">
+                                    {{'BRAND'|translate}}{{ 'REQUIRED' | translate}}
+                                </div>
+                                <div ng-show="addVehicleForm.brand.$dirty && addVehicleForm.brand.$invalid">
+                                    <div ng-show="addVehicleForm.brand.$error.pattern">{{'BRAND'|translate}} {{
+                                        'INVALID' | translate}}
+                                    </div>
+                                    <div ng-show="addVehicleForm.brand.$error.maxlength">{{'BRAND'|translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}
+                                    </div>
+                                </div>
+                                <div ng-hide="addVehicleForm.brand.key">{{serverError.brand.toString()}}</div>
+                            </div>
+                            <input class="form-control" name="brand" ng-maxlength="32" ng-model="vehicle.brand"
+                                   placeholder="{{'BRAND'|translate}} *"
+                                   ng-pattern="/^[a-zA-Z0-9 \u0621-\u064A\u0660-\u0669]*$/" required
+                                   ng-keydown="backendVisibilityService.checkKey(addVehicleForm.brand,serverError)"/>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addVehicleForm.model.$error.required && afterSubmit">
+                                    {{'MODEL'|translate}}{{ 'REQUIRED' | translate}}
+                                </div>
+                                <div ng-show="addVehicleForm.model.$dirty && addVehicleForm.model.$invalid">
+                                    <div ng-show="addVehicleForm.model.$error.pattern">{{'MODEL'|translate}} {{
+                                        'INVALID' | translate}}
+                                    </div>
+                                    <div ng-show="addVehicleForm.model.$error.maxlength">{{'MODEL'|translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}
+                                    </div>
+                                </div>
+                                <div ng-hide="addVehicleForm.model.key">{{serverError.model.toString()}}</div>
+                            </div>
+                            <input class="form-control" name="model" ng-maxlength="32" ng-model="vehicle.model"
+                                   placeholder="{{'MODEL'|translate}}*"
+                                   ng-pattern="/^[a-zA-Z0-9\ \u0621-\u064A\u0660-\u0669]*$/" required
+                                   ng-keydown="backendVisibilityService.checkKey(addVehicleForm.model,serverError)"/>
+
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addVehicleForm.motor.$error.required && afterSubmit">{{ 'VEHICLE_MOTOR' |
+                                    translate}} {{ 'REQUIRED' | translate}}
+                                </div>
+                                <div ng-show="addVehicleForm.motor.$dirty && addVehicleForm.motor.$invalid">
+                                    <div ng-show="addVehicleForm.motor.$error.pattern">{{ 'VEHICLE_MOTOR' |
+                                        translate}} {{ 'INVALID' | translate}}
+                                    </div>
+                                    <div ng-show="addVehicleForm.motor.$error.maxlength">{{ 'VEHICLE_MOTOR' |
+                                        translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}
+                                    </div>
+                                </div>
+                                <div ng-hide="addVehicleForm.motor.key">{{serverError.motor.toString()}}</div>
+                            </div>
+                            <input class="form-control" name="motor" ng-trim="false" ng-model="vehicle.motor"
+                                   placeholder="{{'MOTOR_NO'|translate}}*" ng-maxlength="32"
+                                   ng-pattern="/^(([0-9A-Za-z])+-?)+[^-\s]$/" required
+                                   ng-keydown="backendVisibilityService.checkKey(addVehicleForm.motor,serverError)"/>
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+
+                            <div class="error-container">
+                                <div ng-show="addVehicleForm.plate.$error.required && afterSubmit">
+                                    {{'PLATE_NO'|translate}} {{ 'REQUIRED' | translate}}
+                                </div>
+                                <div ng-show="addVehicleForm.plate.$dirty && addVehicleForm.plate.$invalid">
+                                    <div ng-show="addVehicleForm.plate.$error.pattern">{{'PLATE_NO'|translate}}{{
+                                        'INVALID' | translate}}
+                                    </div>
+                                    <div ng-show="addVehicleForm.plate.$error.maxlength">{{'PLATE_NO'|translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}
+                                    </div>
+                                </div>
+                                <div ng-hide="addVehicleForm.plate.key">{{serverError.plate.toString()}}</div>
+                            </div>
+                            <input class="form-control" name="plate" ng-model="vehicle.plate"
+                                   placeholder="{{'PLATE_NO'|translate}}*" ng-maxlength="32"
+                                   ng-pattern="/^[a-zA-Z0-9\- \u0621-\u064A\u0660-\u0669]*$/" required
+                                   ng-keydown="backendVisibilityService.checkKey(addVehicleForm.plate,serverError)"/>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addVehicleForm.color.$error.required && afterSubmit">{{'COLOR'|translate}}
+                                    {{ 'REQUIRED' | translate}}
+                                </div>
+                                <div ng-show="addVehicleForm.color.$dirty && addVehicleForm.color.$invalid">
+                                    <div ng-show="addVehicleForm.color.$error.pattern">{{'COLOR'|translate}}{{ 'INVALID'
+                                        | translate}}
+                                    </div>
+                                    <div ng-show="addVehicleForm.color.$error.maxlength">{{'COLOR'|translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}
+                                    </div>
+                                </div>
+                                <div ng-hide="addVehicleForm.color.key">{{serverError.color.toString()}}</div>
+                            </div>
+                            <input class="form-control" name="color" ng-maxlength="32" ng-model="vehicle.color"
+                                   placeholder="{{'COLOR'|translate}}*"
+                                   ng-pattern="/^[a-zA-Z \u0621-\u064A\u0660-\u0669]*$/" required
+                                   ng-keydown="backendVisibilityService.checkKey(addVehicleForm.color,serverError)"/>
+
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addVehicleForm.weight.$error.required && afterSubmit">
+                                    {{'WEIGHT_KG'|translate}} {{ 'REQUIRED' | translate}}
+                                </div>
+                                <div ng-show="addVehicleForm.weight.$dirty && addVehicleForm.weight.$invalid">
+                                    <div ng-show="addVehicleForm.weight.$error.pattern">{{'WEIGHT_KG'|translate}}{{
+                                        'INVALID' | translate}}
+                                    </div>
+                                    <div ng-show="addVehicleForm.weight.$error.maxlength">{{'WEIGHT_KG'|translate}}{{ 'MAX_CHARACTERS' | translate:'{ number: 10}'}}
+                                    </div>
+                                </div>
+                                <div>{{serverError.weight.toString()}}</div>
+                            </div>
+                            <input type="text" class="form-control" placeholder="{{'WEIGHT_KG'|translate}}*"
+                                   ng-model="vehicle.weight" name="weight" maxlength="10" ng-maxlength="10"
+                                   ng-pattern="/^[1-9]\d*$/" required/>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <!--                        <div class="error-container">
+                                                    {{serverError.size.toString()}}
+                                                </div>-->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="error-container">
+                                        <div ng-show="addVehicleForm.chassis.$error.required && afterSubmit">{{
+                                            'CHASSIS' | translate}}{{ 'REQUIRED' | translate}}
+                                        </div>
+                                        <div ng-show="addVehicleForm.chassis.$dirty && addVehicleForm.chassis.$invalid">
+                                            <div ng-show="addVehicleForm.chassis.$error.pattern">{{'CHASSIS'|translate}}{{
+                                                'INVALID' | translate}}
+                                            </div>
+                                            <div ng-show="addVehicleForm.chassis.$error.maxlength">{{'CHASSIS'|translate}}{{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}
+                                            </div>
+                                        </div>
+                                        <div>{{serverError.chassis.toString()}}</div>
+                                    </div>
+                                    <input class="form-control" name="chassis" ng-maxlength="32" ng-model="vehicle.chassis"
+                                           placeholder="{{'CHASSIS'|translate}}*"
+                                           ng-pattern="/^[a-zA-Z0-9\u0621-\u064A\u0660-\u0669]*$/" required
+                                           ng-keydown="backendVisibilityService.checkKey(addVehicleForm.chassis,serverError)"/>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" super-user>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addVehicleForm.buildingId.$error.required && afterSubmit">{{
+                                    'BUILDING_LIST_TITLE' | translate}}{{ 'REQUIRED' | translate}}
+                                </div>
+                                <div>{{serverError.buildingId.toString()}}</div>
+                            </div>
+                            <select class="form-control" name="buildingId" ng-model="vehicle.buildingId"
+                                    ng-options="building.id  as building.name for building in buildingList"
+                                    ng-required="userInfoService.isSuperUser()">
+                                <option disabled hidden value="">{{'SELECT_BUILDING'|translate}}*</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row margin-bottom-15">
+                    <div class="col-md-12">
+                        <div class="error-container">
+                            <div ng-show="addVehicleForm.description.$error.maxlength">
+                                {{'DESCRIPTION' | translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 500}'}}
+                            </div>
+                            <div>{{serverError.description.toString()}}</div>
+                        </div>
+                        <textarea class="form-control" name="description" ng-model="vehicle.description"
+                                  ng-maxlength="500" placeholder="{{'DESCRIPTION_OPTIONAL'|translate}}"></textarea>
+
+                    </div>
+                </div>
+
+            </div><!-- end of container fluid -->
+            <div class="modal-footer">
+                <!--<button class="btn lm-btn dark-btn" id="addVehicleBtnCancel" type="button" ng-click="cancel()">Cancel</button>-->
+                <button class="btn lm-btn blue-btn" id="addVehicleBtn" 
+                        type="button" ng-disabled="requestProcessing" 
+                        ng-click="addVehicle()">
+                    {{'SUBMIT'|translate}}
+                </button>
+            </div>
+        </div><!-- end of model body -->
+
+    </form>
+</div>

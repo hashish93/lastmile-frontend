@@ -1,0 +1,252 @@
+<script src="profile/js/viewProfileController.js" type="text/javascript"></script>
+<script src="profile/js/changePasswordController.js" type="text/javascript"></script>
+<script src="profile/js/changeEmailController.js" type="text/javascript"></script>
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <div class="row entity-title margin-bottom-30">
+                    <p>{{ 'ACCOUNT_DETAILS' | translate}}</p>
+                </div>
+                <div class="row margin-bottom-15 pos-relative">
+                    <div class="col-md-4 col-xs-4">
+                        <div class="form-group center-block">
+                            <div id="fileError">
+                                <span class="input-label">{{'IMAGE'| translate}}</span>
+                                <div class="error-container" ng-style="!ImageLoaded && {'opacity':'0'}">
+                                    <div ng-show="!imageValidate() && !imagesErrorsExist()"> {{ 'REQUIRED' | translate}} *</div>
+                                    <div>{{serverError.personalPhoto.toString()}}</div>
+                                </div>
+                            </div>
+                            <file-uploader-holder type="user_image"></file-uploader-holder>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-xs-8 sticky-to-bottom">
+                        <div>
+                            <div class="row dark-blue-font">
+                                <div class="col-md-6 col-xs-6">
+                                    <h5 class="text-capitalize">
+                                        <span class="margin-right-10"><i class="fa fa-user" aria-hidden="true"></i></span>
+                                        <span>{{"CREATED_BY"| translate}} : </span>
+                                    </h5>
+                                </div>
+                                <div class="col-md-6 col-xs-6">
+                                    <h5 class="text-capitalize gray-font">
+                                        {{profileData.createdBy}}
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row dark-blue-font">
+                                <div class="col-md-6 col-xs-6">
+                                    <h5 class="text-capitalize">
+                                        <span class="margin-right-10"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+                                        <span>{{"CREATED_FROM"| translate}} : </span>
+                                    </h5>
+                                </div>
+                                <div class="col-md-6 col-xs-6">
+                                    <h5 class="gray-font">
+                                        {{profileData.createdDate| date:('DATE_FORMAT' | translate)}}
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!--                                <div class="col-md-6">
+                                                                    <a ng-click="openEditProfilePopup()">    
+                                                                        <h4 class="text-capitalize no-margin-bottom">
+                                                                            <span><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                                                            <span>{{"EDIT_PROFILE"| translate}}</span>
+                                                                        </h4>
+                                                                    </a>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <a ng-click="openChangePasswordPopup()">    
+                                                                        <h4 class="text-capitalize no-margin-bottom">
+                                                                            <span>{{"CHANGE_PASSWORD"| translate}}</span>
+                                                                        </h4>
+                                                                    </a>
+                                                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row margin-top-10">
+                    <div class="col-md-4">
+                        <h4 class="grayish-blue-font"><b>{{'BASIC_INFO'| translate}}</b></h4>
+                    </div>
+                    <div class="col-md-offset-7 col-md-1" ng-hide='editMode'>
+                        <a ng-click="changeEditMode()" >    
+                            <h4 class="text-capitalize no-margin-bottom float-right">
+                                <span><i class="fa fa-pencil"  aria-hidden="true"></i></span>
+                            </h4>
+                        </a>
+                    </div>
+                    <div ng-show='editMode'>
+                        <div class="col-md-offset-4 col-md-2" >
+                            <a ng-click='changeEditMode()' ng-disabled="disableBTN" class="gray-font"><h5><u>{{'CANCEL'| translate}}</u></h5></a>
+                        </div>
+                        <div class="col-md-2">
+                            <a ng-click="save()" ng-disabled="disableBTN"><h5><u>{{'SAVE'| translate}}</u></h5></a>
+                        </div>
+                    </div>
+
+                </div>
+                <form name="editProfileInfoForm">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="dark-blue-font" ng-class="{'line-height':editMode}">{{'FIRST_NAME'| translate}} : </h4>
+                        </div>
+                        <div class="col-md-8" ng-hide='editMode'>
+                            <h4 class="gray-font">{{profileData.firstName}}</h4>
+                        </div>
+                        <div class='col-md-8' ng-show='editMode'>
+                            <div class="form-group">
+                                <div class="error-container">
+                                    <div ng-show="editProfileInfoForm.firstName.$error.required">
+                                        {{ 'FIRST_NAME' | translate}}{{ 'REQUIRED' | translate}}*
+                                    </div>
+
+                                    <div class="lm-errors" ng-show="editProfileInfoForm.firstName.$dirty && editProfileInfoForm.firstName.$invalid">
+                                        <div ng-show="editProfileInfoForm.firstName.$error.pattern">{{ 'FIRST_NAME' | translate}} {{ 'INVALID' | translate}}</div>
+                                        <div ng-show="editProfileInfoForm.firstName.$error.minlength && !editProfileInfoForm.firstName.$error.pattern">{{ 'FIRST_NAME' | translate}} {{ 'SHORT' | translate}}</div>
+                                        <div ng-show="editProfileInfoForm.firstName.$error.maxlength && !editProfileInfoForm.firstName.$error.pattern">{{ 'FIRST_NAME' | translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                    </div>
+                                    <div ng-hide="editProfileInfoForm.firstName.key">{{serverError.firstName.toString()}}</div>
+                                    <div ng-hide="editProfileInfoForm.firstName.key">{{serverError.username.toString()}}</div>
+                                </div>
+                                <input type="text" class="form-control light-blue-font" required
+                                       placeholder="{{'FIRST_NAME'| translate}} *" ng-maxlength="32"
+                                       ng-minlength="2"
+                                       ng-model="newInfoObj.firstName" name="firstName"
+                                       ng-pattern="/^[a-zA-Z\-\ \u0621-\u064A\u0660-\u0669]*$/"
+                                       ng-keydown="backendVisibilityService.checkKey(editProfileInfoForm.firstName, serverError)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="dark-blue-font" ng-class="{'line-height':editMode}">{{'LAST_NAME'| translate}} : </h4>
+                        </div>
+                        <div class="col-md-8" ng-hide='editMode'>
+                            <h4 class="gray-font">{{profileData.lastName}}</h4>
+                        </div>
+                        <div class='col-md-8' ng-show='editMode'>
+                            <div class="form-group">
+                                <div class="error-container">
+                                    <div ng-show="editProfileInfoForm.lastName.$error.required">
+                                        {{ 'LAST_NAME' | translate}}{{ 'REQUIRED' | translate}}*
+                                    </div>
+
+                                    <div class="lm-errors" ng-show="editProfileInfoForm.lastName.$dirty && editProfileInfoForm.lastName.$invalid">
+                                        <div ng-show="editProfileInfoForm.lastName.$error.pattern">{{ 'LAST_NAME' | translate}} {{ 'INVALID' | translate}}</div>
+                                        <div ng-show="editProfileInfoForm.lastName.$error.minlength && !editProfileInfoForm.lastName.$error.pattern">{{ 'LAST_NAME' | translate}} {{ 'SHORT' | translate}}</div>
+                                        <div ng-show="editProfileInfoForm.lastName.$error.maxlength && !editProfileInfoForm.lastName.$error.pattern">{{ 'LAST_NAME' | translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                    </div>
+                                    <div ng-hide="editProfileInfoForm.lastName.key">{{serverError.lastName.toString()}}</div>
+                                    <div ng-hide="editProfileInfoForm.lastName.key">{{serverError.username.toString()}}</div>
+                                </div>
+                                <input type="text" class="form-control light-blue-font" required
+                                       placeholder="{{'LAST_NAME'| translate}} *" ng-maxlength="32"
+                                       ng-minlength="2"
+                                       ng-model="newInfoObj.lastName" name="lastName"
+                                       ng-pattern="/^[a-zA-Z\-\ \u0621-\u064A\u0660-\u0669]*$/"
+                                       ng-keydown="backendVisibilityService.checkKey(editProfileInfoForm.lastName, serverError)">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="dark-blue-font">{{'PHONE_NUMBER'| translate}} : </h4>
+                        </div>
+                        <div class="col-md-8">
+                            <h4 class="gray-font">{{profileData.phoneNumber}}</h4>
+                        </div>
+                        <!--                        <div class='col-md-8' ng-show='editMode'>
+                                                    <div class="form-group">
+                                                            <div class="error-container">
+                                                                <div ng-show="editProfileInfoForm.phone.$error.required && afterSubmit">{{
+                                                                            'MOBILE_NUMBER' | translate}}{{ 'REQUIRED' | translate}} *
+                                                                </div>
+                        
+                                                                <div class="lm-errors" ng-show="editProfileInfoForm.phone.$dirty && editProfileInfoForm.phone.$invalid">
+                                                                    <div ng-show="editProfileInfoForm.phone.$error.pattern">{{ 'MOBILE_NUMBER' | translate}}{{ 'INVALID' | translate}}</div>
+                                                                    <div ng-show="editProfileInfoForm.phone.$error.maxlength && !editProfileInfoForm.phone.$error.pattern">{{ 'MOBILE_NUMBER' | translate}}{{ 'MAX_CHARACTERS' | translate:'{ number: 15}'}}</div>
+                                                                </div>
+                                                                <div ng-hide="editProfileInfoForm.phone.key">{{serverError.mobile.toString()}}</div>
+                                                            </div>
+                                                            <input type="text" class="form-control" required
+                                                                   placeholder="{{ 'MOBILE_NUMBER' | translate}} *" ng-maxlength="15"
+                                                                   ng-model="newInfoObj.phoneNumber" name="phone" ng-pattern="/^\d+$/"
+                                                                   ng-keydown="backendVisibilityService.checkKey(editProfileInfoForm.phone, serverError)">
+                        
+                                                        </div>
+                                                </div>-->
+                    </div>
+                </form>
+                <hr class="filler-line">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 class="dark-blue-font">{{'EMAIL_ADDRESS'| translate}} : </h4>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="gray-font">{{profileData.email}}</h4>
+                    </div>
+                    <div class="col-md-2">
+                        <a ng-click="changeEmailPopup()"><h5><u>{{'CHANGE'| translate}}</u></h5></a>
+                    </div>
+                </div>
+                <hr class="filler-line">
+                <div class="row">
+                    <div class="col-md-6">
+                        <a ng-click="openChangePasswordPopup()">    
+                            <h4 class="text-capitalize">
+                                <u><span>{{"CHANGE_PASSWORD"| translate}}</span></u>
+                            </h4>
+                        </a>
+                    </div>
+                </div>
+                <hr class="filler-line">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 class="dark-blue-font">{{'NATIONAL_ID'| translate}} : </h4>
+                    </div>
+                    <div class="col-md-8">
+                        <h4 class="gray-font">{{profileData.nationalId| onEmpty}}</h4>
+                    </div>
+                </div>
+                <div class="row margin-bottom-30">
+                    <div class="col-md-4">
+                        <h4 class="dark-blue-font text-capitalize">{{'ROLES'| translate}} : </h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row light-blue-font text-align-center">
+                            <div class="col-md-2 col-md-offset-4"><h6>{{"VIEW"|translate}}</h6></div>
+                            <div class="col-md-3"><h6>{{"ADMINSTRATE"|translate}}</h6></div>
+                            <div class="col-md-3"><h6>{{"ACTIVE_DEACTIVATE"|translate}}</h6></div>
+                        </div>
+
+                        <div class="row" ng-repeat="level_0 in role.privileges| filter:{foundModule:true} |orderBy:'moduleName' track by $index">
+
+                            <div class="col-md-4">
+                                <div class="config_item_name text-capitalize gray-font">{{level_0.moduleName| translate}}</div>
+                            </div>
+                            <div ng-repeat="level_1 in level_0.permissions track by $index" class="light-blue-font">
+                                <div class="col-md-2 view-col text-align-center">
+                                    <span ng-if="level_1['value']"><i class="fa fa-check" aria-hidden="true"></i></span>
+                                </div>
+                                <div ng-repeat="level_2 in level_1.children| orderBy:'Id' track by $index">
+                                    <div class="col-md-3 admin-col text-align-center">
+                                        <span ng-if="level_2['value']"><i class="fa fa-check" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-12">
+    </div>
+</div>

@@ -1,0 +1,382 @@
+<script src="archived/js/archivedPickupsDetailsController.js" type="text/javascript"></script>
+<script src="commons/js/directives/timeLine/js/timelineDirective.js" type="text/javascript"></script>
+<div class="lm-container-holder padding-0">
+    <div class="lm-container">
+        <div class="row entity-title margin-bottom-15"><p>{{'ARCHIVED_PICKUPS'| translate}}</p></div>
+        <div class="row timeline-container margin-bottom-15">
+            <div class="col-md-12">
+                <div class="timeline-bar">
+                    <div class="right-btn" ng-disabled="disableLeftBtn" ng-click="goLeft()"><i
+                            class="fa fa-chevron-right"></i></div>
+                    <div class="left-btn" ng-disabled="disableRightBtn" ng-click="goRight()"><i
+                            class="fa fa-chevron-left"></i></div>
+                    <div class="time-line-hider">
+                        <timeline>
+                            <timeline-event ng-repeat="event in events">
+                                <timeline-badge when-visible="animateElementIn" when-not-visible="animateElementOut">
+                                </timeline-badge>
+                                <div class='img-pin fa fa-map-marker'
+                                     ng-style="delay0 || {'animation-delay':$index * '.2' + 's'}">
+                                </div>
+                                <timeline-panel ng-style="delay0 || {'animation-delay':$index * '.2' + 's'}">
+                                    <timeline-heading>
+                                        <h4>{{event.status| translate}}</h4>
+                                    </timeline-heading>
+                                    <p>{{event.creationDate| date:'shortTime'}}</p>
+                                </timeline-panel>
+                            </timeline-event>
+                            <timeline-footer>
+                                <svg class="timelineSVG">
+                                <g id="g_{{$index}}" ng-repeat="item in timelineitems" ng-cloak>
+                                <rect ng-x="{{item}}" ng-y="{{yAxis}}" ng-width="{{itemWidth}}"
+                                      ng-height="{{itemHeight}}"></rect>
+                                </g>
+                                </svg>
+                            </timeline-footer>
+                        </timeline>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row margin-bottom-30">
+            <div class="col-md-12">
+                <section ng-init="active = 1" class="row">
+                    <div class="col-md-12 tabs tabs-style-linebox">
+                        <nav>
+                            <ul class="text-capitalize">
+                                <li ng-click='active = 1' ng-class="{ 'active' : active === 1 }" class=""><a><span><b>{{'SENDER'| translate}}</b></span></a></li>
+                                <li ng-click='active = 2' ng-class="{ 'active' : active === 2 }" class=""><a><span><b>{{'RECIPIENT'| translate}}</b></span></a></li>
+                                <li ng-click='active = 3' ng-class="{ 'active' : active === 3 }" class=""><a><span><b>{{'PACKAGE'| translate}}</b></span></a></li>
+                                <li ng-click='active = 4' ng-class="{ 'active' : active === 4 }" ng-show="verifiedRequestDetails" ><a><span><b>{{'VERIFICATION_BY_DRIVER'| translate}}</b></span></a></li>
+                                <li ng-click='active = 5' ng-class="{ 'active' : active === 5 }" class=""><a><span><b>{{'REQUEST_DETAILS'| translate}}</b></span></a></li>
+                                <li ng-click='active = 6' ng-class="{ 'active' : active === 6 }" class=""><a><span><b>{{'PAYMENT_DETAILS'| translate}}</b></span></a></li>
+                            </ul>
+                        </nav>
+                        <div class="content-wrap">
+                            <section ng-show="active === 1" class="">
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "REQUESTER_ID" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{requestDetails.requesterId}}</h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "REQUESTER_NAME" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{requestDetails.requesterName}}</h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "REQUEST_MOBILE" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{requestDetails.requesterMobile}}</h5>
+                                    </div>
+                                </div>
+                            </section>
+                            <section ng-show="active === 2" class="">
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "RECIPIENT_FULL_NAME" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{requestDetails.recipientName}}</h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "RECIPIENT_MOBILE_NUMBER" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{requestDetails.recipientMobile}}</h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "RECIPIENT_ADDRESS" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{requestDetails.recipientFormatedAddress}}</h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "ADDITIONAL_INFORMATION" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{requestDetails.recipientAdditionalInfo|onEmpty}}</h5>
+                                    </div>
+                                </div>
+                            </section>
+                            <section ng-show="active === 3" class="">
+                                <section class="margin-bottom-15">
+                                    <div class="row">
+                                        <div class="col-md-3 content-title col-xs-4">
+                                            <h5>{{ "PACKAGE_ID" | translate}} :</h5>
+                                        </div>
+                                        <div class="col-md-9 col-xs-8">
+                                            <h5>{{packageDetails.packageId}}</h5>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-3 content-title col-xs-4">
+                                            <h5>{{ "PACKAGE_STATUS" | translate}} :</h5>
+                                        </div>
+                                        <div class="col-md-9 col-xs-8">
+                                            <h5>{{packageDetails.status| translate}}</h5>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-3 content-title col-xs-4">
+                                            <h5>{{ "PACKAGE_NICKNAME" | translate}} :</h5>
+                                        </div>
+                                        <div class="col-md-9 col-xs-8">
+                                            <h5>{{packageDetails.nickName|onEmpty}}</h5>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-3 content-title col-xs-4">
+                                            <h5>{{ "PACKAGE_TYPE" | translate}} :</h5>
+                                        </div>
+                                        <div class="col-md-9 col-xs-8">
+                                            <h5>{{packageDetails.packageType| translate}}</h5>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-3 content-title col-xs-4">
+                                            <h5>{{ "PACKAGE_WEIGHT" | translate}} :</h5>
+                                        </div>
+                                        <div class="col-md-9 col-xs-8">
+                                            <h5>{{packageDetails.actualWeight}}</h5>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-3 content-title col-xs-4">
+                                            <h5>{{ "PACKAGE_BRIEF" | translate}} :</h5>
+                                        </div>
+                                        <div class="col-md-9 col-xs-8">
+                                            <h5>{{packageDetails.description|onEmpty}}</h5>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-3 content-title col-xs-4">
+                                            <h5>{{ "IMAGES" | translate}} :</h5>
+                                        </div>
+                                        <div class="col-md-9 col-xs-8">
+                                            <div class="imageWrapper">
+                                                <div class="col-md-3 col-lg-2 col-sm-12 col-xs-12" ng-repeat="image in packageDetails.imagesArray">
+                                                    <div class="img-detail-holder">
+                                                        <a href="{{image}}/original"  data-lightbox="original" data-title="{{'PACKAGE_IMG'|translate}} {{$index + 1}}">
+                                                            <img alt="package image {{$index + 1}}" title="package image {{$index + 1}}" class="img-responsive"
+                                                                 ng-src="{{image}}/large"
+                                                                 uib-tooltip="{{'PACKAGE_IMG'|translate}} {{$index + 1}}">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section class="margin-bottom-15">
+                                    <div class="row">
+                                        <div class="col-md-3 content-title col-xs-4">
+                                            <h5>{{ "WRAP_LABEL" | translate}} :</h5>
+                                        </div>
+                                        <div class="col-md-9 col-xs-8">
+                                            <h5>{{requestDetails.labelingText| onEmpty}}</h5>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-3 content-title col-xs-4">
+                                            <h5>{{ "PACKAGING_BOX" | translate}} :</h5>
+                                        </div>
+                                        <div class="col-md-9 col-xs-8">
+                                            <h5>{{requestDetails.additionalServices| onEmpty}}</h5>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section>
+                                    <div class="row">
+                                        <div class="col-md-3 content-title col-xs-4">
+                                            <h5>{{ "SHIPPING_SERVICE" | translate}} :</h5>
+                                        </div>
+                                        <div class="col-md-9 col-xs-8">
+                                            <h5>{{packageDetails.shipmentService| removeSpaces | uppercase | translate}}</h5>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-3 content-title col-xs-4">
+                                            <h5>{{ "SUB_SHIPPING_SERVICE" | translate}} :</h5>
+                                        </div>
+                                        <div class="col-md-9 col-xs-8">
+                                            <h5>{{packageDetails.subShipmentService| removeSpaces | uppercase | translate}}</h5>
+                                        </div>
+                                    </div>
+                                </section>
+                            </section>
+                            <section ng-show="active === 4" class="">
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "PACKAGE_TYPE" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{verifiedRequestDetails.packageType| translate| onEmpty}}</h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "PACKAGE_WEIGHT_KG" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{verifiedRequestDetails.actualweight| onEmpty}}</h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "PACKAGE_CONTAINER_LABELING" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{packageDetails.labelIds.toString() | onEmpty}}</h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "PACKAGE_BRIEF" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{verifiedRequestDetails.description}}</h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "IMAGES" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <div class="imageWrapper">
+                                            <div class="col-md-3 col-lg-2 col-sm-12 col-xs-12" ng-repeat="image in verifiedRequestDetails.imagesArray">
+                                                <div class="img-detail-holder">
+                                                    <a href="{{image}}/original"  data-lightbox="original" data-title="{{'PACKAGE_IMG'|translate}} {{$index + 1}}">
+                                                        <img alt="package image {{$index + 1}}" title="package image {{$index + 1}}" class="img-responsive"
+                                                             ng-src="{{image}}/large"
+                                                             uib-tooltip="{{'PACKAGE_IMG'|translate}} {{$index + 1}}">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section ng-show="active === 5" class="">
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "REQUEST_ID" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{requestDetails.pickupRequestId}}</h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "REQUEST_STATUS" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{requestDetails.orderStatus}}</h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "REQUEST_DATE" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{requestDetails.requestTime| date:('DATE_FORMAT' | translate) }}</h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "REQUEST_TIME" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{requestDetails.requestTime| date:'shortTime' }}</h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "PICKUP_ADDRESS" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{requestDetails.pickupFormatedAddress}}</h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "PICKUP_DATE" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{requestDetails.pickupDate| date:('DATE_FORMAT' | translate) | onEmpty}}</h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "PICKUP_TIME" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{requestDetails.pickupDate| date:'shortTime' }}</h5>
+                                    </div>
+                                </div>
+                            </section>
+                            <section ng-show="active === 6" class="">
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "PAYMENT_AT" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{requestDetails.paymentType | translate}}</h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 content-title col-xs-4">
+                                        <h5>{{ "PAYMENT_METHOD" | translate}} :</h5>
+                                    </div>
+                                    <div class="col-md-9 col-xs-8">
+                                        <h5>{{requestDetails.paymentMethod | translate}}</h5>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

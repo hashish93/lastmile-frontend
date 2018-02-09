@@ -1,0 +1,114 @@
+<script src="distribution/js/jobDistributionController.js" type="text/javascript"></script>
+<fieldset authorized-block privilege-name="editjobdistribution" rendering-option="disable">
+    <div class="lm-container-holder">
+        <div class="lm-container">
+            <div class="row entity-title margin-bottom-15">
+                <p class="pull-left">{{'DISTRIBUTION_PLAN'| translate}}</p>
+                <div class="col-md-12 col-lg-4 pull-right">
+                    <div class="checkboxs-container pull-right">
+                        <div class="checkboxs-filter red-square">
+                            <span class="fa fa-square"></span>
+                            <label>{{'RETURN'| translate}}</label>
+                        </div>
+                        <div class="checkboxs-filter dark-square">
+                            <span class="fa fa-square"></span>
+                            <label>{{'DELIVERY'| translate}}</label>
+                        </div>
+                        <div class="checkboxs-filter blue-square">
+                            <span class="fa fa-square "></span>
+                            <label>{{'PICKUPS'| translate}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row small-entity-title entity-title margin-bottom-15">
+                <p class="pull-left">{{'ACTIVE_VEHICLE'| translate}}</p>
+            </div>
+            <div class="row">
+                <div class="col-md-12" data-toggle="buttons">
+                    <label class="btn btn-default selectable-vehicle-box"
+                           ng-repeat="item in unselectedVehicles"
+                           ng-model="item.activeSelect" uib-btn-checkbox ng-change="vehicleActivity(item, $index)"
+                           ng-class="{'btn-primary': item.activeSelect}">
+                        <i ng-if="item.activeSelect" class="fa fa-check" aria-hidden="true"></i>
+                        {{item.vehicleType}} / {{item.driverUsername}}
+                    </label>
+                </div>
+            </div>
+            <div class="row small-entity-title entity-title margin-bottom-15">
+                <p>{{'SCHEDULED_JOB_ORDERS'| translate}}</p>
+            </div>
+            <div class="row dynamic-grid" dnd-list="jobs" dnd-disable-if='privileged == false' 
+                 angular-grid="jobs" ag-options="{direction: (lang === 'ar' ? 'rtol' : 'ltor')}" ag-grid-width="250" ag-gutter-size="10">
+                <div ng-repeat="job in jobs" class="jobs-container" dnd-draggable="job" draggable="true"
+                     dnd-moved="jobs.splice($index, 1);" dnd-effect-allowed="move" 
+                     dnd-dragstart="removeFooter()" dnd-dragend="footerAppear()">
+                    <div class="panel leftbar text-center job-box movable" ng-class="'job-border-' + job.jobType">
+                        <h4 class="margin-top-10 jobs-type">
+                            <b>{{job.jobPackageType |translate}} ({{job.actualWeight}}{{ 'KG' | translate}})</b></h4>
+                        <h5 class="jobs-time">{{job.timeFrom}} - {{job.timeTo}}</h5>
+                        <h5 class="jobs-details">{{job.jobAddress}}</h5>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row small-entity-title entity-title margin-bottom-15">
+                <p>{{'JOB_ORDERS_DISTRIBUTION'| translate}}</p>
+            </div>
+            <div class="row margin-bottom-30">
+                <div class="dynamic-grid" angular-grid="cars" ag-grid-width="300" 
+                     ag-gutter-size="10" ag-options="{direction : direction}" >
+                    <div ng-repeat="car in cars">
+                        <div class="panel text-center vehicle-container">
+                            <h5><b>{{car.vehicleType}} / {{car.driverUsername}}</b></h5>
+                            <h5><b>{{car.from| date : "shortTime" }}-{{car.to| date : "shortTime" }}</b></h5>
+                            <h5 ng-if="car.overweight" class="over-weight-warning-cont clearfix text-uppercase text-danger">
+                                <span class="over-weight-warning">
+                                    <i class="fa fa-exclamation-triangle"></i>
+                                </span>
+                                <b>{{"VEHICLE_OVERWEIGHT"| translate}}</b>
+                                <span class="over-weight-warning">
+                                    <i class="fa fa-exclamation-triangle"></i>
+                                </span>
+                            </h5>
+                            <div class="vehicles-job-container text-align-left" dnd-list="car.jobs"
+                                 dnd-drop="dropCallback($index, item, external, type, 'itemType')">
+                                <div ng-repeat="job in car.jobs| orderBy:job.order" dnd-draggable="job" class="job-in-vehicle leftbar job-box movable"
+                                     ng-class="'job-border-' + job.jobType" dnd-effect-allowed="move"
+                                     dnd-moved="car.jobs.splice($index, 1); jobMoved($parent.$index,$index)">
+                                    <h5><b>{{job.jobPackageType | translate}} ({{job.actualWeight}}{{ 'KG' | translate}})
+                                            {{job.timeFrom}} - {{job.timeTo}}</b></h5>
+                                    <div ng-if="job.status" class="status-container">
+                                        <h5>{{'STARTS_AT'| translate}} 
+                                            {{imaginaryDate.setHours(job.departureTime.hour, job.departureTime.minute, 0) | date:'shortTime'}}</h5>
+                                        <h5><b ng-class="{'text-success': job.status === 'SUCCESS' , 'text-warning': job.status === 'IN_GRACE_PERIOD', 'text-danger': job.status === 'FAIL'}">{{job.status|translate}} {{"ETA"|translate}}</b> 
+                                            {{imaginaryDate.setHours(job.arrivalTime.hour, job.arrivalTime.minute, 0) | date:'shortTime'}} ({{job.timeTaken}})</h5>
+                                    </div>
+                                    <h5>{{job.jobAddress}}</h5>
+                                    <div class="job-distribution-loader" ng-if="processing && !job.status">
+                                        <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-bottom-30" ng-show="cars.length > 0">
+                <div class="col-md-12 center-block text-center margin-bottom-30">
+                    <button class="btn lm-btn blue-btn text-uppercase" id="verifyPlan" type="button"
+                            ng-click="verifyPlan()">{{'VERIFY'|translate}}
+                    </button>
+                    <button class="btn lm-btn blue-btn text-uppercase" id="clear" type="button" ng-click="clearAll()">
+                        {{'CLEAR_ALL'|translate}}
+                    </button>
+                    <button class="btn lm-btn blue-btn text-uppercase" id="submit" type="button" ng-disabled="(initJobCount <= jobs.length) || (processingDone == false) || overweight || lateJobStatus || jobs.length > 0"
+                            ng-click="submit()">{{'SUBMIT'|translate}}
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</fieldset>

@@ -1,0 +1,391 @@
+<div class="lm-popup editForm">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title">{{'EDIT_USER'| translate}}</h3>
+    </div>
+    <form name="editEmployeeForm">
+        <div class="modal-body lm-popup-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <!--                    <div class="col-md-3 col-lg-3 col-sm-4 col-xs-12">
+                                            <div class="form-group center-block">
+                                                <div class="error-container" id="fileError">
+                                                    <div ng-show="!imageValidate() && !imagesErrorsExist() && afterSubmit">{{
+                                                        'IMAGE_REQUIRED' | translate}}*
+                                                    </div>
+                                                    <div>{{serverError.personalPhotoId.toString()}}</div>
+                                                </div>
+                                                <file-uploader-holder type="user_image"></file-uploader-holder>
+                                            </div>
+                                        </div>-->
+                    <div class="col-md-3 col-lg-3 col-sm-4 col-xs-12 ">
+                        <div class="form-group center-block">
+                            <div id="fileError">
+                                <span class="input-label">{{'IMAGE'| translate}}</span>
+                                <div class="error-container" ng-style="!ImageLoaded && {'opacity':'0'}">
+                                    <div ng-show="!imageValidate() && !imagesErrorsExist()"> {{ 'REQUIRED' | translate}} *</div>
+                                    <div>{{serverError.personalPhoto.toString()}}</div>
+                                </div>
+                            </div>
+                            <file-uploader-holder ng-style="!ImageLoaded && {'opacity':'0'}"
+                                                  type="user_image" on-update="mode()">
+                            </file-uploader-holder>
+                        </div>
+                    </div>
+                    <div class="col-md-9 col-lg-9 col-sm-8 col-xs-12 padding-top-23">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span class="input-label" ng-class="{'red' : editEmployeeForm.firstName.$invalid}">{{'FIRST_NAME'| translate}}</span>
+                                    <div class="error-container">
+                                        <div ng-show="editEmployeeForm.firstName.$dirty && editEmployeeForm.firstName.$invalid">
+                                            <div ng-show="editEmployeeForm.firstName.$error.required">{{ 'REQUIRED' |
+                                                translate}}*
+                                            </div>
+                                            <div ng-show="editEmployeeForm.firstName.$error.minlength && !editEmployeeForm.firstName.$error.pattern">
+                                                {{ 'SHORT' | translate}}
+                                            </div>
+                                            <div ng-show="editEmployeeForm.firstName.$error.maxlength && !editEmployeeForm.firstName.$error.pattern">
+                                                {{ 'LONG' | translate}}
+                                            </div>
+                                            <div ng-show="editEmployeeForm.firstName.$error.pattern" class="error-msg">
+                                                {{'INVALID'| translate}}
+                                            </div>
+                                        </div>
+                                        <div ng-hide="editEmployeeForm.firstName.key">
+                                            {{serverError.firstName.toString()}}
+                                        </div>
+                                        <div ng-hide="editEmployeeForm.firstName.key">
+                                            {{serverError.username.toString()}}
+                                        </div>
+                                        <div ng-hide="editEmployeeForm.firstName.key">
+                                            {{serverError.userId.toString()}}
+                                        </div>
+                                        <div ng-hide="editEmployeeForm.firstName.key">
+                                            {{serverError.hubId.toString()}}
+                                        </div>
+                                    </div>
+                                    <input ng-change="mode()" type="text" class="form-control" required
+                                           placeholder="{{'FIRST_NAME'| translate}}*" ng-maxlength="32" ng-minlength="2"
+                                           ng-model="editEmployeeObj.firstName" name="firstName"
+                                           ng-pattern="/^[a-zA-Z\-\ \u0621-\u064A\u0660-\u0669]*$/"
+                                           ng-keydown="backendVisibilityService.checkKey(editEmployeeForm.firstName, serverError)">
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span class="input-label" ng-class="{'red' : editEmployeeForm.lastName.$invalid}">{{'LAST_NAME'| translate}}</span>
+                                    <div class="error-container">
+                                        <div ng-show="editEmployeeForm.lastName.$dirty && editEmployeeForm.lastName.$invalid">
+                                            <div ng-show="editEmployeeForm.lastName.$error.required">{{ 'REQUIRED' |
+                                                translate}} *
+                                            </div>
+                                            <div ng-show="editEmployeeForm.lastName.$error.pattern">{{'INVALID'|
+                                                translate}}
+                                            </div>
+                                            <div ng-show="editEmployeeForm.lastName.$error.minlength && !editEmployeeForm.lastName.$error.pattern">
+                                                {{ 'SHORT' | translate}}
+                                            </div>
+                                            <div ng-show="editEmployeeForm.lastName.$error.maxlength && !editEmployeeForm.lastName.$error.pattern">
+                                                {{ 'LONG' | translate}}
+                                            </div>
+                                        </div>
+                                        <div ng-hide="editEmployeeForm.lastName.key">
+                                            {{serverError.lastName.toString()}}
+                                        </div>
+                                    </div>
+                                    <input ng-change="mode()" type="text" class="form-control" required
+                                           placeholder="{{'LAST_NAME'| translate}} *"
+                                           ng-model="editEmployeeObj.lastName" name="lastName"
+                                           ng-maxlength="32" ng-minlength="2"
+                                           ng-pattern="/^[a-zA-Z\-\ \u0621-\u064A\u0660-\u0669]*$/"
+                                           ng-keydown="backendVisibilityService.checkKey(editEmployeeForm.lastName, serverError)">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span class="input-label" ng-class="{'red' : editEmployeeForm.countryCode.$invalid}">{{ 'COUNTRY_CODE' | translate}}</span>
+                                    <div class="error-container">
+                                        <div ng-show="editEmployeeForm.countryCode.$error.required && afterSubmit">{{ 'REQUIRED' | translate}} *</div>
+                                        <div>{{serverError.countryCodeId.toString()}}</div>
+                                    </div>
+                                    <select class="form-control" name="countryCode" ng-model = "editEmployeeObj.countryCodeId"
+                                            ng-options="countryCode.id as countryCode.name+' ('+countryCode.code+')' for countryCode in countryCodes" required>
+                                        <option disabled hidden value="">{{'SELECT_COUNTRY_CODE'| translate}}*</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span class="input-label" ng-class="{'red' : editEmployeeForm.phone.$invalid}">{{ 'MOBILE_NUMBER' | translate}}</span>
+                                    <div class="error-container">
+                                        <div ng-show="editEmployeeForm.phone.$dirty && editEmployeeForm.phone.$invalid">
+                                            <div ng-show="editEmployeeForm.phone.$error.required">{{ 'REQUIRED' | translate}} *</div>
+                                            <div ng-show="editEmployeeForm.phone.$error.pattern">{{'INVALID'| translate}}</div>
+                                            <div ng-show="editEmployeeForm.phone.$error.maxlength && !editEmployeeForm.phone.$error.pattern">{{ 'MAX_CHARACTERS' | translate:'{ number: 15}'}}</div>
+                                        </div>
+                                        <div ng-hide="editEmployeeForm.phone.key">{{serverError.mobile.toString()}}</div>
+                                    </div>
+                                    <input ng-change="mode()" type="text" class="form-control" required placeholder="{{ 'MOBILE_NUMBER' | translate}} *" 
+                                           ng-maxlength="15" ng-model="editEmployeeObj.phone" name="phone" ng-pattern="/^\d+$/" ng-keydown="backendVisibilityService.checkKey(editEmployeeForm.phone, serverError)">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span class="input-label" ng-class="{'red' : editEmployeeForm.email.$invalid}">{{ 'EMAIL_ADDRESS' | translate}}</span>
+                                    <div class="error-container">
+                                        <div ng-show="editEmployeeForm.email.$error.required"> {{ 'REQUIRED' |
+                                            translate}} *
+                                        </div>
+
+                                        <div ng-show="editEmployeeForm.email.$dirty && editEmployeeForm.email.$invalid">
+                                            <div ng-show="editEmployeeForm.email.$error.pattern && !editEmployeeForm.email.$error.required">{{ 'FORMAT_error' | translate}}</div>
+                                            <div ng-show="editEmployeeForm.email.$error.maxlength && !editEmployeeForm.email.$error.pattern">{{ 'EMAIL_ADDRESS' | translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                        </div>
+                                        <div ng-hide="editEmployeeForm.email.key">{{serverError.email.toString()}}</div>
+                                    </div>
+                                    <input ng-change="mode()"  autocomplete="off" type="email" class="form-control" required
+                                           placeholder="{{ 'EMAIL_ADDRESS' | translate}}*"
+                                           ng-model="editEmployeeObj.email" name="email" ng-maxlength="32"
+                                           ng-pattern="/^[a-zA-Z]+[a-zA-Z0-9.]+@[a-zA-Z]+\.[a-zA-Z]{2,5}$/"
+                                           ng-keydown="backendVisibilityService.checkKey(editEmployeeForm.email, serverError)">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editEmployeeForm.nationalId.$invalid}">{{ 'NATIONAL_ID' | translate }}</span>
+                            <div class="error-container">
+                                <div ng-show="editEmployeeForm.nationalId.$dirty && editEmployeeForm.nationalId.$invalid">
+                                    <div ng-show="editEmployeeForm.nationalId.$error.required">{{ 'REQUIRED' | translate}}</div>
+                                    <div ng-show="editEmployeeForm.nationalId.$error.pattern">{{'INVALID'| translate}}</div>
+                                    <div ng-show="editEmployeeForm.nationalId.$error.maxlength">{{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                </div>
+                                <div ng-hide="editEmployeeForm.nationalId.key">{{serverError.nationalId.toString()}}</div>
+                            </div>
+                            <input ng-change="mode()" type="text" class="form-control" required placeholder="{{ 'NATIONAL_ID' | translate }} *" 
+                                   ng-pattern="/^[a-zA-Z0-9\ \u0621-\u064A\u0660-\u0669]*$/" name="nationalId" ng-maxlength="32" 
+                                   ng-model="editEmployeeObj.nationalId" ng-keydown="backendVisibilityService.checkKey(editEmployeeForm.nationalId, serverError)">
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="input-label" ng-class="{'red' : editEmployeeForm.userType.$invalid}">{{ 'USER_TYPE' | translate}}</span>
+                        <div class="error-container">
+                            <div>
+                                <div ng-show="editEmployeeForm.userType.$error.required">{{ 'REQUIRED' | translate}}
+                                </div>
+                                {{serverError.userType.toString()}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <select ng-disabled="true" ng-change="setGroupName(editEmployeeObj.userTypeId)"
+                                        class="form-control" ng-model="editEmployeeObj.userTypeId" name="userTypeId"
+                                        ng-options="group.value as group.name |  translate for group in groups" required>
+                                    <option disabled hidden value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--<pre>Selected date is: <em>{{editEmployeeObj.drivingLicenseExpDate| date:'fullDate'}}</em></pre>-->
+                    </div>
+
+
+                </div>
+
+
+                <div class="row  animate-show" ng-show="editEmployeeObj.userTypeId == 6">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <span class="input-label"
+                                  ng-class="{'red' : editEmployeeForm.drivingLicenseTypeId.$invalid && editEmployeeForm.drivingLicenseTypeId.$dirty}">{{ 'LICENSE_TYPE' | translate}}</span>
+                            <div class="error-container">
+                                <div ng-show="editEmployeeForm.drivingLicenseTypeId.$dirty && editEmployeeForm.drivingLicenseTypeId.$invalid">
+                                    <div ng-show="editEmployeeForm.drivingLicenseTypeId.$error.required">{{ 'REQUIRED' |
+                                        translate}}
+                                    </div>
+                                </div>
+                                <div>{{serverError.drivingLicenseTypeId.toString()}}</div>
+                            </div>
+                            <select ng-change="getLicenseTypeName(editEmployeeObj.drivingLicenseTypeId)"
+                                    class="form-control" ng-model="editEmployeeObj.drivingLicenseTypeId"
+                                    name="drivingLicenseTypeId"
+                                    ng-options="type.drivingLicenseTypeId as type.licenseType for type in licenseType"
+                                    ng-required="editEmployeeObj.userTypeId == 6">
+                                <option disabled hidden value="">{{ 'LICENSE_TYPE' | translate}}*</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <span class="input-label"
+                                  ng-class="{'red' : editEmployeeForm.drivingLicenseId.$invalid && editEmployeeForm.drivingLicenseId.$dirty}">{{ 'LICENSE_ID' | translate}}</span>
+                            <div class="error-container">
+                                <div ng-show="editEmployeeForm.drivingLicenseId.$error.maxlength">{{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                <div ng-show="editEmployeeForm.drivingLicenseId.$dirty && editEmployeeForm.drivingLicenseId.$invalid">
+                                    <div ng-show="editEmployeeForm.drivingLicenseId.$error.required">{{ 'REQUIRED' |
+                                        translate}}
+                                    </div>
+                                    <div ng-show="editEmployeeForm.drivingLicenseId.$error.pattern">{{'INVALID'|
+                                        translate}}
+                                    </div>
+                                </div>
+                                <div ng-hide="editEmployeeForm.drivingLicenseId.key">
+                                    {{serverError.drivingLicenseId.toString()}}
+                                </div>
+                            </div>
+                            <input ng-change="mode()" type="text" class="form-control"
+                                   placeholder="{{ 'LICENSE_ID' | translate}}*" ng-maxlength="32"
+                                   ng-pattern="/^[a-zA-Z0-9\ \u0621-\u064A\u0660-\u0669]*$/"
+                                   ng-model="editEmployeeObj.drivingLicenseId" name="drivingLicenseId"
+                                   ng-required="editEmployeeObj.userTypeId == 6"
+                                   ng-keydown="backendVisibilityService.checkKey(editEmployeeForm.drivingLicenseId, serverError)">
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <span class="input-label"
+                                  ng-class="{'red' : editEmployeeForm.drivingLicenseExpDate.$invalid && editEmployeeForm.drivingLicenseExpDate.$dirty}">{{ 'LICENSE_EXPIRY_DATE' | translate}}</span>
+                            <div class="error-container">
+                                <div ng-show="editEmployeeForm.drivingLicenseExpDate.$dirty && editEmployeeForm.drivingLicenseExpDate.$invalid">
+                                    <div ng-show="editEmployeeForm.drivingLicenseExpDate.$error.required">{{ 'REQUIRED'
+                                                        | translate}}
+                                    </div>
+                                </div>
+                                <div>{{serverError.drivingLicenseExpDate.toString()}}</div>
+                            </div>
+                            <div class="input-group">
+                                <input ng-change="mode()" onpaste="return false" ondrag="return false" ondrop="return false;" type="text"
+                                       uib-datepicker-popup="{{'DATE_FORMAT'| translate}}" is-open="datePopup.opened"
+                                       onkeydown="return false"
+                                       class="form-control" placeholder="{{ 'LICENSE_EXPIRY_DATE' | translate}} *"
+                                       ng-click="openDatePopup()"
+                                       datepicker-options="dateOptions" current-text="{{'TODAY'| translate}}"
+                                       clear-text="{{'RESET'| translate}}" name=" drivingLicenseExpDate"
+                                       ng-model="editEmployeeObj.drivingLicenseExpDate"
+                                       ng-required="editEmployeeObj.userTypeId == 6">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="openDatePopup()">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <!--<pre>Selected date is: <em>{{editEmployeeObj.drivingLicenseExpDate| date:'fullDate'}}</em></pre>-->
+                    </div>
+                </div>
+
+                <div class="row" super-user>
+                    <div class='col-md-12' ng-show="editEmployeeObj.userTypeId == 3 || editEmployeeObj.userTypeId == 5 || editEmployeeObj.userTypeId == 6">
+                        <div class="form-group">
+                                <span class="input-label"
+                                      ng-class="{'red' : editEmployeeForm.singleHub.$invalid && editEmployeeForm.singleHub.$dirty}">{{ 'BUILDING' | translate}}</span>
+                            <div class="error-container">
+                                <div ng-show="editEmployeeForm.singleHub.$error.required">{{'BUILDING'| translate}}{{ 'REQUIRED' | translate}} *</div>
+                                <div>{{serverError.hubs.toString()}}</div>
+                            </div>
+
+                            <select ng-change="changeHub()" class="form-control" name="singleHub" ng-model = "editEmployeeObj.singleHub"
+                                    ng-options="hub.id as hub.name for hub in allHubs" ng-required="(editEmployeeObj.userTypeId == 3 || editEmployeeObj.userTypeId == 5) && (userInfoService.isSuperUser())">
+                                <option disabled hidden value="">{{'SELECT_BUILDING'| translate}}*</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row" ng-if="editEmployeeObj.userTypeId !== 6">
+
+
+                    <div class='col-md-12 tags-inputs no-margin' ng-show="editEmployeeObj.userTypeId == 4" super-user>
+                        <div class="form-group">
+                            <span class="input-label">{{ 'BUILDING' | translate}}</span>
+                        </div>
+                        <div class="error-container">
+                            <div>{{serverError.hubs.toString()}}</div>
+                        </div>
+                        <ui-select multiple tagging tagging-label="false"
+                                   ng-model="allHubs.selected"
+                                   theme="bootstrap"
+                                   reset-search-input="true"
+                                   on-select="changeHub()"
+                                   on-remove="changeHub()"
+                                   style="width: 100%;"
+                        >
+                            <ui-select-match allow-clear="true" placeholder="{{'SELECT_BUILDING'| translate}}...">
+                                {{$item.name}}
+                            </ui-select-match>
+                            <ui-select-choices repeat=" hub in allHubs | filter: $select.search"
+                                               refresh-delay="0">
+                                <div ng-bind-html=" hub.name| highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+
+                    <div class="form-group">
+                        <div class='col-md-12 tags-inputs'>
+                            <span class="input-label">{{ 'ROLE_S' | translate}}</span>
+                            <ui-select multiple tagging tagging-label="false"
+                                       ng-model="allRoles.selected"
+                                       theme="bootstrap"
+                                       on-select="mode()"
+                                       on-remove="mode()"
+                                       reset-search-input="true"
+                                       style="width: 100%;"
+                                       >
+                                <ui-select-match placeholder="{{'SELECT_ROLE'| translate}}...">
+                                    {{$item.name}}
+                                </ui-select-match>
+                                <ui-select-choices repeat=" role in allRoles | filter: $select.search"
+                                                   refresh-delay="0">
+                                    <div ng-bind-html=" role.name| highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row margin-bottom-15">
+                    <div class="col-md-12">
+                        <span class="input-label">{{'DESCRIPTION'|translate}}</span>
+                        <div class="error-container">
+                            <div ng-show="editEmployeeForm.description.$error.maxlength"> {{ 'LONG' | translate}}</div>
+                            <div>{{serverError.description.toString()}}</div>
+                        </div>
+                        <textarea ng-change="mode()" class="form-control" name="description" rows="3"
+                                  ng-model="editEmployeeObj.description" ng-maxlength="500"
+                                  placeholder="{{'DESCRIPTION_OPTIONAL'|translate}}"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!--            <button class="btn lm-btn dark-btn" id="editEmployeeBtnCancel" type="button" ng-click="cancel()">Cancel</button>-->
+                <button class="btn lm-btn blue-btn" id="editEmployeeBtn"
+                        type="button" ng-disabled="editEmployeeForm.$invalid || !imageValidate() || !editMode || disableBTN"
+                        ng-click="edit()">{{'SUBMIT'|translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

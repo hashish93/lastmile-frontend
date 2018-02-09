@@ -1,0 +1,33 @@
+<script src="request/js/listOnScheduleController.js"></script>
+<script src="request/js/deleteScheduleController.js"></script>
+<script src="request/js/scheduleFilterDirective.js"></script>
+
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="pre-table-container">
+            <div class="row entity-title margin-bottom-15">
+                <p>{{'SCHEDULED_PICKUP_REQUEST'| translate}}</p>
+            </div>
+
+            <schedule-filter-directive
+                filter-search="filter"
+                ></schedule-filter-directive>
+        </div>
+        <div class="row lm-grid margin-bottom-15 full-height">
+            <div class="col-md-12">
+                <div ng-show='showSpinner'>
+                    <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                </div>
+                <div class="grid" ng-if="lang === 'ar'" dir='rtl' ui-if="OnSchedListOptions.data.length>0" 
+                     ui-grid="OnSchedListOptions" ui-grid-selection ui-grid-pagination ui-grid-resize-columns
+                     ui-grid-auto-resize ng-style="getTableHeight()">    
+                </div>
+                <div class="grid" ng-if="lang === 'en'"  ui-if="OnSchedListOptions.data.length>0" 
+                     ui-grid="OnSchedListOptions" ui-grid-selection ui-grid-pagination ui-grid-resize-columns
+                     ui-grid-auto-resize ng-style="getTableHeight()">    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

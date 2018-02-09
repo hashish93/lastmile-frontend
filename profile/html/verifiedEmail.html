@@ -1,0 +1,28 @@
+<script src="profile/js/verifiedEmailController.js" type="text/javascript"></script>
+
+<div class="body-container">
+</div>
+
+<div class="center">
+    <div class="col-lg-offset-4 col-lg-3 col-xl-offset-4 col-xl-4 col-sm-offset-3 col-sm-6 col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4 login-theme-wrapper">
+        <div class="row">
+            <div class="col-md-12 logo-img">
+                <img src="commons/images/logo.png" alt=""/>
+            </div>
+        </div>
+        <div name="emailSentForm" ng-show=" emailVerified === true " class="login-container">
+            <div class="row login-content text-center">
+                <img src="commons/images/check.png" alt=""/>
+                <div class="row margin-top-10"><h5><b>Your e-mail has been verified.</b></h5></div>
+                <div class="row"><h5><a class='link-border-fade' ui-sref="login" > <b>Back to login</b></a></h5></div>
+            </div>
+        </div>
+        <div name="emailSentForm" ng-show=" emailVerified === false || token === undefined" class="login-container">
+            <div class="row login-content text-center">
+                <img src="commons/images/wrong.png" alt=""/>
+                <div class="row margin-top-10"><h5><b>Something is wrong with the verification code.</b></h5></div>
+                <div class="row"><h5><a class='link-border-fade' ui-sref="login" > <b>Back to login</b></a></h5></div>
+            </div>
+        </div>
+    </div>
+</div>

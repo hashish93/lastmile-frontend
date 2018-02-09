@@ -1,0 +1,108 @@
+<div class="lm-popup editForm">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>        
+        <h3 class="modal-title">{{ 'EDIT_DEVICE' | translate}}</h3>
+    </div>
+    <form name="editDeviceForm" >
+        <div class="modal-body lm-popup-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <p class="device_id">{{ 'DEVICE_ID' | translate}}: {{deviceObj.deviceId}}</p>
+
+                </div>
+                <div class="row"> 
+                    <div class="col-md-12 ">
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' :  editDeviceForm.brandId.$invalid}">{{'BRAND'| translate}}</span>
+
+                            <div class="error-container">
+                                <div ng-show="editDeviceForm.brandId.$dirty && editDeviceForm.brandId.$invalid">
+                                    <div ng-show="editDeviceForm.brandId.$error.required">{{ 'REQUIRED' | translate}}</div>
+                                </div>
+                                 <div ng-hide="editDeviceForm.brandId.key">{{serverError.brandId.toString()}}</div>
+                            </div>
+                            
+                            <select ng-change="mode()" ng-options="brand.brandId as brand.brandname  for brand in brands" class="form-control" name="brandId" ng-model="deviceObj.brandId" required>
+                                <option disabled hidden value="">{{ 'SELECT_BRAND' | translate}} *</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div  class="form-group">
+                            <span class="input-label" ng-class="{'red' : editDeviceForm.model.$invalid}">{{'MODEL'| translate}}</span>
+                            <div class="error-container">
+                                <div ng-show="editDeviceForm.model.$dirty && editDeviceForm.model.$invalid">
+                                    <div ng-show="editDeviceForm.model.$error.required">{{ 'REQUIRED' | translate}}</div>
+                                     <div ng-show="editDeviceForm.model.$error.pattern"> {{'INVALID'| translate}}</div>
+                                    <div ng-show="editDeviceForm.model.$error.maxlength && !editDeviceForm.model.$error.pattern">{{ 'LONG' | translate}}</div>
+                                    <div ng-show="editDeviceForm.model.$error.minlength && !editDeviceForm.model.$error.pattern">{{ 'SHORT' | translate}}</div>
+                                </div>
+                                <div ng-hide="editDeviceForm.model.key">{{serverError.model.toString()}}</div>
+                            </div>
+
+                            <input ng-change="mode()" type="text" class="form-control" name="model" ng-maxlength="32" ng-pattern="/^[a-zA-Z0-9\u0621-\u064A\u0660-\u0669]*[a-zA-Z0-9\ \u0621-\u064A\u0660-\u0669]*-{0,1}[a-zA-Z0-9\ \u0621-\u064A\u0660-\u0669]+$/" ng-minlength="2" placeholder="{{ 'MODEL' | translate}}*"
+                                   ng-model="deviceObj.model" required
+                                   ng-keydown="backendVisibilityService.checkKey(editDeviceForm.model, serverError)">
+                        </div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div  class="form-group">
+                            <span class="input-label" ng-class="{'red' : editDeviceForm.imeiInfo.$invalid}">{{'IMEI'| translate}}</span>
+                            <div class="error-container">
+                                <div ng-show="editDeviceForm.imeiInfo.$dirty && editDeviceForm.imeiInfo.$invalid">
+                                    <div ng-show="editDeviceForm.imeiInfo.$error.required">{{ 'REQUIRED' | translate}}</div>
+                                    <div ng-show="editDeviceForm.imeiInfo.$error.pattern">{{ 'INVALID' | translate}}</div>
+                                    <div ng-show="editDeviceForm.imeiInfo.$error.maxlength && !editDeviceForm.imeiInfo.$error.pattern">{{ 'MAX_CHARACTERS' | translate:'{ number: 15}'}}</div>
+                                    <div ng-show="editDeviceForm.imeiInfo.$error.minlength && !editDeviceForm.imeiInfo.$error.pattern">{{ 'MIN_CHARACTERS' | translate:'{ number: 15}'}}</div>
+                                </div>
+                                <div ng-hide="editDeviceForm.imeiInfo.key">{{serverError.imeiInfo.toString()}}</div>
+                            </div>
+
+                            <input ng-change="mode()" type="text" ng-maxlength="15" ng-minlength="15" ng-pattern="/^\d+$/" class="form-control" 
+                                   name="imeiInfo" placeholder="{{ 'IMEI' | translate}}*" ng-model="deviceObj.imeiInfo" required
+                                   ng-keydown="backendVisibilityService.checkKey(editDeviceForm.imeiInfo, serverError)">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div  class="form-group">
+                            <span class="input-label" ng-class="{'red' : editDeviceForm.phoneNumber.$invalid}">{{'PHONE_NUMBER'| translate}}</span>
+                            <div class="error-container">
+                                <div ng-show="editDeviceForm.phoneNumber.$dirty && editDeviceForm.phoneNumber.$invalid">
+                                    <div ng-show="editDeviceForm.phoneNumber.$error.required">{{'REQUIRED'| translate}}</div>
+                                    <div ng-show="editDeviceForm.phoneNumber.$error.pattern">{{'INVALID'| translate}}</div>
+                                    <div ng-show="editDeviceForm.phoneNumber.$error.maxlength">{{'LONG'| translate}}</div>
+                                    <div ng-show="editDeviceForm.phoneNumber.$error.minlength">{{'SHORT'| translate}}</div>
+                                </div>
+                                <div ng-hide="editDeviceForm.phoneNumber.key">{{serverError.phoneNumber.toString()}}</div>
+                            </div>
+                            <input ng-change="mode()" type="text" class="form-control" name="phoneNumber" ng-maxlength="32" ng-minlength="2" 
+                                   ng-pattern="/^[+]*[0-9]+$/" placeholder="{{'PHONE_NUMBER'|translate}}*" ng-model="deviceObj.phoneNumber" required
+                                   ng-keydown="backendVisibilityService.checkKey(editDeviceForm.phoneNumber, serverError)">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12"  super-user>
+                        <span class="input-label" ng-class="{'red' : editDeviceForm.hubId.$invalid}">{{'BUILDING'| translate}}</span>
+                        <div class="error-container">
+                            <div ng-show="editDeviceForm.hubId.$error.required">{{'BUILDING'| translate}}{{ 'REQUIRED' | translate}} *</div>
+                            <div ng-hide="editDeviceForm.hubId.key">{{serverError.hubId}}</div>
+                        </div>
+                        <select ng-change="mode()" class="form-control" name="hubId" ng-model="deviceObj.hubId"
+                                ng-options="hub.id  as hub.name for hub in buildingList" ng-required="userInfoService.isSuperUser()"
+                        >
+                            <option value="">{{'SELECT_BUILDING'|translate}}*</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer margin-top-10">
+                <button class="btn lm-btn blue-btn" id="editDeviceBtn" 
+                        type="button" ng-disabled="editDeviceForm.$invalid || !editMode || requestProcessing" 
+                        ng-click="edit()">{{'SUBMIT'|translate}}</button>
+            </div>
+        </div>
+    </form>
+</div>

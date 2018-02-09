@@ -1,0 +1,492 @@
+<script src="freelancer/js/freelancerDetailsController.js" type="text/javascript"></script>
+<script src="freelancer/js/freelancerRejectController.js" type="text/javascript"></script>
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <form name="freelancerDetailsForm">
+            <fieldset class="freelancer-disabled" ng-disabled="freelancer.freelancerDriverStatus === 'ACCEPTED' || freelancer.freelancerDriverStatus === 'REJECTED'">
+                <div class="row entity-title margin-bottom-15">
+                    <div class="col-md-12">
+                        <div class="col-md-2 col-md-offset-1">
+                            <p>{{'DRIVER'|translate}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row margin-bottom-30">
+                    <div class="col-md-12">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="container-fluid white-bg-box">
+                                <div class="row margin-top-20 margin-bottom-15">
+                                    <div class="col-md-4">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="floating-field">
+                                                <input id="firstName" name="firstName" ng-model="freelancer.firstName" type="text"
+                                                       ng-maxlength="32"
+                                                       ng-minlength="2"
+                                                       ng-pattern="/^[a-zA-Z\-\ \u0621-\u064A\u0660-\u0669]*$/"
+                                                       ng-required="true"/>
+                                                <label for="firstName">{{'FIRST_NAME'| translate}}</label>
+                                            </div>
+                                            <div class="bottom-error-container" >
+                                                <div ng-show="freelancerDetailsForm.firstName.$error.required && afterSubmit">{{'FIRST_NAME'| translate}}{{ 'REQUIRED' | translate}}*</div>
+                                                <div ng-show="freelancerDetailsForm.firstName.$error.pattern && afterSubmit">{{ 'FIRST_NAME' | translate}} {{ 'INVALID' | translate}}</div>
+                                                <div ng-show="freelancerDetailsForm.firstName.$error.minlength && afterSubmit">{{ 'FIRST_NAME' | translate}} {{ 'SHORT' | translate}}</div>
+                                                <div ng-show="freelancerDetailsForm.firstName.$error.maxlength && afterSubmit">{{ 'FIRST_NAME' | translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="floating-field">
+                                                <input id="lastName" name="lastName" ng-model="freelancer.lastName" type="text"
+                                                       ng-model="freelancerDetailsForm.lastName"
+                                                       ng-minlength="2"
+                                                       ng-maxlength="32"
+                                                       ng-pattern="/^[a-zA-Z\-\ \u0621-\u064A\u0660-\u0669]*$/"
+                                                       ng-required="true"/>
+                                                <label for="lastName">{{'LAST_NAME'| translate}}</label>
+                                            </div>
+                                            <div class="bottom-error-container">
+                                                <div ng-show="freelancerDetailsForm.lastName.$error.required && afterSubmit">{{'LAST_NAME'| translate}}{{ 'REQUIRED' | translate}}*</div>
+                                                <div ng-show="freelancerDetailsForm.lastName.$error.pattern && afterSubmit">{{ 'LAST_NAME' | translate}} {{ 'INVALID' | translate}}</div>
+                                                <div ng-show="freelancerDetailsForm.lastName.$error.minlength && afterSubmit">{{ 'LAST_NAME' | translate}} {{ 'SHORT' | translate}}</div>
+                                                <div ng-show="freelancerDetailsForm.lastName.$error.maxlength && afterSubmit">{{ 'LAST_NAME' | translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="floating-field">
+                                                <input id="email" name="email" ng-model="freelancer.email" type="text"
+                                                       autocomplete="off"
+                                                       ng-maxlength="32"
+                                                       ng-pattern="/^[a-zA-Z]+[a-zA-Z0-9.]+@[a-zA-Z]+\.[a-zA-Z]{2,5}$/"
+                                                       ng-required="true"/>
+                                                <label for="email">{{'EMAIL_ADDRESS'| translate}}</label>
+                                            </div>
+                                            <div class="bottom-error-container">
+                                                <div ng-show="freelancerDetailsForm.email.$error.required && afterSubmit">{{'EMAIL_ADDRESS'| translate}}{{ 'REQUIRED' | translate}}*</div>
+                                                <div ng-show="freelancerDetailsForm.email.$error.pattern && afterSubmit">{{ 'EMAIL_ADDRESS' | translate}} {{ 'INVALID' | translate}}</div>
+                                                <div ng-show="freelancerDetailsForm.email.$error.maxlength && afterSubmit">{{ 'EMAIL_ADDRESS' | translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row margin-top-20 margin-bottom-15">
+                                    <div class="col-md-4">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="floating-field">
+                                                <select id="cityDriveIn" name="cityDriveIn"
+                                                        ng-model='freelancer.cityId'
+                                                        ng-options="cityCode.cityId as cityCode.name for cityCode in cityCodes"
+                                                        ng-required="true">
+                                                    <option disabled hidden value="">{{'CITY_TO_DRIVE_IN'| translate}}*</option>
+                                                </select>
+                                                <label for="cityDriveIn">{{'CITY_TO_DRIVE_IN'| translate}}</label>
+                                            </div>
+                                            <div class="bottom-error-container">
+                                                <div ng-show="freelancerDetailsForm.cityDriveIn.$error.required && afterSubmit">{{'CITY_TO_DRIVE_IN'| translate}}{{ 'REQUIRED' | translate}}*</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="col-md-3 no-padding">
+                                                <div class="floating-field">
+                                                    <select id="countrycode" name="countryCode" ng-model='freelancer.countryCodeId'
+                                                            ng-required='true'
+                                                            ng-options="countryCode.id as countryCode.iso +               ' (' +               countryCode.code +               ')' for countryCode in countryCodes">
+                                                        <option disabled hidden value="">{{'SELECT_COUNTRY_CODE'| translate}}*</option>
+                                                    </select>
+                                                    <label for="countrycode">{{'SELECT_COUNTRY_CODE'| translate}}</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9 no-padding">
+                                                <div class="floating-field">
+                                                    <input id="mobilenumber" 
+                                                           ng-model="freelancer.phone"
+                                                           name="mobilenumber"
+                                                           ng-pattern="/^\d+$/"
+                                                           ng-required="true"
+                                                           type="text"/>
+                                                    <label for="mobilenumber">{{'MOBILE_NUMBER'| translate}}</label>
+                                                </div>
+                                                <div class="bottom-error-container">
+                                                    <div ng-show="freelancerDetailsForm.mobilenumber.$error.required && afterSubmit">{{'MOBILE_NUMBER'| translate}}{{ 'REQUIRED' | translate}}*</div>
+                                                    <div ng-show="freelancerDetailsForm.mobilenumber.$error.pattern && afterSubmit">{{'MOBILE_NUMBER'| translate}}{{ 'INVALID' | translate}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="col-lg-2 col-md-3 col-sm-3">
+                                                <div class="floating-field">
+                                                    <div class="small-thumbnail circle">
+                                                        <a href="{{freelancer.image}}/large"  data-lightbox="original">
+                                                            <img ng-src="{{freelancer.image}}/small">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-10 col-md-9 col-sm-9">
+                                                <div class="floating-field">
+                                                    <input id="nationalID" ng-model="freelancer.nationalId"
+                                                           name="nationalID"
+                                                           ng-required="true"
+                                                           ng-pattern="/^[a-zA-Z0-9\ \u0621-\u064A\u0660-\u0669]*$/"
+                                                           type="text"/>
+                                                    <label for="nationalID">{{'NATIONAL_ID'| translate}}</label>
+                                                </div>
+                                                <div class="bottom-error-container">
+                                                    <div ng-show="freelancerDetailsForm.nationalID.$error.required && afterSubmit">{{'NATIONAL_ID'| translate}}{{ 'REQUIRED' | translate}}*</div>
+                                                    <div ng-show="freelancerDetailsForm.nationalID.$error.pattern && afterSubmit">{{'NATIONAL_ID'| translate}}{{ 'INVALID' | translate}}*</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row margin-top-20 margin-bottom-15">
+                                    <div class="col-md-4">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="floating-field">
+                                                <input id="driversLicense"
+                                                       name="driversLicense"
+                                                       ng-model="freelancer.drivingLicenseId"
+                                                       ng-pattern="/^[a-zA-Z0-9\ \u0621-\u064A\u0660-\u0669]*$/"
+                                                       type="text"
+                                                       ng-required="true"/>
+                                                <label for="driversLicense">{{'DRIVERS_LICENSE'| translate}}</label>
+                                            </div>
+                                            <div class="bottom-error-container">
+                                                <div ng-show="freelancerDetailsForm.driversLicense.$error.required && afterSubmit">{{'DRIVERS_LICENSE'| translate}}{{ 'REQUIRED' | translate}}*</div>
+                                                <div ng-show="freelancerDetailsForm.driversLicense.$error.pattern && afterSubmit">{{'DRIVERS_LICENSE'| translate}}{{ 'INVALID' | translate}}*</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="floating-field">
+                                                <input id="description" ng-model="freelancer.description" type="text" />
+                                                <label for="description">{{'ADDITIONAL_NOTES'| translate}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row margin-top-20 margin-bottom-15">
+                                    <div class="container-fluid">
+                                        <div class="col-md-12 gray-font">
+                                            <p>Amount Deposited in USD</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-lg-offset-3 col-md-12">
+                                        <div class="container-fluid">
+
+                                            <input class="blue-gray-range" type="range" max="100" min="0" ng-required='true' name='amount' ng-model="freelancer.amount">
+
+                                        </div>
+                                    </div>    
+                                </div>
+                                <div class="row margin-top-20 margin-bottom-15">
+
+                                    <div class="col-lg-6 col-lg-offset-3 col-md-12">
+                                        <div class="container-fluid">
+                                            <div>
+                                                <input class="freelancer-credit-input center" ng-disabled="true" 
+                                                       ng-required="true"
+                                                       type="text" placeholder="{{'AMOUNT'| translate}}: {{freelancer.amount}} USD" required='true'/>
+                                                <div class="bottom-error-container">
+                                                    <div ng-show="freelancerDetailsForm.amount.$error.isZero && afterSubmit">{{'AMOUNT'| translate}} {{ 'REQUIRED' | translate}}*</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row entity-title margin-bottom-15">
+                    <div class="col-md-12">
+                        <div class="col-md-2 col-md-offset-1">
+                            <p>{{'VEHICLE'|translate}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row margin-bottom-30">
+                    <div class="col-md-12">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="container-fluid white-bg-box">
+                                <div class="row margin-top-20 margin-bottom-15">
+                                    <div class="col-md-4">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="floating-field">
+                                                <input id="year"
+                                                       name="year"
+                                                       type="text"
+                                                       ng-model="freelancer.modelYear"
+                                                       ng-required="true"/>
+                                                <label for="year">{{'YEAR'| translate}}</label>
+                                            </div>
+                                            <div class="bottom-error-container">
+                                                <div ng-show="freelancerDetailsForm.year.$error.required && afterSubmit">
+                                                    {{'YEAR'| translate}}{{ 'REQUIRED' | translate}}*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="floating-field">
+                                                <select ng-change="getCarModels()" id="brand" name="brand" ng-model="freelancer.brand"
+                                                        ng-options="brand.brandId as brand.brandName for brand in carBrands"
+                                                        ng-required='true'>
+                                                    <option disabled hidden value="">{{'BRAND'|translate}}*</option>
+                                                </select>
+                                                <label for="brand">{{'BRAND'| translate}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="floating-field">
+                                                <select id="model" name="model" ng-model="freelancer.model"
+                                                        ng-options="model.modelId as model.modelName for model in carModels"
+                                                        ng-required='true'>
+                                                    <option disabled hidden value="">{{'MODEL'|translate}}*</option>
+                                                </select>
+                                                <label for="model">{{'MODEL'| translate}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row margin-top-20 margin-bottom-15">
+                                    <div class="col-md-4">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="floating-field">
+                                                <input id="platenumber" 
+                                                       name="platenumber"
+                                                       type="text" 
+                                                       ng-model="freelancer.plate"
+                                                       ng-pattern="/^[a-zA-Z0-9\- \u0621-\u064A\u0660-\u0669]*$/"
+                                                       ng-required="true"/>
+                                                <label for="platenumber">{{'PLATE_NUMBER'| translate}}</label>
+                                            </div>
+                                            <div class="bottom-error-container">
+                                                <div ng-show="freelancerDetailsForm.platenumber.$error.required && afterSubmit">{{'PLATE_NUMBER'| translate}}{{ 'REQUIRED' | translate}}*</div>
+                                                <div ng-show="freelancerDetailsForm.platenumber.$error.pattern && afterSubmit">{{'PLATE_NUMBER'| translate}}{{ 'INVALID' | translate}}*</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="floating-field">
+                                                <select id="purpose" name="purpose" ng-model="freelancer.purpose"
+                                                        ng-options="purpose  as purpose |                                      translate for purpose in purposeList"
+                                                        ng-required='true'>
+                                                    <option disabled hidden value="">{{'SELECT_VEHICLE_PURPOSE'|translate}}*</option>
+                                                </select>
+                                                <label for="purpose">{{'SELECT_VEHICLE_PURPOSE'| translate}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="floating-field">
+                                                <select id="vehicletype" name="vehicleTypeId" ng-model="freelancer.vehicleTypeId"
+                                                        ng-options="type.vehicleTypeId  as type.type for type in vehicleTypes"
+                                                        ng-required='true'>
+                                                    <option disabled hidden value="">{{'SELECT_VEHICLE_TYPE'|translate}}*</option>
+                                                </select>
+                                                <label for="vehicletype">{{'SELECT_VEHICLE_TYPE'| translate}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row margin-top-20 margin-bottom-15">
+                                    <div class="col-md-4">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="floating-field">
+                                                <input id="motornumber"
+                                                       name="motornumber"
+                                                       type="text"
+                                                       ng-pattern="/^(([0-9A-Za-z])+-?)+[^-\s]$/"
+                                                       ng-model="freelancer.motor"
+                                                       ng-required="true"/>
+                                                <label for="motornumber">{{'MOTOR_NUMBER'| translate}}</label>
+                                            </div>
+                                            <div class="bottom-error-container">
+                                                <div ng-show="freelancerDetailsForm.motornumber.$error.required && afterSubmit">{{'MOTOR_NUMBER'| translate}}{{ 'REQUIRED' | translate}}*</div>
+                                                <div ng-show="freelancerDetailsForm.motornumber.$error.pattern && afterSubmit">{{'MOTOR_NUMBER'| translate}}{{ 'INVALID' | translate}}*</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="floating-field">
+                                                <input id="weight" 
+                                                       name="weight"
+                                                       type="text"
+                                                       ng-model="freelancer.weight"
+                                                       ng-maxlength="10"
+                                                       ng-pattern="/^[1-9]\d*$/"
+                                                       ng-required="true"/>
+                                                <label for="weight">{{'WEIGHT'| translate}}</label>
+                                            </div>
+                                            <div class="bottom-error-container">
+                                                <div ng-show="freelancerDetailsForm.weight.$error.required && afterSubmit">{{'WEIGHT'| translate}}{{ 'REQUIRED' | translate}}*</div>
+                                                <div ng-show="freelancerDetailsForm.weight.$error.maxlength && afterSubmit">{{'WEIGHT'| translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                                <div ng-show="freelancerDetailsForm.weight.$error.pattern && afterSubmit">{{'WEIGHT'| translate}}{{ 'INVALID' | translate}}*</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="floating-field">
+                                                <input id="color"
+                                                       name="color"
+                                                       type="text"
+                                                       ng-model="freelancer.color"
+                                                       ng-pattern="/^[a-zA-Z \u0621-\u064A\u0660-\u0669]*$/"
+                                                       ng-maxlength="32"
+                                                       ng-required="true"/>
+                                                <label for="color">{{'COLOR'| translate}}</label>
+                                            </div>
+                                            <div class="bottom-error-container">
+                                                <div ng-show="freelancerDetailsForm.color.$error.required && afterSubmit">{{'COLOR'| translate}}{{ 'REQUIRED' | translate}}*</div>
+                                                <div ng-show="freelancerDetailsForm.color.$error.maxlength && afterSubmit">{{'COLOR'| translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                                <div ng-show="freelancerDetailsForm.color.$error.pattern && afterSubmit">{{'COLOR'| translate}}{{ 'INVALID' | translate}}*</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row margin-top-20 margin-bottom-15">
+                                    <div class="col-md-4">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="floating-field">
+                                                <input id="chassisnumber"
+                                                       name="chassisnumber"
+                                                       type="text"
+                                                       ng-maxlength="32"
+                                                       ng-model="freelancer.chassis"
+                                                       ng-pattern="/^[a-zA-Z0-9\u0621-\u064A\u0660-\u0669]*$/"
+                                                       ng-required="true"/>
+                                                <label for="chassisnumber">{{'CHASSIS_NUMBER'| translate}}</label>
+                                            </div>
+                                            <div class="bottom-error-container">
+                                                <div ng-show="freelancerDetailsForm.chassisnumber.$error.required && afterSubmit">{{'CHASSIS_NUMBER'| translate}}{{ 'REQUIRED' | translate}}*</div>
+                                                <div ng-show="freelancerDetailsForm.chassisnumber.$error.pattern && afterSubmit">{{'CHASSIS_NUMBER'| translate}}{{ 'INVALID' | translate}}*</div>
+                                                <div ng-show="freelancerDetailsForm.chassisnumber.$error.maxlength && afterSubmit">{{'CHASSIS_NUMBER'| translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="container-fluid margin-bottom-15">
+                                            <div class="floating-field">
+                                                <input id="vehicleadditionalnotes" type="text" ng-model="freelancer.vehicleDescription"/>
+                                                <label for="vehicleadditionalnotes">{{'ADDITIONAL_NOTES'| translate}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row entity-title margin-bottom-15">
+                    <div class="col-md-12">
+                        <div class="col-md-2 col-md-offset-1">
+                            <p>{{'DOCUMENTS'|translate}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="container-fluid freelancer-documents-background">
+                                <div class="col-md-12">
+                                    <div class="col-xs-11">
+                                        <h4>{{"NATIONAL_ID"| translate}}</h4>
+                                    </div>
+                                    <div class="col-xs-1 freelancer-documents-container">
+                                        <input id="nationalidcheck" ng-model="freelancer.is_National_Id_Exist" type="checkbox">
+                                        <label for="nationalidcheck"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid freelancer-documents-background">
+                                <div class="col-md-12">
+                                    <div class="col-xs-11">
+                                        <h4>{{"VEHICLE_OWNERSHIP_ID"| translate}}</h4>
+                                    </div>
+                                    <div class="col-xs-1 freelancer-documents-container">
+                                        <input id="vehicleowncheck" ng-model="freelancer.is_Vehicleownership_Id_Exist" type="checkbox">
+                                        <label for="vehicleowncheck"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid freelancer-documents-background">
+                                <div class="col-md-12">
+                                    <div class="col-xs-11">
+                                        <h4>{{"CRIMINAL_RECORDS"| translate}}</h4>
+                                    </div>
+                                    <div class="col-xs-1 freelancer-documents-container">
+                                        <input id="criminalcheck" ng-model="freelancer.is_Criminalrecord_Exist" type="checkbox">
+                                        <label for="criminalcheck"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid freelancer-documents-background">
+                                <div class="col-md-12">
+                                    <div class="col-xs-11">
+                                        <h4>{{"BIRTH_CERTIFICATE"| translate}}</h4>
+                                    </div>
+                                    <div class="col-xs-1 freelancer-documents-container">
+                                        <input id="birthcertcheck" ng-model="freelancer.is_Birthcertificate_Exist" type="checkbox">
+                                        <label for="birthcertcheck"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid freelancer-documents-background">
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary btn-lg freelancer-documents-button center-block" ng-click='sendMissingDocument()' ng-disabled="freelancer.is_Birthcertificate_Exist && freelancer.is_Criminalrecord_Exist && freelancer.is_Vehicleownership_Id_Exist && freelancer.is_National_Id_Exist">{{"REPORT_MISSING_DOCUMENTS"|translate}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" ng-hide="freelancer.freelancerDriverStatus === 'REJECTED'">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="container-fluid">
+                                <div class="row margin-top-20 margin-bottom-15">
+                                    <div class="col-xs-6">
+                                        <div class="container-fluid">
+                                            <button class="btn btn-success btn-lg pull-right text-capitalize col-md-4" ng-click='accept()' ng-disabled="!freelancer.is_Birthcertificate_Exist || !freelancer.is_Criminalrecord_Exist || !freelancer.is_Vehicleownership_Id_Exist || !freelancer.is_National_Id_Exist">{{'ACCEPT'| translate}}</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="container-fluid">
+                                            <button class="btn btn-danger btn-lg text-capitalize col-md-4" ng-click='reject()'>{{'REJECT'| translate}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row center" ng-show="freelancer.freelancerDriverStatus === 'REJECTED'">
+                        <div class="col-md-12">
+                            <div class="col-md-10 col-md-offset-1">
+                                <div class="container-fluid">
+                                    <div class="row margin-top-20 margin-bottom-15">
+                                        <button class="btn btn-danger btn-lg text-capitalize col-md-12">{{'Freelance driver has been rejected because ' + "'" + freelancer.rejectionReasonDescription + "'"}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

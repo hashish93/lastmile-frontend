@@ -1,0 +1,20 @@
+<script src="distribution/js/hubSelectionController.js" type="text/javascript"></script>
+
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="row entity-title margin-bottom-15">
+            <p class="pull-left">{{'SELECT_BUILDING'| translate}}</p>
+        </div>
+        <div class="col-md-12" super-user>
+            <div class="form-group">
+
+                <select ng-change="changeHub()" class="form-control" name="hubId" ng-model="hubId"
+                        ng-options="building.id  as building.name for building in buildingList"
+                        ng-required="userInfoService.isSuperUser()">
+                    <option disabled hidden value="">{{'SELECT_BUILDING'|translate}}*</option>
+                </select>
+
+            </div>
+        </div>
+    </div>
+</div>

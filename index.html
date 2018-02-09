@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html ng-app="app">
+    <head>
+        <title>Last Mile</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="lastMile">
+        <link rel="shortcut icon" type="image/png" href="commons/images/favicon.ico"/>
+        <!-- Styles -->
+        <!--<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>-->
+        <link href="vendors/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
+        <!--        <link href="vendors/angular-material/css/angular-material.css" type="text/css" rel="stylesheet"/>-->
+        <link href="commons/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+        <link href="vendors/materialize/dist/css/materialize.min.css" rel="stylesheet" type="text/css"/>
+        <link href="vendors/ui-grid/css/ui-grid.min.css" rel="stylesheet">
+        <link href="bower_components/angular-spinkit/build/angular-spinkit.min.css" rel="stylesheet" type="text/css"/>
+        <!--<link href="bower_components/angular-timeline/dist/angular-timeline.css" rel="stylesheet" type="text/css"/>-->
+        <link href="bower_components/angular-timeline/dist/angular-timeline-animations.css" rel="stylesheet" type="text/css"/>
+        <link href="bower_components/angular-spinkit/build/angular-spinkit.min.css" rel="stylesheet" type="text/css"/>
+        <link href="commons/css/style.css" type="text/css" rel="stylesheet"/>
+        <link href="commons/fonts/appzone_icons/style.css" rel="stylesheet" type="text/css"/>
+        <link href="commons/css/angular-timeline.css" type="text/css" rel="stylesheet"/>
+        <link href="vendors/growl/css/growl.css" rel="stylesheet" type="text/css"/>
+        <link href="bower_components/angular-ui-select/dist/select.min.css" rel="stylesheet" type="text/css"/>
+        <link href="bower_components/select2/select2.css" rel="stylesheet" type="text/css"/>
+        <link href="bower_components/lightbox2/dist/css/lightbox.min.css" rel="stylesheet" type="text/css"/>
+
+        <!-- Vendors -->
+        <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular/angular.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-route/angular-route.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-animate/angular-animate.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-touch/angular-touch.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js" type="text/javascript"></script>
+        <script src="bower_components/zxcvbn/dist/zxcvbn.js" type="text/javascript"></script>
+        <script src="bower_components/selection-model/dist/selection-model.min.js"></script>
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=map&key=AIzaSyCA9ELFCq9yhr2cuYbJX4ZM7H2VcQjgga4"></script>-->
+        <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&libraries=map&key=AIzaSyCA9ELFCq9yhr2cuYbJX4ZM7H2VcQjgga4"></script>-->
+        <script src="vendors/kevlindev/intersection.js" type="text/javascript"></script>
+        <script src="vendors/materialize/dist/js/materialize.min.js" type="text/javascript"></script>
+        <script src="vendors/kevlindev/point2D.js" type="text/javascript"></script>
+        <script src="bower_components/ngmap/build/scripts/ng-map.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-ui-select/dist/select.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-translate/angular-translate.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js" type="text/javascript"></script>
+        <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js"
+        type="text/javascript"></script>
+        <script src="bower_components/jquery.nicescroll/jquery.nicescroll.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-nicescroll/angular-nicescroll.js" type="text/javascript"></script>
+        <script src="bower_components/angular-spinkit/build/angular-spinkit.min.js" type="text/javascript"></script>
+        <script src="vendors/ui-bootstrap/js/ui-bootstrap.min.js" type="text/javascript"></script>
+        <script src="bower_components/checklist-model/checklist-model.js" type="text/javascript"></script>
+        <!--        <script src="bower_components/angular-material/angular-material.min.js" type="text/javascript"></script>-->
+        <script src="bower_components/angular-aria/angular-aria.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-websocket/dist/angular-websocket.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-css-injector/angular-css-injector.min.js" type="text/javascript"></script>
+        <script src="bower_components/SparkMD5/spark-md5.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-filter/dist/angular-filter.min.js"></script>
+        <script src="bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js" type="text/javascript"></script>
+        <script src="node_modules/angulargrid/angulargrid.js" type="text/javascript"></script>
+        <script src="bower_components/angular-scroll-animate/dist/angular-scroll-animate.js"></script>
+        <script src="bower_components/lightbox2/dist/js/lightbox.min.js"></script>
+        <script src="node_modules/chart.js/dist/Chart.min.js" type="text/javascript"></script>
+        <script src="node_modules/angular-chart.js/dist/angular-chart.min.js" type="text/javascript"></script>
+
+        <script src="vendors/ui-grid/js/ui-grid.min.js"></script>
+        <script src="vendors/growl/js/growlNew.js" type="text/javascript"></script>
+        <script src="bower_components/angular-click-outside/clickoutside.directive.js" type="text/javascript"></script>
+
+        <!--Main JS-->
+        <script src="commons/js/app.js" type="text/javascript"></script>
+        <script src="login/js/loginConfig.js" type="text/javascript"></script>
+        <script src="commons/js/authentication.js" type="text/javascript"></script>
+        <script src="commons/js/constants.js" type="text/javascript"></script>
+        <script src="commons/js/authorization.js" type="text/javascript"></script>
+
+        <!-- Commons JS -->
+        <script src="commons/js/getUserInfo.js" type="text/javascript"></script>
+        <script src="commons/js/routerRedirection.js"></script>
+        <script src="commons/js/router.js" type="text/javascript"></script>
+        <script src="commons/js/directives/timeLine/js/timelineDirective.js" type="text/javascript"></script>
+        <script src="commons/js/translate.js" type="text/javascript"></script>
+
+
+        <!--Template-->
+        <script src="commons/js/menuController.js" type="text/javascript"></script>
+        <script src="commons/js/headerController.js" type="text/javascript"></script>
+        <script src="commons/js/footerController.js" type="text/javascript"></script>
+
+        <!--Login Module-->
+
+        <script src="commons/js/growl.js" type="text/javascript"></script>
+        <script src="commons/js/menuService.js" type="text/javascript"></script>
+        <script src="commons/js/popup.js" type="text/javascript"></script>
+        <script src="commons/js/usableServices.js" type="text/javascript"></script>
+        <script src="commons/js/passwordStrength.js" type="text/javascript"></script>
+        <script src="commons/js/mapsUtilities.js" type="text/javascript"></script>
+        <script src="commons/js/directives/authorizedBlock/js/authorizedBlockDirective.js" type="text/javascript"></script>
+        <script src="commons/js/directives/fileUploader/js/uploadToServer.js" type="text/javascript"></script>
+        <script src="commons/js/directives/fileUploader/js/fileUploaderService.js" type="text/javascript"></script>
+        <script src="commons/js/directives/fileUploader/js/fileUploaderHolderDirective.js" type="text/javascript"></script>
+        <script src="commons/js/directives/fileUploader/js/fileUploaderDirective.js" type="text/javascript"></script>
+        <script src="commons/js/directives/superUser/js/superUserDirective.js" type="text/javascript"></script>
+        <script src="commons/js/errorHandlingService.js" type="text/javascript"></script>
+        <script src="commons/js/backendVisibilityService.js" type="text/javascript"></script>
+        <script src="commons/js/socketFactory.js" type="text/javascript"></script>
+
+        <!-- Building Module -->
+        <script src="building/js/buildingService.js" type="text/javascript"></script>
+        <script src="building/js/buildingConfig.js" type="text/javascript"></script>
+
+        <!-- Configuration Module -->
+        <script src="configuration/js/configurationService.js" type="text/javascript"></script>
+        <script src="configuration/js/configurationConfig.js"></script>
+        <!-- Employee Module -->
+        <script src="employee/js/employeeService.js" type="text/javascript"></script>
+        <script src="employee/js/employeeConfig.js" type="text/javascript"></script>
+
+        <!-- Maps Module -->
+        <script src="maps/js/mapsModel.js" type="text/javascript"></script>
+        <script src="maps/js/mapConfig.js" type="text/javascript"></script>
+
+        <!-- Package Module -->
+        <script src="package/js/packageService.js" type="text/javascript"></script>
+        <script src="package/js/packageConfig.js" type="text/javascript"></script>
+
+        <!-- Request Module -->
+        <script src="request/js/requestModel.js" type="text/javascript"></script>
+        <script src="request/js/requestConfig.js" type="text/javascript"></script>
+        <script src="request/js/svgDirective.js" type="text/javascript"></script>
+        <!--<script src="request/js/angular-timeline.js" type="text/javascript"></script>-->
+
+        <!-- Vehicle Module -->
+        <script src="vehicle/js/vehicleService.js" type="text/javascript"></script>
+        <script src="vehicle/js/vehicleConfig.js" type="text/javascript"></script>
+
+        <script src="commons/js/deleteService.js" type="text/javascript"></script>
+
+        <!-- Customer Module -->
+        <script src="customer/js/customerModel.js" type="text/javascript"></script>
+        <script src="customer/js/customerConfig.js" type="text/javascript"></script>
+        <!-- Role Module -->
+        <script src="roles/js/roleService.js" type="text/javascript"></script>
+        <script src="roles/js/roleConfig.js" type="text/javascript"></script>
+        <!-- Device Module -->
+        <script src="devices/js/deviceService.js" type="text/javascript"></script>
+        <script src="devices/js/deviceConfig.js" type="text/javascript"></script>
+        <script src="commons/js/growl.js"></script>
+        <!-- Active Vehicles -->
+        <script src="activeVehicles/js/activeVehiclesService.js" type="text/javascript"></script>
+        <script src="activeVehicles/js/activeVehiclesConfig.js" type="text/javascript"></script>
+        <!-- Dashboard -->
+        <script src="dashboard/js/dashboardModel.js" type="text/javascript"></script>
+        <script src="dashboard/js/dashboardConfig.js" type="text/javascript"></script>
+        <!-- Job Distribution -->
+        <script src="distribution/js/distributionService.js" type="text/javascript"></script>
+        <script src="distribution/js/distributionConfig.js" type="text/javascript"></script>
+        <!-- Active Orders -->
+        <script src="activeOrders/js/activeOrderService.js" type="text/javascript"></script>
+        <script src="activeOrders/js/activeOrderConfig.js" type="text/javascript"></script>
+        <!-- Delivery Requests -->
+        <script src="deliveryRequests/js/deliveryRequestService.js" type="text/javascript"></script>
+        <script src="deliveryRequests/js/deliveryRequestConfig.js" type="text/javascript"></script>
+
+        <!-- Return Requests -->
+        <script src="returnRequest/js/returnRequestService.js" type="text/javascript"></script>
+        <script src="returnRequest/js/returnRequestConfig.js" type="text/javascript"></script>
+        <!-- FAQ -->
+        <script src="faq/js/FAQModel.js" type="text/javascript"></script>
+        <script src="faq/js/FAQConfig.js" type="text/javascript"></script>
+
+        <!-- Forgot Password -->
+        <script src="forgotPassword/js/forgotPasswordModel.js" type="text/javascript"></script>
+        <script src="forgotPassword/js/forgotPasswordConfig.js" type="text/javascript"></script>
+
+        <!-- Profile -->
+        <script src="profile/js/profileModel.js" type="text/javascript"></script>
+        <script src="profile/js/profileConfig.js" type="text/javascript"></script>
+
+        <!-- Offloading -->
+        <script src="offloading/js/offloadingModel.js" type="text/javascript"></script>
+        <script src="offloading/js/offloadingConfig.js" type="text/javascript"></script>
+
+        <!-- Freelancers -->
+        <script src="freelancer/js/freelancerModel.js" type="text/javascript"></script>
+        <script src="freelancer/js/freelancerConfig.js" type="text/javascript"></script>
+
+        <!-- Building Configurations -->
+        <script src="configurations/buildingConfigurations/js/buildingConfigurationsModel.js" type="text/javascript"></script>
+        <script src="configurations/buildingConfigurations/js/buildingConfigurationsConfig.js" type="text/javascript"></script>
+
+        <!-- System Configurations -->
+        <script src="configurations/systemConfigurations/js/systemConfigurationsModel.js" type="text/javascript"></script>
+        <script src="configurations/systemConfigurations/js/systemConfigurationsConfig.js" type="text/javascript"></script>
+        
+        <!-- Mobile Configurations -->
+        <script src="configurations/mobileConfigurations/js/mobileConfigurationsModel.js" type="text/javascript"></script>
+        <script src="configurations/mobileConfigurations/js/mobileConfigurationsConfig.js" type="text/javascript"></script>
+        
+        <!-- Archived Requests -->
+        <script src="archived/js/archivedModel.js" type="text/javascript"></script>
+        <script src="archived/js/archivedConfig.js" type="text/javascript"></script>
+    </head>
+
+
+    <body>
+        <div ui-view="header" class="headerH">
+
+        </div>
+        <div class="page-content">
+            <div ui-view="nav">
+            </div>
+            <div class="content">
+                <div ui-view="container" class="mainContainer">
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div ng-hide="drag" ui-view="footer" class="footerH"> 
+
+        </div>
+
+        <div id="growl" growl>
+
+        </div>
+        <div class="overlay" ng-show="showOverlay">
+            <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+        </div>
+    </body>
+</html>

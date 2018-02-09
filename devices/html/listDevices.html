@@ -1,0 +1,50 @@
+<script src="devices/js/listDeviceController.js"></script>
+<script src="devices/js/addDeviceController.js"></script>
+<script src="devices/js/editDeviceController.js"></script>
+<script src="devices/js/deviceFilterDirective.js"></script>
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="pre-table-container">
+            <div class="row entity-title margin-bottom-15">
+                <p>{{ 'DEVICES' | translate}}</p>
+            </div>
+            <div class="row">
+                <div class="col-md-8 col-lg-9 col-xs-12 col-sm-12">
+                    <div class="row">
+
+                        <div class="col-md-12">                
+                            <button class="btn lm-btn blue-btn" type="button" ng-click="addPopup()" authorized-block privilege-name="addeditdevices"><span class="fa fa-plus"></span>{{'ADD_DEVICE'| translate}}</button>
+
+
+                            <button type="button" class="btn lm-btn dark-btn"  ng-show="show" ng-click="clearSelection()"><span class="fa fa-eraser"></span>{{'CLEAR_BTN'| translate}}</button>
+
+
+                            <button type="button" class="btn lm-btn dark-btn"  ng-show="show" ng-click="deactivateSelection()"><span class="fa fa-ban"></span>{{'DEACTIVATE_SELECTED'| translate}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--                <div class=" col-md-4 col-lg-3 col-xs-12 col-sm-12 pull-right lm-filter">
+                                <i class="fa fa-search"></i>
+                                <input type="text" class="form-control" placeholder="{{ 'FILTER' | translate}}">
+                            </div>-->
+            <device-filter-directive></device-filter-directive>
+        </div>
+        <div class="row lm-grid full-height margin-bottom-15">
+            <div class="col-md-12">
+                <div ng-show='showSpinner'>
+                    <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                </div>
+                <div class="grid" ng-if="lang === 'ar'" dir='rtl' ui-if="deviceListOptions.data.length>0" 
+                     ui-grid="deviceListOptions" ui-grid-pagination ui-grid-resize-columns
+                     ui-grid-auto-resize ui-grid-selection ng-style="getTableHeight()" ui-grid-pinning>
+                </div>
+                <div class="grid"  ng-if="lang === 'en'" ui-if="deviceListOptions.data.length>0" 
+                     ui-grid="deviceListOptions" ui-grid-pagination ui-grid-resize-columns
+                     ui-grid-auto-resize ui-grid-selection ng-style="getTableHeight()" ui-grid-pinning>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

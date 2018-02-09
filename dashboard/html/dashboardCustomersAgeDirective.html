@@ -1,0 +1,43 @@
+<div class="statistics-box dark-grey round-corners" id="customersAgeBox">
+    <div class="stat-box-body">
+        <div>
+            <div class="pull-left white" id="CustomerAgeTitle">
+                <h4 class="text-capitalize"><b>{{'CUSTOMERS_AGE'|translate}}</b></h4>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="row margin-bottom-15">
+            <div class="col-xs-6 chart-container"> 
+                <canvas id="pie" class="chart chart-pie"
+                        chart-data="chartObj.data" chart-labels="chartObj.labels" chart-options="chartObj.options"
+                        chart-dataset-override="chartObj.datasets">
+                </canvas> 
+            </div>
+            <div class="col-xs-6">
+                <ul class="chart-vertical-refs-list white">
+                    <li>
+                        <div class="reference-small-circle red"></div>
+                        <div><h5>{{'LESSTHAN21'| translate}}</h5></div>
+                    </li>
+                    <li>
+                        <div class="reference-small-circle teal"></div>
+                        <div><h5>{{'AGEBETWEEN21AND30'| translate}}</h5></div>
+                    </li>
+                    <li>
+                        <div class="reference-small-circle blue"></div>
+                        <div><h5>{{'AGEBETWEEN31AND45'| translate}}</h5></div>
+                    </li>
+                    <li>
+                        <div class="reference-small-circle green"></div>
+                        <div><h5>{{'AGE_ABOVE_45'| translate}}</h5></div>
+                    </li>
+                    <li>
+                        <div class="reference-small-circle grey"></div>
+                        <div><h5>{{'OTHERAGES'| translate}}</h5></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

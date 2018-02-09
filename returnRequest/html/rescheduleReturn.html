@@ -1,0 +1,61 @@
+<div class="lm-popup">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title">{{ 'RESCHEDULE_FOR_RETURN' | translate}}</h3>
+    </div>
+    <form name="rescheduleForReturnForm">
+        <div class="modal-body lm-popup-body">
+            <div class="container-fluid">
+                <div class="row margin-bottom-15">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="error-container">
+                            <div ng-show="rescheduleForReturnForm.returnDate.$error.required && afterSubmit">{{'RETURN_DATE'| translate}}{{ 'REQUIRED' | translate}}*
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" class="form-control noselect" unselectable="on" ondrop="return false;" onselectstart="return false;" onmousedown="return false;" uib-datepicker-popup="{{'DATE_FORMAT'| translate}}"
+                                   ng-click="datePopup.opened = !datePopup.opened" onkeydown="return false" name="returnDate" ng-model="reschduleObj.returnDate" is-open="datePopup.opened" 
+                                   clear-text="{{'RESET'| translate}}"  placeholder="{{'RETURN_DATE'| translate}} *" datepicker-options="datePopup.options" required/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="datePopup.opened = !datePopup.opened">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <div class="error-container">
+                            <div ng-show="rescheduleForReturnForm.returnTime.$error.required && afterSubmit">{{'TIME_INTERVAL'| translate}}{{ 'REQUIRED' | translate}}*
+                            </div>
+                        </div>
+                        <select  class="col-md-12 col-sm-12 col-xs-12 form-control" 
+                                 ng-options="time as time.fromTime + ' - ' + time.toTime for time in returnTimes track by time.pickupTimeId" 
+                                 name="returnTime" ng-model="returnTimeObj" ng-change="selectReturnTime()" required>
+                            <option disabled hidden value="">{{'TIME_INTERVAL'| translate}} *</option>
+                        </select>
+                    </div>
+                </div>
+
+<!--                <div class='row'>
+                    <div class="col-lg-12 margin-bottom-15">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show="rescheduleForReturnForm.description.$error.maxlength">{{'DESCRIPTION'| translate}}{{ 'LONG' | translate}}</div>
+                                {{serverError.description.toString()}}
+                            </div>
+                            <textarea id="description" class="form-control" placeholder="{{'DESCRIPTION_OPTIONAL'| translate}}" rows="3"
+                                      ng-model = "reschduleObj.description" name="description" ng-maxlength="500"></textarea>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+            <div class="modal-footer">
+                <button class="btn lm-btn blue-btn" type="button" ng-click="submit()">
+                    {{'SUBMIT'|translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

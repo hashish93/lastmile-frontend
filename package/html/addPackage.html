@@ -1,0 +1,140 @@
+<div class="lm-popup">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title"> {{'ADD_PACKAGE' | translate}}</h3>
+    </div>
+    <form name="addPackageForm">
+        <div class="modal-body lm-popup-body">
+            <div class="container-fluid">
+                <div class="row ">
+                    <div class="col-md-12">
+                        <label class="lm-label">{{'PACKAGE_IMGS_HINT'| translate}}*</label>
+                        <div class="form-group">
+                            <div class="error-container" id="fileError">
+                                <div ng-show="!imageValidate() && !imagesErrorsExist() && afterSubmit">{{'AT_LEAST_ONE_IMG'| translate}}{{ 'REQUIRED' | translate}} *</div>
+                                <div>{{serverError.imageIds.toString()}}</div>
+                            </div>
+                            <file-uploader-holder type="package_image"></file-uploader-holder>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addPackageForm.nickName.$error.maxlength">{{'PACKAGE_NICKNAME' | translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 32}'}}</div>
+                                <div>{{serverError.nickName.toString()}}
+                                </div>
+                            </div>
+                            <input class="form-control" name="nickName" ng-model = "package.nickName" ng-maxlength="32" placeholder="{{'PACKAGE_NICKNAME' | translate}}" />
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addPackageForm.packageTypeId.$error.required && afterSubmit">{{'PACKAGE_TYPE' | translate}} {{ 'REQUIRED' | translate}}</div>
+                                <div>{{serverError.packageTypeId.toString()}}</div>
+                                <div>{{serverError.packageType.toString()}}</div>
+                            </div>
+                            <select ng-change="getPackageOtherInfo(package.packageTypeId)" 
+                                    class="form-control" name="packageTypeId" ng-model = "package.packageTypeId" 
+                                    ng-options="type.packageTypeId  as type.packageType for type in packageTypes" required>
+                                <option disabled hidden value="">{{'PACKAGE_TYPE' | translate}}*</option> 
+                            </select>
+                            <div class="small" ng-show="package.packageDimension !== null">{{'MAX_DIMEN' | translate}} {{package.packageDimension}}</div>
+                            <div class="small" ng-show="package.expectedWeight !== null">{{'MAX_WEIGHT' | translate}}{{package.expectedWeight}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addPackageForm.actualWeight.$error.required && afterSubmit">{{'PACKAGE_WEIGHT' | translate}} {{ 'REQUIRED' | translate}}</div>
+                                <div  ng-show = "addPackageForm.actualWeight.$dirty && addPackageForm.actualWeight.$invalid">
+                                    <div ng-show="addPackageForm.actualWeight.$invalid && !addPackageForm.actualWeight.$error.required
+                                                    && !addPackageForm.actualWeight.$error.maxlength && !addPackageForm.actualWeight.$error.max
+                                                    && !addPackageForm.actualWeight.$error.min">{{ 'INVALID_NUMBER' | translate}}</div>
+                                    <div ng-show="addPackageForm.actualWeight.$error.maxlength">{{'PACKAGE_WEIGHT' | translate}}{{ 'BIG_NUMBER' | translate}}</div>
+                                    <div ng-show="addPackageForm.actualWeight.$error.max">{{'PACKAGE_WEIGHT' | translate}}{{ 'BIGGER_THAN_STANDARD' | translate}}</div>
+                                    <div ng-show="addPackageForm.actualWeight.$error.min">{{'PACKAGE_WEIGHT' | translate}}{{ 'LESS_THAN_STANDARD' | translate}}</div>
+                                </div>    
+                                <div>{{serverError.actualWeight.toString()}}</div>
+                            </div>
+                            <input class="form-control" type="number" name="actualWeight" maxlength="20" 
+                                   ng-max="package.expectedWeight" max="{{package.expectedWeight}}" min="0" ng-min="0.01"
+                                   ng-maxlength="20" ng-model = "package.actualWeight" placeholder="{{'PACKAGE_WEIGHT_KG' | translate}}*" required/>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="error-container">     
+                                <div ng-show="addPackageForm.shipmentServiceId.$error.required && afterSubmit">{{'SHIPPING_SERVICE' | translate}} {{ 'REQUIRED' | translate}}</div>
+                                <div>{{serverError.shipmentServiceId.toString()}}</div>
+                                <div>{{serverError.shipmentValue.toString()}}</div>
+                            </div>
+                            <select ng-change="getSubService(package.shipmentServiceId)" class="form-control" name="shipmentServiceId" ng-model = "package.shipmentServiceId" 
+                                    ng-options="service.shipmentServiceId  as service.service for service in services" required>
+                                <option disabled hidden value="">{{'SHIPPING_SERVICE' | translate}}*</option> 
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addPackageForm.shipmentServiceTypeId.$error.required && afterSubmit">{{'SUB_SHIPPING_SERVICE' | translate}} {{ 'REQUIRED' | translate}}</div>
+                                <div>{{serverError.shipmentServiceTypeId.toString()}}</div>
+                                <div>{{serverError.shipmentServiceTypeId.toString()}}</div>
+                            </div>
+                            <select  class="form-control" name="shipmentServiceTypeId" ng-model = "package.shipmentServiceTypeId"
+                                     ng-options="subService.shipmentServiceTypeId  as subService.type for subService in subServices" required>
+                                <option disabled hidden value="">{{'SUB_SHIPPING_SERVICE' | translate}}*</option> 
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="lm-label">{{'PACKAGE_LABELING' | translate}}*</label>
+                        <div id="packageLabelingContainer">
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6" ng-repeat='label in labelIds'>
+                                <div>{{serverError.labelIds.toString()}}</div>
+                                <input id="label{{label.packageLabelId}}" ng-value="label.packageLabelId" class='custom-checkbox' ng-click="labelFunction(label.packageLabelId)" type='checkbox'>
+                                <label for="label{{label.packageLabelId}}">{{label.label}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row margin-bottom-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+
+                            <div class="error-container">
+                                <div ng-show="addPackageForm.description.$error.maxlength">{{'DESCRIPTION' | translate}} {{ 'MAX_CHARACTERS' | translate:'{ number: 500}'}}</div>
+                                {{serverError.description.toString()}}
+                            </div>
+                            <textarea class="form-control" placeholder="{{'DESCRIPTION_OPTIONAL' | translate}}" rows="3"
+                                      name="description" ng-model = "package.description" ng-maxlength="500"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end of container fluid -->
+            <div class="modal-footer">
+                <!--<button class="btn lm-btn dark-btn" id="addPackageBtnCancel" type="button" ng-click="cancel()">Cancel</button>-->
+                <button class="btn lm-btn blue-btn" id="addPackageBtn" type="button"  ng-click="addPackage()">{{'SUBMIT' | translate}}</button>
+            </div>
+        </div><!-- end of model body -->
+    </form>
+</div>

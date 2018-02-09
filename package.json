@@ -1,0 +1,26 @@
+{
+  "name": "lastmile",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {
+    "pem": "^1.9.4",
+    "angulargrid": "^0.6.3",
+    "express": "^4.14.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "prestart": "npm install & bower install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/Appzone_Administrator/lastmile_backoffice_web_application.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/Appzone_Administrator/lastmile_backoffice_web_application#readme",
+  "description": "",
+  "dependencies": {
+    "angular-chart.js": "^1.1.1",
+    "chart.js": "^2.7.0"
+  }
+}

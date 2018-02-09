@@ -1,0 +1,159 @@
+<script src="dashboard/js/dashboradController.js"></script>
+<script src="dashboard/js/dashboardPickupChartDirective.js"></script>
+<script src="dashboard/js/dashboardRequestTypesDirective.js"></script>
+<script src="dashboard/js/dashboardPickupStatusDirective.js"></script>
+<script src="dashboard/js/dashboardMapDirective.js"></script>
+<script src="dashboard/js/dashboardCustomersAgeDirective.js"></script>
+<script src="dashboard/js/dashboardGoExtraDirective.js"></script>
+<script src="dashboard/js/dashboardDriversRatingDirective.js"></script>
+<script src="dashboard/js/dashboardCategoryChartDirective.js"></script>
+
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="row margin-bottom-15 margin-top-10">
+            <div class="col-xs-12">
+                <div class="pull-right">
+                    <div class="pull-right">
+                        <form autocomplete="on">
+                            <div class="building-bg" click-outside="showBuildingSearch = false" outside-if-not="building">
+                                <button class="btn-primary" id="building" ng-hide="showBuildingSearch"><span class="fa fa-building-o" ng-click="showBuildingSearch = true"></span></button>
+                                <div ng-show="showBuildingSearch">
+                                    <div class="building-search-input-holder">
+                                        <div class="building-search-input-container">
+                                            <input list="buildingsList" id="" class="building-search-input" 
+                                                   ng-model="selectedBuildingId" ng-model-options="{updateOn: 'blur'}" 
+                                                   name="search" type="text" ng-change="addHub()" placeholder="{{'SEARCH'| translate}}">
+                                            <datalist id="buildingsList">
+                                                <option ng-repeat="building in buildingList" value="{{building.id}}">{{building.name}}</option>
+                                            </datalist>
+                                            <button class="building-search-icon"><span class="fa fa-search"></span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="pull-right">
+                        <ul class="dashboard-selected-buildings-cont">
+                            <li ng-repeat="buildingId in buildingIds" class="pull-right">
+                                <a ng-click="removeBuildingById(buildingId)">
+                                    <span><i class="fa fa-remove" aria-hidden="true"></i></span>
+                                </a>
+                                <h4>{{buildingId}}</h4>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row margin-bottom-30">
+            <div class="col-md-2 col-sm-4 col-xs-6 margin-bottom-15">
+                <div class="dash-top-border baby-blue"></div>
+                <div class="dashboard-top-box baby-blue">
+                    <div class="icon-holder"><i class="fa fa-truck" aria-hidden="true"></i></div>
+                    <div class="text-holder">
+                        <h4>{{headerInfo["PACKAGES"]|| 0}}</h4>
+                        <h5>Packages</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 margin-bottom-15">
+                <div class="dash-top-border green"></div>
+                <div class="dashboard-top-box green">
+                    <div class="icon-holder"><i class="fa fa-bar-chart" aria-hidden="true"></i></div>
+                    <div class="text-holder">
+                        <h4>+90%</h4>
+                        <h5>Growth</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 margin-bottom-15">
+                <div class="dash-top-border pink"></div>
+                <div class="dashboard-top-box pink">
+                    <div class="icon-holder"><i class="fa fa-building" aria-hidden="true"></i></div>
+                    <div class="text-holder">
+                        <h4>{{headerInfo["CORPORATEDRIVERS"]|| 0}}</h4>
+                        <h5>Corporate drivers</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 margin-bottom-15">
+                <div class="dash-top-border purple"></div>
+                <div class="dashboard-top-box purple">
+                    <div class="icon-holder"><i class="fa fa-flag" aria-hidden="true"></i></div>
+                    <div class="text-holder">
+                        <h4>{{headerInfo["FREELANCERDRIVERS"]|| 0}}</h4>
+                        <h5>Freelance Drivers</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-8 col-xs-12">
+                <div class="dash-top-border golden"></div>
+                <div class="dashboard-top-box golden">
+                    <div class="icon-holder"><i class="fa fa-users" aria-hidden="true"></i></div>
+                    <div class="text-holder">
+                        <h4>{{headerInfo["ALLCUSTOMER"]|| 0}}</h4>
+                        <h5>Customers</h5>
+                    </div>
+                    <div class="customers-man-woman">
+                        <div>
+                            <h4>{{headerInfo["MALECUSTOMERS"]|| 0}}</h4>
+                            <i class="fa fa-male" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h4>{{headerInfo["FEMALECUSTOMERS"]|| 0}}</h4>
+                            <i class="fa fa-female" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-xs-12 margin-bottom-30"><dashboard-pickup-chart-directive master-controller="masterReloader" selected-buildings="buildingIds"></dashboard-pickup-chart-directive></div>
+            <div class="col-lg-4 col-md-6 col-xs-12 margin-bottom-30"><dashboard-request-types master-controller="masterReloader" selected-buildings="buildingIds"></dashboard-request-types></div>
+            <div class="col-lg-5 col-md-6 col-xs-12 margin-bottom-30"><dashboard-pickup-status master-controller="masterReloader" selected-buildings="buildingIds"></dashboard-pickup-status></div>
+            <div class="col-lg-6 col-md-6 col-xs-12 margin-bottom-30"><dashboard-customers-age master-controller="masterReloader" selected-buildings="buildingIds"></dashboard-customers-age></div>
+            <div class="col-lg-6 col-md-6 col-xs-12 margin-bottom-30"><dashboard-category-chart master-controller="masterReloader" selected-buildings="buildingIds"></dashboard-category-chart></div>
+        </div>
+        <div class="row" ng-if="!buildingId">
+            <div class="col-xs-12 margin-bottom-30">
+                <dashboard-map-directive></dashboard-map-directive>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-xs-12 margin-bottom-30"><dashboard-go-extra master-controller="masterReloader" selected-buildings="buildingIds"></dashboard-go-extra></div>
+            <div class="col-lg-4 col-xs-12 margin-bottom-30"><dashboard-drivers-rating master-controller="masterReloader" selected-buildings="buildingIds"></dashboard-drivers-rating></div>
+            <div class="col-lg-4 col-xs-12 margin-bottom-30">
+                <div class="avg-time-charts-cont">
+                    <div class="dark-blue margin-bottom-15">
+                        <div class="avg-time-icon-cont pull-left">
+                            <i class="fa fa-truck white" aria-hidden="true"></i>
+                        </div>
+                        <div class="text-align-center">
+                            <div class="avg-time-text-cont white">
+                                <h1>180</h1>
+                                <h5 class="text-capitalize">{{'MINUTES'|translate}}</h5>
+                            </div>
+                            <h5 class="white text-uppercase">{{'AVG_TIME_AT_CUSTOMER_PICK'|translate}}</h5>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="dark-blue">
+                        <div class="avg-time-icon-cont pull-left">
+                            <i class="fa fa-clock-o white" aria-hidden="true"></i>
+                        </div>
+                        <div class="text-align-center">
+                            <div class="avg-time-text-cont white">
+                                <h1>180</h1>
+                                <h5 class="text-capitalize">{{'MINUTES'|translate}}</h5>
+                            </div>
+                            <h5 class="white text-uppercase">{{'AVG_TIME_AT_CUSTOMER_PICK'|translate}}</h5>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+
+
+<div class="menu-container no-padding my-scroll-area" ng-nicescroll 
+     nice-option="{cursorcolor: '#e2edff',horizrailenabled:false,nativeparentscrolling:false}" 
+     nice-scroll-top-end="topEndComplete()" nice-scroll-end="endScroll()">
+
+    <nav class="menu-nav"> 
+        <div class="row">
+            <div class="menu-switcher-icon">
+                <i class="fa menuSwitcher" ng-class=" lang === 'ar' ? 'fa-angle-double-right' : 'fa-angle-double-left'" aria-hidden="true" ng-click="Switch($event)"></i>
+            </div>
+        </div>
+        <div class="row">
+            <div class="list-container">
+                <ul>
+                    <li ng-repeat="menuItem in menuItems| filter: {parentId:-1}:true | orderBy:'order'">
+                        <div class="list-item" ng-class="{'has-submenu': !menuItem.url }">
+                            <a ng-if="menuItem.url" ng-click="animateClosing($event)"
+                               ui-sref-active="active" class="active menu-item" ui-sref="admin.{{menuItem.url}}">
+                                <div class="menu-item-row">
+                                    <div class="icon-holder">
+                                        <div class="menu-icon-container">
+                                            <div class="menu-icon-holder">
+                                                <i class="menu-icon" ng-class="'icon-' + menuItem.value"></i>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h5>{{menuItem.value| translate}}</h5>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a ng-if="!menuItem.url"  ng-click="toggleDropdowns($event)" class="menu-item">
+
+                                <div class="menu-item-row">
+                                    <div class="icon-holder">
+                                        <div class="menu-icon-container">
+                                            <div class="menu-icon-holder">
+                                                <i class="menu-icon" ng-class="'icon-' + menuItem.value"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h5>{{menuItem.value| translate}}</h5>                              
+                                    <div class="folding-status-sign-container"></div>
+                                </div>
+                            </a>
+
+
+                            <div ng-if="!menuItem.url" class="submenu-container">
+                                <ul class="submenu">
+                                    <li ng-repeat="subItem in menuItems| filter: {parentId:menuItem.menuId}:true | orderBy:'order'" class="submenu-item">
+                                        <a ui-sref="admin.{{subItem.url}}" ui-sref-active="active" class="active">
+                                            <div class="submenu-bullet-container">
+                                                <div class="submenu-bullet-holder"></div>
+                                            </div>
+                                            <h5>{{subItem.value| translate}}</h5>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+
+
+
+
+<!--<div class="menu-container no-padding my-scroll-area" ng-nicescroll nice-option="{cursorcolor: '#e2edff',horizrailenabled:false,nativeparentscrolling:false}" nice-scroll-top-end="topEndComplete()" nice-scroll-end="endScroll()">
+
+    <nav class="menu-nav"> 
+        <div class="list-container">
+            <ul>
+                <li ng-repeat="menuItem in menuItems| filter: {parentId:-1}:true | orderBy:'order'"
+                    class="list-item" ng-class="{'has-submenu': !menuItem.url,
+                                'system-features': (menuItem.value==='SYSTEM_FEATURES') }">
+                    
+                    <a ng-if="!menuItem.url"  ng-click="toggleDropdowns($event)">
+                        {{menuItem.value| translate}}
+                    </a>
+                    <a ng-if="menuItem.url" ng-click="animateClosing($event)"
+                       ui-sref-active="active" class="active" ui-sref="admin.{{menuItem.url}}">
+                        {{menuItem.value| translate}}
+                    </a>
+                    <ul ng-if="!menuItem.url" class="submenu">
+                        <li ng-repeat="subItem in menuItems| filter: {parentId:menuItem.menuId}:true | orderBy:'order'" class="submenu-item">
+                            <a ui-sref="admin.{{subItem.url}}" ui-sref-active="active" class="active">{{subItem.value| translate}}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>-->

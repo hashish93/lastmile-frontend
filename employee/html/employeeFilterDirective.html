@@ -1,0 +1,85 @@
+<form name="employeeFilterForm" click-outside="isPopupVisible = false">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group margin-bottom-3 input-group">
+                <input class="form-control search-placeholder" type="text" 
+                       ng-model="generalSearchValue" name="generalSearchValue" 
+                       ng-change="generalSearchFunction()(generalSearchValue)"
+                       placeholder="&#xf002; {{'SEARCH'| translate}}" />
+                
+                <span class="input-group-btn">
+                    <button class="btn btn-default btn-primary list-search-dropdown-button no-border-radius" ng-click="isPopupVisible = !isPopupVisible;">{{'FILTER'| translate}} <span class="caret"></span></button>
+                </span>
+                
+                <div class="list-search-panel-container" ng-show="isPopupVisible">
+                    <div class="mp container-fluid" ng-class="{'active':isPopupVisible}">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group center no-padding-bottom">
+                                    <div class="error-container">
+
+                                    </div>
+                                    <input  class="form-control" type="text" ng-model="searchObj.userId" name="userId" placeholder="{{'UDER_ID'| translate}}" />
+                                </div>
+                            </div>    
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group center no-padding-bottom">
+                                    <div class="error-container">
+
+                                    </div>
+                                    <input  class="form-control" type="text" ng-model="searchObj.fullName" name="fullName" placeholder="{{'FULL_NAME'| translate}}" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group center no-padding-bottom">
+                                    <div class="error-container">
+
+                                    </div>
+                                    <input  class="form-control" type="text" ng-model="searchObj.mobileNumber" name="mobileNumber" placeholder="{{'MOBILE_NUMBER'| translate}}" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group center">
+                                    <div class="error-container">
+
+                                    </div>
+                                    <input  class="form-control" type="text" ng-model="searchObj.emailAddress" name="emailAddress" placeholder="{{'EMAIL_ADDRESS'| translate}}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group center no-padding-bottom">
+                                    <select class="form-control user-type" ng-model="searchObj.userType" name="userType"
+                                            ng-options="group.value as group.name |  translate for group in groups" ng-required="required">
+                                        <option disabled hidden value="">{{ 'SELECT_USER_TYPE' | translate}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row margin-top-20 margin-bottom-15">
+                            <div class="col-xs-12">
+                                <div class="col-xs-5">
+                                    <button class="btn btn-default btn-primary no-border-radius">{{'APPLY'| translate}}</button>
+                                </div>
+                                <div class="col-xs-5 col-xs-offset-2">
+                                    <div class="reset-button-holder">
+                                        <a>{{'RESET_FILTER'| translate}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

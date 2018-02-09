@@ -1,0 +1,28 @@
+<script src="returnRequest/js/listReturnRequestController.js" type="text/javascript"></script>
+<script src="returnRequest/js/deleteReturnRequestController.js" type="text/javascript"></script>
+<script src="returnRequest/js/rescheduleReturnController.js" type="text/javascript"></script>
+<script src="returnRequest/js/returnFilterDirective.js" type="text/javascript"></script>
+
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="pre-table-container">
+            <div class="row entity-title margin-bottom-15">
+                <p>{{'RETURN_REQUESTS'| translate}}</p>
+            </div>
+            <return-filter-directive filter-search="filter" filter-in-grid="refreshGrid"></return-filter-directive>
+        </div>
+        <div class="row lm-grid full-height margin-bottom-15">
+            <div class="col-md-12">
+                <div ng-show='showSpinner'>
+                    <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                </div>
+                <div class="grid" ng-if="lang === 'ar'" dir='rtl' ui-if="returnRequestListOptions.data.length>0"
+                     ui-grid="returnRequestListOptions" ui-grid-pagination ui-grid-resize-columns ui-grid-selection
+                     ui-grid-auto-resize ng-style="getTableHeight()"></div>
+                <div class="grid" ng-if="lang === 'en'" ui-if="returnRequestListOptions.data.length>0"
+                     ui-grid="returnRequestListOptions" ui-grid-pagination ui-grid-resize-columns ui-grid-selection
+                     ui-grid-auto-resize ng-style="getTableHeight()"></div>
+            </div>
+        </div>
+    </div>
+</div>

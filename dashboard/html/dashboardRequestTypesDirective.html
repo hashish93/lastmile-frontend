@@ -1,0 +1,67 @@
+<div class="statistics-box maroon round-corners" id="requestTypesBox">
+    <div class="stat-box-header">
+        <div class="pull-left">
+            <h6 class="white"><b>{{'REQUESTS_TYPES'| translate}}</b></h6>
+        </div>
+        <div class="pull-right refresh-button-container">
+            <a ng-click="getRequestsCounts()"><i class="fa fa-refresh white" aria-hidden="true" ng-class="{ 'fa-spin' : loaderSpin }"></i></a>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="stat-box-body">
+        <div>
+            <div class="pull-right margin-top-10 margin-bottom-10">
+                <div class="custom-select underlined-select white-select">
+                    <span class="selector-arrow selector-caret"></span>
+                    <select ng-model="selectedTimeInterval"
+                            ng-change="getPickupRequestsCount()"
+                            ng-options="timeInterval as timeInterval |     translate for timeInterval in timeIntervals">
+                    </select>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 chart-container"> 
+                <canvas id="polar-area" class="chart chart-polar-area" 
+                        chart-data="chartObj.data" chart-labels="chartObj.labels" 
+                        chart-dataset-override="chartObj.datasets" chart-options="chartObj.options">
+                </canvas> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <ul class="chart-horizontal-refs-list">
+                    <li>
+                        <div class="reference-small-circle pink"></div>
+
+                        <div>
+                            <h6>{{'ON-DEMAND'| translate}}</h6>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="reference-small-circle purple"></div>
+
+                        <div>
+                            <h6>{{'SCHEDULED'| translate}}</h6>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="reference-small-circle blue"></div>
+
+                        <div>
+                            <h6>{{'DELIVERY'| translate}}</h6>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="reference-small-circle baby-blue"></div>
+
+                        <div>
+                            <h6>{{'RETURN'| translate}}</h6>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

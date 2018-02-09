@@ -1,0 +1,79 @@
+<div class="container-fluid header-wrapper" >
+    <div class="row">
+        <!--<div class="col-md-5 col-sm-4 col-xs-4 col-lg-5 pos-relative">-->
+        <div class="menu-switcher-container menu-opened">
+            <div class="menu-img">
+
+            </div>
+            
+        </div>
+        <!--</div>-->
+        <div class="col-md-6 pull-right">
+            <header>
+
+                <div class="pull-right">
+                    <!--                <div class=" header-filter">
+                                        <i class="fa fa-search"></i>
+                                        <input type="text" class="form-control" placeholder="{{'SEARCH' | translate}}...">
+                                    </div>-->
+                    <div id="headerSearchContainer">
+                        <form autocomplete="on">
+                            <input id="searchHeaderField" class="borderless-input" name="search" type="text" placeholder="{{'SEARCH'| translate}}">
+                            <button id="searchHeaderButton" class="borderless-input"><span class="fa fa-search"></span></button>
+                        </form>
+                    </div>
+                    <div class="language-select">
+                        <div class="btn-group" uib-dropdown>
+                            <button id="btn-append-to-body" type="button" class="language-select-globe dropdown-toggle" uib-dropdown-toggle>
+                                <div class="fa fa-globe">
+
+                                </div>
+                            </button>
+                            <div class="menu-tringle"></div>
+                            <ul class="dropdown-menu language-select-menu header-dropdown" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
+                                <li role="menuitem" ng-click='changeLang("ar")'>{{'BUTTON_LANG_AR'| translate}}</li>
+                                <li role="menuitem" ng-click='changeLang("en")'>{{'BUTTON_LANG_EN'| translate}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="notification">
+                        <div class="btn-group" uib-dropdown>
+                            <button id="btn-append-to-body" type="button" class="notification-alarm  dropdown-toggle" uib-dropdown-toggle>
+                                <div class="fa fa-bell">
+                                    <span class="count">2</span>
+                                </div>
+                            </button>
+                            <div class="menu-tringle"></div>
+                            <ul class="dropdown-menu notification-menu header-dropdown" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
+                                <li role="menuitem"><a href="#">New Package Request</a></li>
+                                <li role="menuitem"><a href="#">Action Needed for On</a></li>
+                                <li role="menuitem"><a href="#">Vehicle Near By For </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="user-container">
+                        <div class="user-account">
+                            <span class="user-holder">
+                                <img ng-style="personalPhoto ? {'opacity': 1} : {'opacity': 0}" ng-src="{{personalPhoto}}" >
+                            </span>
+                        </div>
+                        <div class="btn-group" uib-dropdown>
+                            <button id="btn-append-to-body2" type="button"  uib-dropdown-toggle>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu user-account-menu header-dropdown" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body2">
+                                <li role="menuitem"><a ui-sref="admin.viewprofile">{{'PROFILE'| translate}}</a></li>
+                                <li role="menuitem"><a href="#">{{'LOCK_USER'| translate}}</a></li>
+                                <li class="divider"></li>
+                                <li role="menuitem"><a href="#" ng-click="logOut()">{{'SIGN_OUT'| translate}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </header>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+</div>

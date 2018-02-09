@@ -1,0 +1,97 @@
+<div class="lm-popup">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>        
+        <h3 class="modal-title">{{ 'ADD_DEVICE' | translate}}</h3>
+    </div>
+    <form name="addDeviceForm" >
+        <div class="modal-body lm-popup-body">
+            <div class="container-fluid">
+                <div class="row"> 
+                    <div class="col-md-12 ">
+                        <div class="form-group">
+                            <div class="error-container">
+                                <div >
+                                    <div ng-show="addDeviceForm.brandId.$error.required && afterSubmit">{{'BRAND'|translate}} {{ 'REQUIRED' | translate}}</div>
+                                </div>
+                                <div ng-hide="addDeviceForm.brandId.key">{{serverError.brandId.toString()}}</div>
+                            </div>
+
+                            <select  ng-options="brand.brandId as brand.brandname  for brand in brands" class="form-control" name="brandId" ng-model="deviceObj.brandId" required>
+                                <option disabled hidden value="">{{ 'SELECT_BRAND' | translate}} *</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div  class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addDeviceForm.model.$error.required && afterSubmit">{{'MODEL'|translate}} {{ 'REQUIRED' | translate}}</div>
+                                <div ng-show="addDeviceForm.model.$dirty && addDeviceForm.model.$invalid">
+                                    <div ng-show="addDeviceForm.model.$error.pattern">{{'MODEL'|translate}} {{'INVALID'| translate}}</div>
+                                    <div ng-show="addDeviceForm.model.$error.maxlength && !addDeviceForm.model.$error.pattern">{{'MODEL'|translate}} {{ 'LONG' | translate}}</div>
+                                    <div ng-show="addDeviceForm.model.$error.minlength && !addDeviceForm.model.$error.pattern">{{'MODEL'|translate}} {{ 'SHORT' | translate}}</div>
+                                </div>
+                                <div ng-hide="addDeviceForm.model.key">{{serverError.model.toString()}}</div>
+                            </div>
+                            <input type="text" class="form-control" name="model" ng-maxlength="32" ng-pattern="/^[a-zA-Z0-9\u0621-\u064A\u0660-\u0669]*[a-zA-Z0-9\ \u0621-\u064A\u0660-\u0669]*-{0,1}[a-zA-Z0-9\ \u0621-\u064A\u0660-\u0669]+$/" ng-minlength="2" ng-model="deviceObj.model"
+                                   placeholder="{{ 'MODEL' | translate}} *" required
+                                   ng-keydown="backendVisibilityService.checkKey(addDeviceForm.model, serverError)">
+                        </div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div  class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addDeviceForm.imeiInfo.$error.required && afterSubmit">{{'IMEI'|translate}} {{ 'REQUIRED' | translate}}</div>
+                                <div ng-show="addDeviceForm.imeiInfo.$dirty && addDeviceForm.imeiInfo.$invalid">
+                                    <div ng-show="addDeviceForm.imeiInfo.$error.pattern">{{'IMEI'|translate}} {{ 'INVALID' | translate}}</div>
+                                    <div ng-show="addDeviceForm.imeiInfo.$error.maxlength && !addDeviceForm.imeiInfo.$error.pattern">{{'IMEI'|translate}} {{ 'MIN_NUMBERS' | translate:'{ number: 15}'}}</div>
+                                    <div ng-show="addDeviceForm.imeiInfo.$error.minlength && !addDeviceForm.imeiInfo.$error.pattern">{{'IMEI'|translate}} {{ 'MIN_NUMBERS' | translate:'{ number: 15}'}}</div>
+                                </div>
+                                <div ng-hide="addDeviceForm.imeiInfo.key">{{serverError.imeiInfo.toString()}}</div>
+                            </div>
+                            <input type="text"  class="form-control" ng-maxlength="15" ng-minlength="15" ng-pattern="/^\d+$/" name="imeiInfo" 
+                                   ng-model="deviceObj.imeiInfo" placeholder="{{ 'IMEI' | translate}} *" required
+                                   ng-keydown="backendVisibilityService.checkKey(addDeviceForm.imeiInfo, serverError)">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div  class="form-group">
+
+                            <div class="error-container">
+                                <div ng-show="addDeviceForm.phoneNumber.$error.required && afterSubmit">{{'PHONE_NUMBER'|translate}} {{ 'REQUIRED' | translate}}</div>
+                                <div ng-show="addDeviceForm.phoneNumber.$dirty && addDeviceForm.phoneNumber.$invalid">
+                                    <div ng-show="addDeviceForm.phoneNumber.$error.pattern">{{'PHONE_NUMBER'|translate}} {{ 'INVALID' | translate}}</div>
+                                    <div ng-show="addDeviceForm.phoneNumber.$error.maxlength && !addDeviceForm.phoneNumber.$error.pattern">{{'PHONE_NUMBER'|translate}} {{ 'LONG' | translate}}</div>
+                                    <div ng-show="addDeviceForm.phoneNumber.$error.minlength && !addDeviceForm.phoneNumber.$error.pattern">{{'PHONE_NUMBER'|translate}} {{ 'SHORT' | translate}}</div>
+                                </div>
+                                <div ng-hide="addDeviceForm.phoneNumber.key">{{serverError.phoneNumber.toString()}}</div>
+
+                            </div>
+                            <input type="text" class="form-control" name="phoneNumber" ng-maxlength="32" ng-minlength="2" 
+                                   ng-pattern="/^[+]*[0-9]+$/" ng-model="deviceObj.phoneNumber" placeholder="{{ 'PHONE_NUMBER' | translate}} *" required
+                                   ng-keydown="backendVisibilityService.checkKey(addDeviceForm.phoneNumber, serverError)">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12"  super-user>
+                        <div class="error-container">
+                            <div ng-show="addDeviceForm.hubId.$error.required && afterSubmit">{{'BUILDING'| translate}}{{ 'REQUIRED' | translate}} *</div>
+                            <div ng-hide="addDeviceForm.hubId.key">{{serverError.hubId}}</div>
+                        </div>
+                        <select class="form-control" name="hubId" ng-model="deviceObj.hubId"
+                                ng-options="hub.id  as hub.name for hub in buildingList" ng-required="userInfoService.isSuperUser()"
+                        >
+                            <option value="">{{'SELECT_BUILDING'|translate}}*</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer margin-top-10">
+                <button class="btn lm-btn blue-btn" id="addDeviceBtn" 
+                        type="button" ng-disabled="requestProcessing" 
+                        ng-click="create()" >{{'SUBMIT'|translate}}</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,95 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?bh5a7n');
+  src:  url('fonts/icomoon.eot?bh5a7n#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?bh5a7n') format('truetype'),
+    url('fonts/icomoon.woff?bh5a7n') format('woff'),
+    url('fonts/icomoon.svg?bh5a7n#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-search:before {
+  content: "\e90b";
+}
+.icon-printer:before {
+  content: "\e90f";
+}
+.icon-ACTIVE_JOBS:before {
+  content: "\e900";
+  color: #2a80b9;
+}
+.icon-DASHBOARD:before {
+  content: "\e901";
+  color: #2a80b9;
+}
+.icon-DELIVERY_REQUESTS:before {
+  content: "\e902";
+  color: #2a80b9;
+}
+.icon-DISPATCH_ACTIVITIES:before {
+  content: "\e903";
+  color: #2a80b9;
+}
+.icon-fullscreen:before {
+  content: "\e904";
+  color: #fff;
+}
+.icon-notifications_circle .path1:before {
+  content: "\e905";
+  color: rgb(255, 255, 255);
+}
+.icon-notifications_circle .path2:before {
+  content: "\e906";
+  margin-left: -1em;
+  color: rgb(35, 50, 64);
+}
+.icon-notifications_circle .path3:before {
+  content: "\e907";
+  margin-left: -1em;
+  color: rgb(84, 125, 249);
+}
+.icon-notifications_full:before {
+  content: "\e908";
+  color: #fff;
+}
+.icon-PACKAGES:before {
+  content: "\e909";
+  color: #2a80b9;
+}
+.icon-PICKUP_REQUESTS:before {
+  content: "\e90a";
+  color: #2a80b9;
+}
+.icon-REPORTS:before {
+  content: "\e90c";
+  color: #2a80b9;
+}
+/*.icon-returns .path1:before {
+  content: "\e90d";
+  color: rgb(0, 255, 255);
+}*/
+.icon-RETURN_REQUESTS:before {
+  content: "\e90e";
+  /*margin-left: -1em;*/
+  color: #2a80b9;
+}
+.icon-SYSTEM_FEATURES:before {
+  content: "\e910";
+  color: #2a80b9;
+}

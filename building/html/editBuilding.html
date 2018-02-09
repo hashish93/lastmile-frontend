@@ -1,0 +1,266 @@
+<div class="lm-popup editForm">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title">{{'EDIT_BUILDING'| translate}}</h3>
+    </div>
+    <form name="editBuildingForm">
+        <div class="modal-body lm-popup-body">
+            <div class="container-fluid">
+                <div class='row'>
+                    <div class='col-md-12'>
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editBuildingForm.buildingTypeId.$invalid}">{{'BUILDING_TYPE'| translate}}</span>
+                            <div class="error-container"> 
+                                <div  ng-show = "editBuildingForm.buildingTypeId.$dirty && editBuildingForm.buildingTypeId.$invalid">
+                                    <div ng-show="editBuildingForm.buildingTypeId.$error.required">{{ 'REQUIRED' | translate}} *</div>
+                                </div>    
+                                <div>{{serverError.buildingTypeId.toString()}}</div>
+                                <div>{{serverError.buildingType.toString()}}</div>
+                            </div>
+                            <select ng-change="mode()" class="form-control" name="buildingTypeId" ng-model = "building.buildingTypeId"
+                                    ng-options="type.buildingTypeId  as type.type for type in types" required>
+                                <option disabled hidden value="">{{'SELECT_BUILDING_TYPE'| translate}} *</option> 
+                            </select>
+                        </div>
+                    </div>
+                    <div class='col-md-12'>
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editBuildingForm.buildingname.$invalid}">{{'BUILDING_NAME'| translate}}</span>
+                            <div class="error-container"> 
+                                <div  ng-show = "editBuildingForm.buildingname.$dirty && editBuildingForm.buildingname.$invalid">
+                                    <div ng-show="editBuildingForm.buildingname.$error.required">{{ 'REQUIRED' | translate}}*</div>
+                                    <div ng-show="editBuildingForm.buildingname.$error.pattern">{{ 'INVALID' | translate}}</div>
+                                    <div ng-show="editBuildingForm.buildingname.$error.maxlength">{{ 'LONG' | translate}}</div>
+                                </div>    
+                                <div ng-hide="editBuildingForm.buildingname.key">{{serverError.buildingname.toString()}}</div>
+                            </div>
+                            <input ng-change="mode()" class="form-control" name="buildingname" ng-model = "building.buildingname" placeholder="{{'BUILDING_NAME'| translate}}*"
+                                   ng-pattern="/^[a-zA-Z0-9\u0621-\u064A\u0660-\u0669][a-zA-Z0-9\u0621-\u064A\u0660-\u0669 -]*[a-zA-Z0-9\u0621-\u064A\u0660-\u0669]+$/" required 
+                                   ng-maxlength="32" ng-keydown="backendVisibilityService.checkKey(editBuildingForm.buildingname, serverError)"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='row'>
+                    <div class='col-md-12'>
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editBuildingForm.countryId.$invalid}">{{'BUILDING_COUNTRY'| translate}}</span>
+                            <div class="error-container">
+                                <div  ng-show = "editBuildingForm.countryId.$dirty && editBuildingForm.countryId.$invalid">
+                                    <div ng-show="editBuildingForm.countryId.$error.required">{{ 'REQUIRED' | translate}} *</div>
+                                </div>    
+                                <div>{{serverError.countryId.toString()}}</div>
+                                <div>{{serverError.countryname.toString()}}</div>
+                            </div>
+                            <select ng-change="getCities(building.countryId)" class="form-control" name="countryId" ng-model = "building.countryId" 
+                                    ng-options="country.countryId  as country.name for country in countries" required>
+                                <option disabled hidden value="">{{'SELECT_COUNTRY'| translate}}*</option> 
+                            </select>
+                        </div>
+                    </div>
+                    <div class='col-md-12 '>
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editBuildingForm.cityId.$invalid}">{{'BUILDING_CITY'| translate}}</span>
+                            <div class="error-container">
+                                <!--<div  ng-show = "editBuildingForm.cityId.$dirty && editBuildingForm.cityId.$invalid">-->
+                                <div ng-show="editBuildingForm.cityId.$error.required">{{ 'REQUIRED' | translate}}*</div>
+                                <!--</div>-->    
+                                <div>{{serverError.cityId.toString()}}</div>
+                                <div>{{serverError.cityname.toString()}}</div>
+                            </div>
+                            <select ng-change="mode()" class="form-control" name="cityId" ng-model = "building.cityId"
+                                    ng-options="city.cityId  as city.name for city in cities" required>
+                                <option disabled hidden value="">{{'SELECT_CITY'| translate}}*</option> 
+                            </select>
+                        </div> 
+                    </div>
+                    <div class='col-md-12 '> 
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editBuildingForm.area.$invalid}">{{'AREA'| translate}}</span>
+                            <div class="error-container">
+                                <div ng-show="editBuildingForm.area.$error.pattern">{{ 'INVALID' | translate}}</div>
+                                <div ng-show="editBuildingForm.area.$error.maxlength && !editBuildingForm.area.$error.pattern">{{ 'LONG' | translate}}</div>
+                                <div>{{serverError.area.toString()}}</div>
+                            </div>
+                            <input ng-change="mode()" class="form-control" name="area" ng-model = "building.area" placeholder="{{'AREA'| translate}}"
+                                   ng-pattern="/^[a-zA-Z0-9\- \u0621-\u064A\u0660-\u0669]*$/"  
+                                   ng-maxlength="32" ng-keydown="backendVisibilityService.checkKey(editBuildingForm.street, serverError)"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class='col-md-6'> 
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editBuildingForm.street.$invalid}">{{'STREET_NAME'| translate}}</span>
+                            <div class="error-container">
+                                <div  ng-show = "editBuildingForm.street.$dirty && editBuildingForm.street.$invalid">
+                                    <div ng-show="editBuildingForm.street.$error.pattern">{{ 'INVALID' | translate}}</div>
+                                    <div ng-show="editBuildingForm.street.$error.maxlength">{{ 'LONG' | translate}}</div>
+                                </div>    
+                                <div ng-hide="editBuildingForm.street.key">{{serverError.street.toString()}}</div>
+                            </div>
+                            <input ng-change="mode()" class="form-control" name="street" ng-model = "building.street" placeholder="{{'STREET_NAME'| translate}}"
+                                   ng-pattern="/^[a-zA-Z0-9\- \u0621-\u064A\u0660-\u0669]*$/"  
+                                   ng-maxlength="32" ng-keydown="backendVisibilityService.checkKey(editBuildingForm.street, serverError)"/>
+                        </div>
+                    </div>
+                    <div class='col-md-6'>
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editBuildingForm.buildingnumber.$invalid}">{{'BUILDING_NUMBER'| translate}}</span>
+                            <div class="error-container">
+                                <div  ng-show = "editBuildingForm.buildingnumber.$dirty && editBuildingForm.buildingnumber.$invalid">
+                                    <div ng-show="editBuildingForm.buildingnumber.$error.pattern">{{ 'INVALID' | translate}}</div>
+                                    <div ng-show="editBuildingForm.buildingnumber.$error.maxlength">{{ 'LONG' | translate}}</div>
+                                </div> 
+                                <div ng-hide="editBuildingForm.buildingnumber.key">{{serverError.buildingnumber.toString()}}</div>
+                            </div>
+
+                            <input ng-change="mode()" class="form-control" name="buildingnumber" ng-model = "building.buildingnumber" placeholder="{{'BUILDING_NUMBER'| translate}}"
+                                   ng-pattern="/^[a-zA-Z0-9 \u0621-\u064A\u0660-\u0669]*$/" ng-maxlength="32" 
+                                   ng-keydown="backendVisibilityService.checkKey(editBuildingForm.buildingnumber, serverError)"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class='col-md-6'>
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editBuildingForm.countryCode.$invalid}">{{'COUNTRY_CODE'| translate}}</span>
+                            <div class="error-container">
+                                <div ng-show="editBuildingForm.countryCode.$error.required && afterSubmit">{{'COUNTRY_CODE'| translate}}{{ 'REQUIRED' | translate}} *</div>
+                                <div>{{serverError.countryCodeId.toString()}}</div>
+                            </div>
+                            <select ng-change="mode()" class="form-control" name="countryCode" ng-model = "building.countryCodeId"
+                                    ng-options="countryCode.id as countryCode.name+' ('+countryCode.code+')' for countryCode in countryCodes" required>
+                                <option disabled hidden value="">{{'SELECT_COUNTRY_CODE'| translate}}*</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class='col-md-6'>
+                        <div class="form-group">
+                            <span class="input-label" ng-class="{'red' : editBuildingForm.phoneNumber.$invalid}">{{'PHONE_NUMBER'| translate}}</span>
+                            <div class="error-container">
+                                <div ng-show="editBuildingForm.phoneNumber.$error.required && afterSubmit">{{'PHONE_NUMBER'| translate}} {{ 'REQUIRED' | translate}}*</div>
+                                <div  ng-show = "editBuildingForm.phoneNumber.$dirty && editBuildingForm.phoneNumber.$invalid">
+                                    <div ng-show="editBuildingForm.phoneNumber.$error.pattern">{{'BUILDING_NUMBER'| translate}} {{ 'INVALID' | translate}}</div>
+                                    <div ng-show="editBuildingForm.phoneNumber.$error.maxlength">{{'BUILDING_NUMBER'| translate}}{{ 'LONG' | translate}}</div>
+                                </div>
+                                <div ng-hide="editBuildingForm.phoneNumber.key">{{serverError.phoneNumber.toString()}}</div>
+                            </div>
+                            <input ng-change="mode()" class="form-control" name="phoneNumber" ng-model = "building.phoneNumber" placeholder="{{'PHONE_NUMBER'| translate}} *"
+                                   ng-maxlength="32" ng-pattern="/^[0-9\u0660-\u0669]*$/" ng-required="true"
+                                   ng-keydown="backendVisibilityService.checkKey(editBuildingForm.phoneNumber, serverError)"/>
+                        </div>
+                    </div>
+                </div>
+                <!--                <div class="row ">     
+                                    <div class='col-md-4'>
+                                        <div class="form-group">
+                                            <span class="input-label" ng-class="{'red' : editBuildingForm.waselcode.$invalid}">{{'WASEL_CODE'| translate}}</span>
+                                            <div class="error-container">
+                                                <div  ng-show = "editBuildingForm.waselcode.$dirty && editBuildingForm.waselcode.$invalid">
+                                                    <div ng-show="editBuildingForm.waselcode.$error.required">{{ 'REQUIRED' | translate}}*</div>
+                                                    <div ng-show="editBuildingForm.waselcode.$error.pattern">{{ 'INVALID' | translate}}</div>
+                                                    <div ng-show="editBuildingForm.waselcode.$error.maxlength">{{ 'LONG' | translate}}</div>
+                                                </div> 
+                                                <div>{{serverError.waselcode.toString()}}</div>
+                                            </div>                
+                                            <input ng-change="mode()" class="form-control" name="waselcode" ng-model = "building.waselcode" placeholder="{{'WASEL_CODE'| translate}}"
+                                                   ng-pattern="/^[a-zA-Z0-9\_\- \u0621-\u064A\u0660-\u0669]*$/"  ng-maxlength="32"/>
+                                        </div>
+                                    </div>
+                                    <div class='col-md-8'>-->
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <span class="input-label" ng-class="{'red' : editBuildingForm.latitude.$invalid}">{{'LATITUDE'| translate}}</span>
+                        <div class="error-container"> 
+                            <div ng-show="editBuildingForm.latitude.$dirty && editBuildingForm.latitude.$invalid">
+                                <div ng-show="editBuildingForm.latitude.$error.required">{{ 'REQUIRED' | translate}} *</div>
+                                <div ng-show="editBuildingForm.latitude.$error.pattern">{{ 'INVALID' | translate}}</div>
+                            </div>    
+                            <div>{{serverError.latitude.toString()}}</div>                                    
+                        </div>
+
+                        <input  ng-change="checkMapValidation() && mode()" id="latitude" class="form-control" name="latitude" ng-model="building.latitude" placeholder="{{'LATITUDE'| translate}} *"
+                                ng-pattern="/^-?([1-8]?[0-9]\.{1}\d{1,17}$|90\.{1}0{1,17}$)|^-?([1-8]?[0-9]|90)$/" required
+                                ng-change="(editBuildingForm.latitude.$valid && editBuildingForm.longitude.$valid) ? centerMap(1) : null"/>
+
+                    </div>
+                    <div class="col-md-6">
+                        <span class="input-label" ng-class="{'red' : editBuildingForm.longitude.$invalid}">{{'LONGITUDE'| translate}}</span>
+                        <div class="error-container"> 
+                            <div  ng-show="editBuildingForm.longitude.$dirty && editBuildingForm.longitude.$invalid">
+                                <div ng-show="editBuildingForm.longitude.$error.required">{{ 'REQUIRED' | translate}} *</div>
+                                <div ng-show="editBuildingForm.longitude.$error.pattern">{{ 'INVALID' | translate}}</div>
+                            </div>                                        
+                            <div>{{serverError.longitude.toString()}}</div>
+                        </div>
+                        <input  ng-change="checkMapValidation() && mode()" id="longitude" class="form-control" name="longitude" ng-model="building.longitude" placeholder="{{'LONGITUDE'| translate}} *"
+                                ng-pattern="/^-?((([1]?[0-7][0-9]|[1-9]?[0-9])\.{1}\d{1,16}$)|[1]?[1-8][0]\.{1}0{1,16}$)|^-?((([1]?[0-7][0-9]|[1-9]?[0-9]))$|[1]?[1-8][0]$)/" required 
+                                ng-change="(editBuildingForm.latitude.$valid && editBuildingForm.longitude.$valid) ? centerMap(1) : null"/>
+                    </div>
+                </div>
+                <!--                    </div>
+                
+                                </div>-->
+
+
+                <div class='row'>
+                    <div class="col-lg-12">
+                        <div class="error-container block">
+                            <div class="block">{{polygenError| translate}}</div>
+                            <div class="block">{{serverError.buildingServingArea.toString()}}</div>
+                        </div>
+                        <div class="error-container block">
+                            <div class="block">{{pointError| translate}}</div>
+                        </div>
+                        <div ng-if="mapLoadingError">
+                            {{"CANT_LOAD_MAP"|translate}}
+                        </div>
+                        <div ng-if="!mapLoadingError" map-lazy-load="https://maps.google.com/maps/api/js"
+                             map-lazy-load-params="{{googleMapsUrl}}">
+                            <ng-map class="buildingMap" id="EditBuildingMap" zoom="{{zoom}}" on-click="clickOnMapEvent(event)" center="{{center}}"
+                                    scrollwheel='false' disable-default-u-i="true" zoom-control="true">
+                                <marker ng-if="building.latitude && building.longitude"  draggable="true" on-dragend="setBuildingLocation()" position="{{building.latitude}},{{building.longitude}}" icon="commons/images/building.png"></marker>
+                                <shape id="polygon" name="polygon"  ng-if="polygen[0][1]"
+                                       stroke-color="gray" on-click="clickOnMapEvent(event)
+                                       stroke-opacity="1.0" stroke-weight="2"
+                                       paths="{{polygen}}">
+                                </shape>
+                                <shape id="buildingsLocation" name="polygon" ng-repeat="location in buildingsLocation"
+                                       stroke-color="red" on-click="clickOnMapEvent(event)
+                                       stroke-opacity="1.0" stroke-weight="2"
+                                       paths="{{location}}">
+                                </shape>
+                                <marker ng-repeat="location in polygen" ng-if="location[1]" position="{{location[0]}}, {{location[1]}}" icon="http://maps.google.com/mapfiles/ms/icons/yellow-dot.png" on-click="removePolygenMarker(event,$index)"></marker>
+                            </ng-map>
+                        </div>
+                        <div class="margin-top-10">
+                            <button class="btn btn-default" ng-click="toggleAddMarker()" ng-show="addMarker" ng-disabled="editBuildingForm.longitude.$invalid || editBuildingForm.latitude.$invalid">
+                                <span>{{'DRAWPOLYGON'| translate }}</span>
+                            </button>
+                            <button class="btn btn-default" ng-hide="addMarker" ng-disabled="polygen === undefined || polygen === null || polygen.length == 0" ng-click="removeAllPolygenMarkers()">{{'REM_POL_MAR'| translate}}</button>
+                        </div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class="col-lg-12 margin-bottom-15">
+                        <div class="form-group">
+                            <span class="input-label">{{'DESCRIPTION'| translate}}</span>
+                            <div class="error-container">
+                                <div ng-show="editBuildingForm.description.$error.maxlength">{{ 'LONG' | translate}}</div>
+                                <div>{{serverError.description.toString()}}</div>
+                            </div>
+                            <textarea ng-change="mode()" class="form-control" name="description" ng-model = "building.description" ng-maxlength="500" placeholder="{{'DESCRIPTION_OPTIONAL'| translate}}" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn lm-btn blue-btn" id="editBuildingBtn" type="button" ng-disabled="editBuildingForm.$invalid || !checkMapValidation() || !editMode || requestProcessing"  ng-click="editBuilding()">{{'SUBMIT'| translate}}</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,33 @@
+<script src="roles/js/listRolesController.js"></script>
+<script src="roles/js/addRoleController.js"></script>
+<script src="roles/js/editRoleController.js"></script>
+
+<div class="lm-container-holder">
+    <div class="lm-container">
+        
+            <div class="row entity-title margin-bottom-15 ">
+                <p>{{ 'ROLES' | translate}}</p>
+            </div>
+            <div class="row">
+                <div class="col-md-12">                
+                    <button class="btn lm-btn blue-btn" type="button" authorized-block privilege-name="addeditroles" ui-sref="admin.listroles.addroles"><span class="fa fa-plus"></span>{{'ADD_ROLE'|translate}}</button>
+                </div>
+            </div>
+        
+           <div class="row lm-grid full-height paginator-hide margin-bottom-15" >
+            <div class="col-md-12">
+                <div ng-show='showSpinner'>
+                    <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                </div>
+                <div class="grid" ng-if="lang === 'ar'" dir='rtl' ui-if="roleListOptions.data.length>0" 
+                     ui-grid="roleListOptions" ui-grid-pagination
+                     ui-grid-auto-resize ng-style="getTableHeight()">
+                </div>
+                 <div class="grid" ng-if="lang === 'en'"  ui-if="roleListOptions.data.length>0" 
+                     ui-grid="roleListOptions" ui-grid-pagination
+                      ui-grid-auto-resize ng-style="getTableHeight()">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+{
+  "name": "lastmile",
+  "authors": [
+    "hashish <mohamed.hashish@appzoneltd.com>"
+  ],
+  "description": "",
+  "main": "commons/app.js",
+  "keywords": [
+    "lastMile"
+  ],
+  "license": "MIT",
+  "homepage": "index.html",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-cookies": "^1.5.8",
+    "angular-animate": "^1.5.8",
+    "angular-aria": "^1.5.8",
+    "angular-dynamic-locale": "^0.1.32",
+    "angular-route": "^1.5.8",
+    "angular-sanitize": "^1.5.8",
+    "angular-css-injector": "^1.4.0",
+    "angular-material": "^1.1.0",
+    "angular-spinkit": "^0.3.4",
+    "angular-touch": "^1.5.8",
+    "angular-spinner": "^0.8.1",
+    "angular-nicescroll": "^0.0.9",
+    "angular-translate-storage-cookie": "^2.12.1",
+    "angular-websocket": "^2.0.0",
+    "angular-ui-select": "^0.19.4",
+    "angular-ui-router": "^0.3.1",
+    "angular": "^1.5.8",
+    "jquery": "^3.1.1",
+    "bootstrap-rtl": "^3.4.0",
+    "select2": "https://github.com/select2/select2.git#3.4.5",
+    "ngmap": "^1.18.4",
+    "ui-bootstrap": "^2.2.0",
+    "checklist-model": "^0.10.0",
+    "SparkMD5": "spark-md5#^2.0.2",
+    "angular-filter": "^0.5.11",
+    "angular-timeline": "^1.7.0",
+    "angular-scroll-animate": "^0.9.9",
+    "selection-model": "angular-selection-model#^0.11.0",
+    "angular-drag-and-drop-lists": "^1.4.0",
+    "angular-local-storage": "^0.5.2",
+    "zxcvbn": "^4.4.2",
+    "lightbox2": "^2.9.0",
+    "angular-click-outside": "^2.10.2"
+  }
+}

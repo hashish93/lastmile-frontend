@@ -1,0 +1,45 @@
+<div class="statistics-box round-corners white-gradient">
+    <div class="stat-box-body">
+        <div class="pickup-statuses-header-container">
+            <div class="inline-block">
+                <div class="inline-block">
+                    <h1 id="DashboardPickupChartNumber" class="chart-sum">{{ chartObj.data[0] | sum }}</h1>
+                </div>
+                <div class="inline-block">
+                    <h4 class="no-margin" id="PickupTextPickupChart">{{ 'PICKUP' | translate }}</h4>
+                </div>
+            </div>
+            <div class="inline-block">
+                <div class="inline-block custom-select underlined-select gray-select">
+                    <span class="selector-arrow selector-caret"></span>
+                    <select name="timeIntervalsFrom" ng-model="selectedService" ng-change="getPickupStatusCounts()">
+                        <option value="ON-DEMAND">{{"ON-DEMAND"|translate}}</option>
+                        <option value="SCHEDULED">{{"SCHEDULED"|translate}}</option>
+                    </select>
+                </div>
+                <div class="inline-block custom-select underlined-select gray-select">
+                    <span class="selector-arrow selector-caret"></span>
+                    <select name="timeIntervalsTo" 
+                            ng-model="selectedTimeInterval" ng-change="getPickupStatusCounts()"
+                            ng-options="timeInterval as timeInterval |    translate for timeInterval in timeIntervals">
+                    </select>
+                </div>
+                <div class="inline-block refresh-button-container">
+                    <a ng-click="getPickupStatusCounts()">
+                        <i class="fa fa-refresh gray" aria-hidden="true" ng-class="{ 'fa-spin' : loaderSpin }"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row margin-bottom-15">
+            <div class="col-xs-12 chart-container"> 
+                <canvas id="base" class="chart-horizontal-bar"
+                        chart-data="chartObj.data" chart-labels="chartObj.labels"
+                        chart-options="chartObj.options" chart-dataset-override="chartObj.datasets">
+                </canvas> 
+            </div>
+        </div>
+    </div>
+</div>

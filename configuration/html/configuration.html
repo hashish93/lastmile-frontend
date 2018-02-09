@@ -1,0 +1,424 @@
+<script src="configuration/js/configurationController.js"></script>
+<script src="configuration/js/addPackageWeightController.js"></script>
+<fieldset authorized-block privilege-name="editconfig" rendering-option="disable">
+    <div class="lm-container-holder">
+        <form name="configurationTable">
+            <div class="lm-container">
+
+                <div class="row entity-title margin-bottom-15">
+                    <p>{{'SYSTEM_CONFIG'| translate}}</p>
+                </div>
+
+                <div super-user>
+                    <div class="error-container">
+                        <div ng-show="configurationTable.hubId.$error.required && afterSubmit">{{'BUILDING'| translate}}{{ 'REQUIRED' | translate}} *</div>
+                        <div ng-hide="configurationTable.hubId.key">{{serverError.hubId}}</div>
+                    </div>
+                    <select ng-change="changeBuilding()" class="form-control margin-bottom-15" name="hubId" ng-model="hubId"
+                            ng-options="hub.id  as hub.name for hub in buildingList" ng-required="userInfoService.isSuperUser()"
+                    >
+                        <option value="">{{'SELECT_BUILDING'|translate}}*</option>
+                    </select>
+                </div>
+
+                <div ng-hide="userInfoService.isSuperUser() && !hubId">
+                    <div class="config-container panel panel-default">
+                        <div class="row">
+                            <div class="col-md-12 text-center text-capitalize">
+                                <h4>{{'SYSTEM_DISPATCHING_MODE'| translate}}</h4>
+                            </div>
+                        </div>
+                        <div class="row config_lables_cont text-capitalize">
+                            <div class="col-sm-6 col-xs-6">
+                                <div class="pull-right">
+                                    <input id="label0" ng-value="0" ng-click="submitConfigValue(dispatchModeItem.index)" type='radio' name="dispatching" ng-model="dispatchModeItem.value"
+                                           stopccp>
+                                    <label>{{'MANUAL_DISPATCHING'| translate}}</label>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="col-sm-6 col-xs-6">
+                                <input id="label1" ng-value="1" ng-click="submitConfigValue(dispatchModeItem.index)" type='radio' name="dispatching" ng-model="dispatchModeItem.value"
+                                       stopccp>
+                                <label>{{'AUTOMATIC_DISPATCHING'| translate}}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center dispatching-catalog">
+                                <p>*{{'MANUAL_PARAGRAPH'| translate}}</p>
+                                <p>* {{'AUTOMATIC_PARAGRAPH'| translate}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="config-container panel panel-default">
+                        <div class="row">
+                            <div class="col-md-12 text-center text-capitalize">
+                                <h4>{{'SYSTEM_DISTRIBUTION_MODE'| translate}}</h4>
+                            </div>
+                        </div>
+                        <div class="row config_lables_cont text-capitalize">
+                            <div class="col-sm-6 col-xs-6">
+                                <div class="pull-right">
+                                    <input id="label0" ng-value="0" ng-click="submitConfigValue(distributionModeItem.index)" type='radio' name="distribution"
+                                           ng-model="distributionModeItem.value" stopccp>
+                                    <label>{{'MANUAL_DISTRIBUTION'| translate}}</label>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="col-sm-6 col-xs-6">
+                                <input id="label1" ng-value="1" ng-click="submitConfigValue(distributionModeItem.index)" type='radio' name="distribution"
+                                       ng-model="distributionModeItem.value" stopccp>
+                                <label>{{'AUTOMATIC_DISTRIBUTION'| translate}}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center dispatching-catalog">
+                                <div uib-timepicker show-meridian="true" name="distributionTime" show-spinners="false" ng-disabled="distributionModeItem.value === 0 || configurationTable.distributionTime.$dirty !== configurationTable.$dirty"
+                                     ng-model="distributionTimeItem.displayedValue">
+                                </div>
+                                <div ng-show="configurationTable.distributionTime.$dirty">
+                                    <div class="valueOptions">
+                                    <span ng-show="configurationTable.distributionTime.$valid" ng-click="submitDistributionTime()">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                        <span ng-click="revertDistributionTime()">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="config-grid panel panel-default">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div ng-show='showSpinner'>
+                                    <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                                </div>
+                                <div class=" table-responsive ">
+                                    <table border="0" class="table">
+                                        <col style="width: 23%;">
+                                        <col style="width: 7%;">
+                                        <col style="width:7%">
+                                        <col style="width:63%">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                <div>{{'CONFIGURATION_ITEM'| translate}}</div>
+                                            </th>
+                                            <th>
+                                                <div>{{'VALUE'| translate}}</div>
+                                            </th>
+                                            <th>
+                                                <div>{{'UNIT'| translate}}</div>
+                                            </th>
+                                            <th>
+                                                <div>{{'DESCRIPTION'| translate}}</div>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-if="listedConfiguration">
+                                            <td class="config_item_name">{{emergencyCapacityItem.displayname | translate}}</td>
+                                            <td class="config_input">
+                                                <div>
+                                                    <input type="number" class="hide-spinner" ng-model="emergencyCapacityItem.value" min="0" max="100" required ng-pattern="/^[0-9]\d*$/"
+                                                           ng-change="checkValidation(emergencyCapacityItem)" name="emergencyCapacityItem"
+                                                           ng-disabled="configurationTable.emergencyCapacityItem.$dirty !== configurationTable.$dirty"
+                                                           ng-class="{focus:editedField === emergencyCapacityItem}" stopccp>
+                                                    <div ng-show="configurationTable.emergencyCapacityItem.$dirty">
+                                                        <div class="inside-input-error">
+                                                            <div ng-show="(configurationTable.emergencyCapacityItem.$error.number || configurationTable.emergencyCapacityItem.$error.pattern) && !configurationTable.emergencyCapacityItem.$error.required">
+                                                                * {{'ENTER_NUM_ONLY'| translate}}
+                                                            </div>
+                                                            <div ng-show="configurationTable.emergencyCapacityItem.$error.required">
+                                                                * {{'REQUIRED'| translate}}
+                                                            </div>
+                                                            <div ng-show="configurationTable.emergencyCapacityItem.$error.max && !configurationTable.emergencyCapacityItem.$error.pattern">
+                                                                * {{' NUMBER'| translate}} {{'LONG'| translate}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="valueOptions">
+                                                            <span ng-show="configurationTable.emergencyCapacityItem.$valid" ng-click="submitConfigValue(emergencyCapacityItem.index)">
+                                                        <i class="fa fa-check"></i>
+                                                    </span>
+                                                            <span ng-click="revertEmergencyCapacity()">
+                                                        <i class="fa fa-times"></i>
+                                                    </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>{{emergencyCapacityItem.unit | translate}}</td>
+                                            <td>{{emergencyCapacityItem.description|translate}}</td>
+                                        </tr>
+                                        <tr ng-repeat="configItem in listedConfiguration" ng-if="configItem.configId !== 2 && configItem.configId !== 14 && configItem.configId !== 15 && configItem.configId !== 8"
+                                            ng-hide="configItem.displayname==='Driver Response Time'||
+                                                    configItem.displayname==='Trials Interval for Status of Looking for Vehicle'||
+                                                    configItem.displayname==='Late Time Interval'||
+                                                    configItem.displayname==='Early Time Interval'||
+                                                    configItem.displayname==='Waiting Time for Status of Looking for Vehicle'||
+                                                    configItem.displayname==='Trials Interval of looking for vehicle'||
+                                                    configItem.displayname==='Trials of looking for vehicle'">
+                                            <td class="config_item_name">{{configItem.displayname | translate}}</td>
+                                            <td class="config_input">
+                                                <div>
+                                                    <input type="text" ng-model="configItem.value" required ng-pattern="/^[1-9]\d*$/" ng-maxlength="6" ng-change="checkValidation('item' + $index)"
+                                                           name="item{{$index}}" ng-disabled="configurationTable.item{{$index}}.$dirty !== configurationTable.$dirty"
+                                                           ng-class="{focus:editedField === 'item' + $index}" stopccp>
+
+                                                    <div ng-show="configurationTable.item{{$index}}.$dirty">
+                                                        <div class="inside-input-error">
+                                                            <div ng-show="configurationTable.item{{$index}}.$error.pattern && !configurationTable.item{{$index}}.$error.required">
+                                                                * {{'ENTER_NUM_ONLY'| translate}}
+                                                            </div>
+                                                            <div ng-show="configurationTable.item{{$index}}.$error.required">
+                                                                * {{'REQUIRED'| translate}}
+                                                            </div>
+                                                            <div ng-show="configurationTable.item{{$index}}.$error.maxlength && !configurationTable.item{{$index}}.$error.pattern">
+                                                                * {{' NUMBER'| translate}} {{'LONG'| translate}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="valueOptions">
+                                                            <span ng-show="configurationTable.item{{$index}}.$valid" ng-click="submitConfigValue($index)">
+                                                        <i class="fa fa-check"></i>
+                                                    </span>
+                                                            <span ng-click="revertConfigValue($index)">
+                                                        <i class="fa fa-times"></i>
+                                                    </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>{{configItem.unit | translate}}</td>
+                                            <td>{{configItem.description | translate}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="margin-bottom-30" id="packageWeight">
+                    <uib-accordion>
+                        <div uib-accordion-group class="panel-default" ng-init="open = false" is-open="open" scroll-on-click>
+                            <uib-accordion-heading>
+                                {{'PACKAGE_WEIGHT'| translate}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !open}"></i>
+                            </uib-accordion-heading>
+                            <div class="row">
+                                <div class="col-md-8 col-lg-9 col-xs-12 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button class="btn lm-btn blue-btn" type="button" ng-click="addPWPopup()" ng-disabled="configurationTable.$dirty"><span class="fa fa-plus"></span>{{'ADD_PACKAGE_WEIGHT'| translate}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="weight-grid" class="config-grid">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div ng-show='showSpinner'>
+                                            <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                                        </div>
+
+
+                                        <div class=" table-responsive ">
+                                            <table border="0" class="table">
+                                                <col style="width:19%">
+                                                <col style="width:19%">
+                                                <col style="width:19%">
+                                                <col style="width:19%">
+                                                <col style="width:19%">
+                                                <col style="width:5%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            <div>{{'SIZE'| translate}}</div>
+                                                        </th>
+                                                        <th>
+                                                            <div>{{'LENGTH'| translate}}</div>
+                                                        </th>
+                                                        <th>
+                                                            <div>{{'WIDTH'| translate}}</div>
+                                                        </th>
+                                                        <th>
+                                                            <div>{{'HEIGHT'| translate}}</div>
+                                                        </th>
+                                                        <th>
+                                                            <div>{{'CORRESPONDENCE'| translate}}</div>
+                                                        </th>
+                                                        <th>
+                                                            <div>{{'ACTIONS'| translate}}</div>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="row in packageWeightList">
+                                                        <td class="config_input">
+                                                            <div>
+                                                                <input type="text" ng-model="row.sizeName" required ng-change="checkValidation('sizeName' + $index)" name="sizeName{{$index}}"
+                                                                    ng-maxlength="32" ng-minlength="2" ng-pattern="/^[a-zA-Z0-9\u0621-\u064A\u0660-\u0669 -]*[a-zA-Z0-9\u0621-\u064A\u0660-\u0669]+$/"
+                                                                    ng-disabled="configurationTable.sizeName{{$index}}.$dirty !== configurationTable.$dirty"
+                                                                    ng-class="{focus: editedField === 'sizeName' + $index}" stopccp>
+                                                                <div ng-show="configurationTable.sizeName{{$index}}.$dirty">
+                                                                    <div class="inside-input-error">
+                                                                        <div ng-show="configurationTable.sizeName{{$index}}.$error.pattern && !configurationTable.sizeName{{$index}}.$error.required">
+                                                                            * {{' SIZE'| translate}} {{'INVALID'| translate}}
+                                                                        </div>
+                                                                        <div ng-show="configurationTable.sizeName{{$index}}.$error.required">
+                                                                            * {{' SIZE'| translate}} {{'REQUIRED'| translate}}
+                                                                        </div>
+                                                                        <div ng-show="configurationTable.sizeName{{$index}}.$error.maxlength && !configurationTable.sizeName{{$index}}.$error.pattern">
+                                                                            * {{' SIZE'| translate}} {{'LONG'| translate}}
+                                                                        </div>
+                                                                        <div ng-show="configurationTable.sizeName{{$index}}.$error.minlength && !configurationTable.sizeName{{$index}}.$error.pattern">
+                                                                            * {{' SIZE'| translate}} {{'SHORT'| translate}}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="valueOptions">
+                                                                        <span ng-show="configurationTable.sizeName{{$index}}.$valid" ng-click="submitPWValue($index)">
+                                                                    <i class="fa fa-check"></i>
+                                                                </span>
+                                                                        <span ng-click="revertPWValue($index, 'sizeName')">
+                                                                    <i class="fa fa-times"></i>
+                                                                </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="config_input">
+                                                            <div>
+                                                                <input type="text" ng-model="row.length" required ng-pattern="/^[1-9]\d*$/" ng-maxlength="6" ng-change="checkValidation('length' + $index)"
+                                                                    name="length{{$index}}" ng-disabled="configurationTable.length{{$index}}.$dirty !== configurationTable.$dirty"
+                                                                    ng-class="{focus:editedField === 'length' + $index}" stopccp>
+                                                                <div ng-show="configurationTable.length{{$index}}.$dirty">
+                                                                    <div class="inside-input-error">
+                                                                        <div ng-show="configurationTable.length{{$index}}.$error.pattern && !configurationTable.length{{$index}}.$error.required">
+                                                                            * {{'LENGTH'|translate}} {{'INVALID'| translate}}
+                                                                        </div>
+                                                                        <div ng-show="configurationTable.length{{$index}}.$error.required">
+                                                                            * {{'LENGTH'|translate}} {{'REQUIRED'| translate}}
+                                                                        </div>
+                                                                        <div ng-show="configurationTable.length{{$index}}.$error.maxlength && !configurationTable.length{{$index}}.$error.pattern">
+                                                                            * {{'LENGTH'|translate}} {{'LONG'| translate}}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="valueOptions">
+                                                                        <span ng-show="configurationTable.length{{$index}}.$valid" ng-click="submitPWValue($index)">
+                                                                    <i class="fa fa-check"></i>
+                                                                </span>
+                                                                        <span ng-click="revertPWValue($index, 'length')">
+                                                                    <i class="fa fa-times"></i>
+                                                                </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="config_input">
+                                                            <div>
+                                                                <input type="text" ng-model="row.width" required ng-pattern="/^[1-9]\d*$/" ng-maxlength="6" ng-change="checkValidation('width' + $index)"
+                                                                    name="width{{$index}}" ng-disabled="configurationTable.width{{$index}}.$dirty !== configurationTable.$dirty"
+                                                                    ng-class="{focus:editedField === 'width' + $index}" stopccp>
+                                                                <div ng-show="configurationTable.width{{$index}}.$dirty">
+                                                                    <div class="inside-input-error">
+                                                                        <div ng-show="configurationTable.width{{$index}}.$error.pattern && !configurationTable.width{{$index}}.$error.required">
+                                                                            * {{'WIDTH'|translate}} {{'INVALID'| translate}}
+                                                                        </div>
+                                                                        <div ng-show="configurationTable.width{{$index}}.$error.required">
+                                                                            * {{'WIDTH'|translate}} {{'REQUIRED'| translate}}
+                                                                        </div>
+                                                                        <div ng-show="configurationTable.width{{$index}}.$error.maxlength && !configurationTable.width{{$index}}.$error.pattern">
+                                                                            * {{'WIDTH'|translate}} {{'LONG'| translate}}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="valueOptions">
+                                                                        <span ng-show="configurationTable.width{{$index}}.$valid" ng-click="submitPWValue($index)">
+                                                                    <i class="fa fa-check"></i>
+                                                                </span>
+                                                                        <span ng-click="revertPWValue($index, 'width')">
+                                                                    <i class="fa fa-times"></i>
+                                                                </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="config_input">
+                                                            <div>
+                                                                <input type="text" ng-model="row.height" required ng-pattern="/^[1-9]\d*$/" ng-maxlength="6" ng-change="checkValidation('height' + $index)"
+                                                                    name="height{{$index}}" ng-disabled="configurationTable.height{{$index}}.$dirty !== configurationTable.$dirty"
+                                                                    ng-class="{focus:editedField === 'height' + $index}" stopccp>
+                                                                <div ng-show="configurationTable.height{{$index}}.$dirty">
+                                                                    <div class="inside-input-error">
+                                                                        <div ng-show="configurationTable.height{{$index}}.$error.pattern && !configurationTable.height{{$index}}.$error.required">
+                                                                            * {{'HEIGHT'|translate}} {{'INVALID'| translate}}
+                                                                        </div>
+                                                                        <div ng-show="configurationTable.height{{$index}}.$error.required">
+                                                                            * {{'HEIGHT'|translate}} {{'REQUIRED'| translate}}
+                                                                        </div>
+                                                                        <div ng-show="configurationTable.height{{$index}}.$error.maxlength && !configurationTable.height{{$index}}.$error.pattern">
+                                                                            * {{'HEIGHT'|translate}} {{'LONG'| translate}}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="valueOptions">
+                                                                        <span ng-show="configurationTable.height{{$index}}.$valid" ng-click="submitPWValue($index)">
+                                                                    <i class="fa fa-check"></i>
+                                                                </span>
+                                                                        <span ng-click="revertPWValue($index, 'height')">
+                                                                    <i class="fa fa-times"></i>
+                                                                </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="config_input">
+                                                            <div>
+                                                                <input type="text" ng-model="row.correspondence" required ng-pattern="/^[1-9]\d*$/" ng-maxlength="6" ng-change="checkValidation('correspondence' + $index)"
+                                                                    name="correspondence{{$index}}" ng-disabled="configurationTable.correspondence{{$index}}.$dirty !== configurationTable.$dirty"
+                                                                    ng-class="{focus:editedField === 'correspondence' + $index}"
+                                                                    stopccp>
+
+                                                                <div ng-show="configurationTable.correspondence{{$index}}.$dirty">
+                                                                    <div class="inside-input-error">
+                                                                        <div ng-show="configurationTable.correspondence{{$index}}.$error.pattern && !configurationTable.correspondence{{$index}}.$error.required">
+                                                                            * {{'CORRESPONDENCE'|translate}} {{'INVALID'| translate}}
+                                                                        </div>
+                                                                        <div ng-show="configurationTable.correspondence{{$index}}.$error.required">
+                                                                            * {{'CORRESPONDENCE'|translate}} {{'REQUIRED'| translate}}
+                                                                        </div>
+                                                                        <div ng-show="configurationTable.correspondence{{$index}}.$error.maxlength && !configurationTable.correspondence{{$index}}.$error.pattern">
+                                                                            * {{'CORRESPONDENCE'|translate}} {{'LONG'| translate}}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="valueOptions">
+                                                                        <span ng-show="configurationTable.correspondence{{$index}}.$valid" ng-click="submitPWValue($index)">
+                                                                    <i class="fa fa-check"></i>
+                                                                </span>
+                                                                        <span ng-click="revertPWValue($index, 'correspondence')">
+                                                                    <i class="fa fa-times"></i>
+                                                                </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-center">
+                                                                <a class="actions-icons"><span class="fa fa-trash" authorized-block privilege-name="editconfig" rendering-option="remove" ng-click="!configurationTable.$dirty && deletePackageWeight(row.sizeId)" popover-append-to-body="true" uib-popover="{{'DELETE'|translate}}" popover-trigger="'mouseenter'" popover-placement="{{ 'LEFT' | translate}}"></span></a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </uib-accordion>
+                </div>
+            </div>
+        </form>
+    </div>
+</fieldset>

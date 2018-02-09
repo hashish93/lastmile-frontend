@@ -1,0 +1,19 @@
+<div class="lm-popup del-popup">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title">{{'DEACIVATE_ACTIVE_VEHICLE' | translate}}</h3>
+    </div>
+    <div class="modal-body lm-popup-body">
+        {{'DEACTIVE_CONFIRMATION' | translate}}
+        <div  class="text-center">
+            <button ng-repeat="order in data.orders" class="btn btn-default margin-bottom-10 margin-top-10 margin-right-10">
+                {{'ASSIGN_ORDER' | translate}} {{order.jobOrderId}}
+            </button>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn lm-btn blue-btn" id="deactivateActiveVehicleBtn" type="button" ng-disabled="disableBTN" ng-click="deactivate()">{{'SUBMIT' | translate}}</button>
+    </div>
+</div>

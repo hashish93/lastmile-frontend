@@ -1,0 +1,138 @@
+<script src="profile/js/profileController.js" type="text/javascript"></script>
+<script src="profile/js/changePasswordController.js" type="text/javascript"></script>
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row entity-title margin-bottom-30">
+                    <p>{{ 'PROFILE' | translate}}</p>
+                </div>
+                <div class="row margin-bottom-15 pos-relative">
+                    <div class="col-md-4">
+                        <img alt="profile picture" title="profile picture" class="img-responsive"
+                             ng-src="{{profileData.imageURL}}" uib-tooltip="{{'IMAGE'|translate}}">
+                    </div>
+                    <div class="col-md-8 sticky-to-bottom">
+                        <div>
+                            <div class="row dark-blue-font">
+                                <div class="col-md-6">
+                                    <h5 class="text-capitalize">
+                                        <span class="margin-right-10"><i class="fa fa-user" aria-hidden="true"></i></span>
+                                        <span>{{"CREATED_BY"| translate}} : </span>
+                                    </h5>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 class="text-capitalize gray-font">
+                                        {{profileData.createdBy}}
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row dark-blue-font">
+                                <div class="col-md-6">
+                                    <h5 class="text-capitalize">
+                                        <span class="margin-right-10"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+                                        <span>{{"CREATED_FROM"| translate}} : </span>
+                                    </h5>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 class="gray-font">
+                                        {{profileData.createdDate| date:('DATE_FORMAT' | translate)}}
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a>    
+                                        <h4 class="text-capitalize no-margin-bottom">
+                                            <span><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                            <span>{{"EDIT_PROFILE"| translate}}</span>
+                                        </h4>
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a ng-click="openChangePasswordPopup()">    
+                                        <h4 class="text-capitalize no-margin-bottom">
+                                            <span>{{"CHANGE_PASSWORD"| translate}}</span>
+                                        </h4>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="dark-blue-font">{{'FIRST_NAME'| translate}} : </h4>
+                        </div>
+                        <div class="col-md-8">
+                            <h5 class="gray-font">{{profileData.firstName}}</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="dark-blue-font">{{'LAST_NAME'| translate}} : </h4>
+                        </div>
+                        <div class="col-md-8">
+                            <h5 class="gray-font">{{profileData.lastName}}</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="dark-blue-font">{{'EMAIL_ADDRESS'| translate}} : </h4>
+                        </div>
+                        <div class="col-md-8">
+                            <h5 class="gray-font">{{profileData.lastName}}</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="dark-blue-font">{{'PHONE_NUMBER'| translate}} : </h4>
+                        </div>
+                        <div class="col-md-8">
+                            <h5 class="gray-font">{{profileData.phoneNumber}}</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="dark-blue-font">{{'NATIONAL_ID'| translate}} : </h4>
+                        </div>
+                        <div class="col-md-8">
+                            <h5 class="gray-font">{{profileData.nationalId}}</h5>
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-30">
+                        <div class="col-md-4">
+                            <h4 class="dark-blue-font text-capitalize">{{'ROLES'| translate}} : </h4>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row light-blue-font text-align-center">
+                                <div class="col-md-2 col-md-offset-4"><h6>{{"VIEW"|translate}}</h6></div>
+                                <div class="col-md-3"><h6>{{"ADMINSTRATE"|translate}}</h6></div>
+                                <div class="col-md-3"><h6>{{"ACTIVE_DEACTIVATE"|translate}}</h6></div>
+                            </div>
+
+                            <div class="row" ng-repeat="level_0 in role.privileges| filter:{foundModule:true} |orderBy:'moduleName' track by $index">
+
+                                <div class="col-md-4">
+                                    <div class="config_item_name text-capitalize gray-font">{{level_0.moduleName| translate}}</div>
+                                </div>
+                                <div ng-repeat="level_1 in level_0.permissions track by $index" class="light-blue-font">
+                                    <div class="col-md-2 view-col text-align-center">
+                                        <span ng-if="level_1['value']"><i class="fa fa-check" aria-hidden="true"></i></span>
+                                    </div>
+                                    <div ng-repeat="level_2 in level_1.children| orderBy:'Id' track by $index">
+                                        <div class="col-md-3 admin-col text-align-center">
+                                            <span ng-if="level_2['value']"><i class="fa fa-check" aria-hidden="true"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+        </div>
+    </div>

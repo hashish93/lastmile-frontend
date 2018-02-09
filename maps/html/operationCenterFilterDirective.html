@@ -1,0 +1,72 @@
+<form name="operationCenterFilterForm" click-outside="isPopupVisible = false">
+    <button class="btn btn-default btn-primary list-search-dropdown-button no-border-radius pull-right" ng-click="isPopupVisible = !isPopupVisible">{{'FILTER'| translate}} <span class="caret"></span></button>
+    <div class="list-search-panel-container" ng-show="isPopupVisible">
+        <div class="mp container-fluid" ng-class="{'active':isPopupVisible}">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="center">
+                        <h4><b>{{'BUILDINGS'| translate}}</b></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row" super-user>
+                <div class="col-md-12">
+                    <div class="form-group center">
+                        <select class="form-control" ng-model="selectedBuilding"
+                                ng-options="building as building.name for building in allBuildings">
+                            <option  value="">{{'SELECT_BUILDING'|translate}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="center">
+                        <h4><b>{{'PACKAGE_STATUS'| translate}}</b></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group center">
+                        <div ng-repeat="order_status in filterItems" ng-show="order_status.parent === 'order'">
+                            <input id="{{order_status.transName}}" type="checkbox" 
+                                   ng-model="order_status.value">
+                            <label class="text-info" for="{{order_status.transName}}">{{order_status.transName| translate}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="center">
+                        <h4><b>{{'VEHICLE_STATE'| translate}}</b></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group center">
+                        <div ng-repeat="vehicle_status in filterItems" ng-show="vehicle_status.parent === 'vehicle'">
+                            <input id="{{vehicle_status.transName}}" type="checkbox" 
+                                   ng-model="vehicle_status.value">
+                            <label class="text-info" for="{{vehicle_status.transName}}">{{vehicle_status.transName| translate}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-top-20 margin-bottom-15">
+                <div class="col-xs-12">
+                    <div class="col-xs-5">
+                        <button class="btn btn-default btn-primary no-border-radius" ng-click="apply()">{{'APPLY'| translate}}</button>
+                    </div>
+                    <div class="col-xs-5 col-xs-offset-2">
+                        <div class="reset-button-holder">
+                            <a ng-click="reset()">{{'RESET_FILTER'| translate}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

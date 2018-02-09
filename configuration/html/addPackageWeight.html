@@ -1,0 +1,96 @@
+<div class="lm-popup">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title">{{ 'ADD_PACKAGE_WEIGHT' | translate}}</h3>
+    </div>
+    <form name="addPackageWeightForm" >
+        <div class="modal-body lm-popup-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 ">
+                        <div  class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addPackageWeightForm.sizeName.$error.required && afterSubmit">{{'SIZE'|translate}} {{ 'REQUIRED' | translate}}</div>
+                                <div ng-show="addPackageWeightForm.sizeName.$dirty && addPackageWeightForm.sizeName.$invalid">
+                                    <div ng-show="addPackageWeightForm.sizeName.$error.pattern">{{'SIZE'|translate}} {{'INVALID'| translate}}</div>
+                                    <div ng-show="addPackageWeightForm.sizeName.$error.maxlength && !addPackageWeightForm.sizeName.$error.pattern">{{'SIZE'|translate}} {{ 'LONG' | translate}}</div>
+                                    <div ng-show="addPackageWeightForm.sizeName.$error.minlength && !addPackageWeightForm.sizeName.$error.pattern">{{'SIZE'|translate}} {{ 'SHORT' | translate}}</div>
+                                </div>
+                                <div ng-hide="addPackageWeightForm.sizeName.key">{{serverError.sizeName.toString()}}</div>
+                            </div>
+                            <input type="text" class="form-control" name="sizeName"
+                                   ng-pattern="/^[a-zA-Z0-9\u0621-\u064A\u0660-\u0669]*[a-zA-Z0-9\u0621-\u064A\u0660-\u0669]+$/"
+                                   required ng-maxlength="32" ng-minlength="2" ng-model="packageWeight.sizeName" placeholder="{{ 'SIZE' | translate}} *"
+                                   ng-keydown="backendVisibilityService.checkKey(addPackageWeightForm.sizeName, serverError)">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div  class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addPackageWeightForm.length.$error.required && afterSubmit">{{'LENGTH'|translate}} {{ 'REQUIRED' | translate}}</div>
+                                <div ng-show="addPackageWeightForm.length.$dirty && addPackageWeightForm.length.$invalid">
+                                    <div ng-show="addPackageWeightForm.length.$error.pattern">{{'LENGTH'|translate}} {{'INVALID'| translate}}</div>
+                                    <div ng-show="addPackageWeightForm.length.$error.maxlength && !addPackageWeightForm.length.$error.pattern">{{'LENGTH'|translate}} {{ 'LONG' | translate}}</div>
+                                </div>
+                                <div ng-hide="addPackageWeightForm.length.key">{{serverError.length.toString()}}</div>
+                            </div>
+                            <input type="text" class="form-control" name="length" ng-pattern="/^[1-9]\d*$/" ng-maxlength="6" ng-model="packageWeight.length"
+                                   placeholder="{{ 'LENGTH' | translate}} *" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div  class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addPackageWeightForm.width.$error.required && afterSubmit">{{'WIDTH'|translate}} {{ 'REQUIRED' | translate}}</div>
+                                <div ng-show="addPackageWeightForm.width.$dirty && addPackageWeightForm.width.$invalid">
+                                    <div ng-show="addPackageWeightForm.width.$error.pattern">{{'WIDTH'|translate}} {{'INVALID'| translate}}</div>
+                                    <div ng-show="addPackageWeightForm.width.$error.maxlength && !addPackageWeightForm.width.$error.pattern">{{'WIDTH'|translate}} {{ 'LONG' | translate}}</div>
+                                </div>
+                                <div ng-hide="addPackageWeightForm.width.key">{{serverError.width.toString()}}</div>
+                            </div>
+                            <input type="text" class="form-control" name="width" ng-pattern="/^[1-9]\d*$/" ng-maxlength="6" ng-model="packageWeight.width"
+                                   placeholder="{{ 'WIDTH' | translate}} *" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div  class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addPackageWeightForm.height.$error.required && afterSubmit">{{'HEIGHT'|translate}} {{ 'REQUIRED' | translate}}</div>
+                                <div ng-show="addPackageWeightForm.height.$dirty && addPackageWeightForm.height.$invalid">
+                                    <div ng-show="addPackageWeightForm.height.$error.pattern">{{'HEIGHT'|translate}} {{'INVALID'| translate}}</div>
+                                    <div ng-show="addPackageWeightForm.height.$error.maxlength && !addPackageWeightForm.height.$error.pattern">{{'HEIGHT'|translate}} {{ 'LONG' | translate}}</div>
+                                </div>
+                                <div ng-hide="addPackageWeightForm.height.key">{{serverError.height.toString()}}</div>
+                            </div>
+                            <input type="text" class="form-control" name="height" ng-pattern="/^[1-9]\d*$/" ng-maxlength="6" ng-model="packageWeight.height"
+                                   placeholder="{{ 'HEIGHT' | translate}} *" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 ">
+                        <div  class="form-group">
+                            <div class="error-container">
+                                <div ng-show="addPackageWeightForm.correspondence.$error.required && afterSubmit">{{'CORRESPONDENCE'|translate}} {{ 'REQUIRED' | translate}}</div>
+                                <div ng-show="addPackageWeightForm.correspondence.$dirty && addPackageWeightForm.correspondence.$invalid">
+                                    <div ng-show="addPackageWeightForm.correspondence.$error.pattern">{{'CORRESPONDENCE'|translate}} {{'INVALID'| translate}}</div>
+                                    <div ng-show="addPackageWeightForm.correspondence.$error.maxlength && !addPackageWeightForm.correspondence.$error.pattern">{{'CORRESPONDENCE'|translate}} {{ 'LONG' | translate}}</div>
+                                </div>
+                                <div ng-hide="addPackageWeightForm.correspondence.key">{{serverError.correspondence.toString()}}</div>
+                            </div>
+                            <input type="text" class="form-control" name="correspondence" ng-pattern="/^[1-9]\d*$/" ng-maxlength="6" ng-model="packageWeight.correspondence"
+                                   placeholder="{{ 'CORRESPONDENCE' | translate}} *" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer margin-top-10">
+                <button class="btn lm-btn blue-btn" id="addPackageWeightBtn" type="button"  ng-click="addPackageWeight()" >{{'SUBMIT'|translate}}</button>
+            </div>
+        </div>
+    </form>
+</div>

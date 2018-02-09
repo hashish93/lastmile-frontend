@@ -1,0 +1,190 @@
+<script src="customer/js/customerDetailsController.js" type="text/javascript"></script>
+
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="row top-navigation-customer">
+            <div class="col-md-12">
+                <a><h4><i class="fa fa-angle-double-left blue"></i> {{'BACK_CUSTOMER_LIST'|translate}}</h4></a>
+            </div>
+        </div>
+        <div class="row lm-grid">
+            <div class="col-md-12">
+                <div class="customer-container">
+                    <div class="row margin-bottom-20">
+                        <div class="col-md-6">
+                            <div class="col-md-8 col-md-offset-4">
+                                <h4 class='text-capitalize'>{{'CUSTOMER_DETAILS'| translate}}</h4>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>{{'STATISTICS'| translate}}</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <div class="">
+                                    <div class="row">
+                                        <img class="customerImg"  src="{{customer.personalPhotoLink}}" >
+                                    </div>
+                                    <div class="row align-text-center customer-information-name text-capitalize">
+                                        <h3><b>{{customer.username| onEmpty}}</b></h3>
+                                    </div>
+                                    <div class="row align-text-center">
+                                        <h4><span class="label label-success">{{customerStats.customerRating}}</span></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="col-md-12 center customer-information">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <span class="fa fa-paper-plane"></span>
+                                            <span class="normal">{{customer.email| onEmpty}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <span class="fa fa-mobile fa-2x"></span>
+                                            <span>{{customer.phone| onEmpty}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <span class="fa fa-map"></span>
+                                            <span>{{customer.countryNameEn| onEmpty}}, {{customer.cityNameEn| onEmpty}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <span class="fa fa-user"></span>
+                                            <span>{{customer.gender| onEmpty}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <span class="fa fa-calendar"></span>
+                                            <span>{{customer.birthdate| date:'dd/MM/yyyy' | onEmpty}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="statistics-box dark-blue-customer margin-bottom-20" id="customerDetailsStats"
+                                         ng-class="{'default-size' : customerPackageTypeStats.length<=3,
+                                          'four-categories' : customerPackageTypeStats.length>3 && customerPackageTypeStats.length<=4
+                                          , 'five-categories':customerPackageTypeStats.length == 5}">
+                                        <div class="stat-box-header">
+                                            <div class="align-text-center">
+                                                <h6 class="white"><b>{{'CUSTOMER_REQUESTS'|translate}}</b></h6>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="stat-box-body">
+                                            <div>
+                                                <div class="pull-left white">
+                                                    <h1 class="chart-sum">{{ totalJobs}}</h1>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-xs-12 chart-container"> 
+                                                    <canvas id="doughnut" class="chart chart-doughnut"
+                                                            chart-data="chartObj.data" chart-labels="chartObj.labels" chart-options="chartObj.options"
+                                                            chart-dataset-override="chartObj.datasets">
+                                                    </canvas> 
+                                                </div>
+                                            </div>
+                                            <ul class="chart-vertical-refs-list white text-align-center">
+                                                <li>
+                                                    <div class="reference-small-circle green"></div>
+                                                    <div>{{customerStats[2].data}}</div>
+                                                    <div><h5>{{'PROCESSED'| translate}}</h5></div>
+                                                </li>
+                                                <li>
+                                                    <div class="reference-small-circle yellow"></div>
+                                                    <div>{{customerStats[1].data}}</div>
+                                                    <div><h5>{{'IN_PROGRESS'| translate}}</h5></div>
+                                                </li>
+                                                <li>
+                                                    <div class="reference-small-circle red"></div>
+                                                    <div>{{customerStats[0].data}}</div>
+                                                    <div><h5>{{'CANCELED'| translate}}</h5></div>
+                                                </li>
+                                            </ul>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="most-used-customer-category">
+                                        <div class="statistics-box dark-blue-customer">
+                                            <div class="stat-box-header">
+                                                <div class="align-text-center">
+                                                    <h6 class="white"><b>{{'CUSTOMER_USED_CATEGORY'|translate}}</b></h6>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="stat-box-body">
+                                                <div class="row">
+                                                    <div class="col-xs-12 chart-container margin-top-20 white">
+                                                        <canvas id="pie" class="chart chart-pie"
+                                                                chart-data="packageChartObj.data" chart-labels="packageChartObj.labels" chart-options="packageChartObj.options"
+                                                                chart-dataset-override="packageChartObj.datasets">
+                                                        </canvas>
+                                                    </div>
+                                                    <ul class="chart-vertical-refs-list white text-align-center">
+                                                        <li ng-repeat="packageType in customerPackageTypeStats" class="row white text-center">
+                                                            <div class="reference-small-circle" style="background: {{packageChartObj.datasets.backgroundColor[$index]}}"></div>
+                                                            <div>
+                                                               {{packageType.data}}
+                                                            </div>
+                                                            <div>
+                                                                <h5>{{packageType.labels}}</h5>
+
+                                                            </div>
+                                                        </li>
+
+                                                    </ul>
+
+
+                                                    <div class="white col-xs-12 text-center" ng-if="customerPackageTypeStats.length == 0">
+
+                                                        {{'NO_CATEGORIES' | translate}}
+                                                    </div>
+                                                </div>
+                                                <!--<div class="align-text-center margin-top-20">-->
+                                                    <!--<div class="row">-->
+                                                        <!--<img ng-src="commons/images/{{customerStats.categoryName}}.png">-->
+                                                    <!--</div>-->
+                                                    <!--<div class="row white">-->
+                                                        <!--<div class="col-md-offset-4">-->
+                                                            <!--<div class="col-md-6 no-padding">-->
+                                                                <!--<h5>{{customerStats.categoryName}}</h5>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
+                                                    <!--</div>-->
+                                                    <!--<div class="row white">-->
+                                                        <!--<h2 class='no-margin-top'>{{customerStats.categoryRequests}}</h2>-->
+                                                    <!--</div>-->
+                                                    <!--<div class="row white">-->
+                                                        <!--<h5 class='no-margin-top'>{{'REQUESTS'| translate}}</h5>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

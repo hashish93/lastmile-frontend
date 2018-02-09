@@ -1,0 +1,28 @@
+<script src="package/js/listPackagesController.js"></script>
+<script src="package/js/packageFilterDirective.js"></script>
+
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="pre-table-container">
+            <div class="row entity-title margin-bottom-15">
+                <p>{{'PACKAGES'| translate}}</p>
+            </div>
+            <package-filter-directive filter-search="filter"></package-filter-directive>
+        </div>
+        <div class="row lm-grid full-height">
+            <div class="col-md-12 margin-bottom-15">
+                <div ng-show='showSpinner'>
+                    <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                </div>
+                <div class="grid" ng-if="lang === 'ar'" dir='rtl' ui-if="pkgListOptions.data.length>0"
+                     ui-grid="pkgListOptions" ui-grid-selection ui-grid-pagination ui-grid-resize-columns
+                     ui-grid-auto-resize ng-style="getTableHeight()">
+                </div>
+                <div class="grid" ng-if="lang === 'en'"  ui-if="pkgListOptions.data.length>0"
+                     ui-grid="pkgListOptions" ui-grid-selection ui-grid-pagination ui-grid-resize-columns
+                     ui-grid-auto-resize ng-style="getTableHeight()">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="statistics-box purple round-corners" id="pickupRequestsBox">
+    <div class="stat-box-header">
+        <div class="pull-left">
+            <h6 class="white"><b>{{'PICKUP_REQUESTS'|translate}}</b></h6>
+        </div>
+        <div class="pull-right refresh-button-container">
+            <a><i class="fa fa-refresh fa-spin white" aria-hidden="true" ng-class="{ 'fa-spin' : loaderSpin }"></i></a>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="stat-box-body">
+        <div>
+            <div class="pull-right margin-top-10 margin-bottom-10">
+                <div class="custom-select underlined-select white-select">
+                    <span class="selector-arrow selector-caret"></span>
+                    <select ng-model="selectedTimeInterval"
+                            ng-change="getPickupRequestsCount()"
+                            ng-options="timeInterval as timeInterval |    translate for timeInterval in timeIntervals">
+                    </select>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="in-chart-streacher">
+                        <h1 class="no-margin white">{{ sum }}</h1>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="doughnut" class="chart chart-doughnut"
+                                chart-data="chartObj.data" chart-labels="chartObj.labels" chart-options="chartObj.options"
+                                chart-dataset-override="chartObj.datasets">
+                        </canvas> 
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-stat-labels">
+                <div class="pull-left">
+                    <div class="reference-small-circle baby-blue"></div>
+                    <h6 class="white">{{'ON-DEMAND'|translate}}</h6>
+                </div>
+                <div class="pull-right">
+                    <div class="reference-small-circle purple"></div>
+                    <h6 class="white">{{'SCHEDULED'|translate}}</h6>
+                </div>
+                <div class="clearfix"></div>  
+            </div>
+        </div>
+    </div>
+</div>

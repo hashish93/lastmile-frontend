@@ -1,0 +1,37 @@
+<script src="offloading/js/listOffloadingController.js" type="text/javascript"></script>
+<script src="offloading/js/offloadingStatusController.js" type="text/javascript"></script>
+
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="row entity-title margin-bottom-15">
+            <p>{{'OFFLOADING'| translate}}</p>
+        </div>
+        <div class="row margin-bottom-15" super-user>
+            <div class="form-group">
+
+                <select ng-change="changeHub()" class="form-control" name="hubId" ng-model="hubId"
+                        ng-options="building.id  as building.name for building in buildingList"
+                        ng-required="userInfoService.isSuperUser()">
+                    <option disabled hidden value="">{{'SELECT_BUILDING'|translate}}*</option>
+                </select>
+
+            </div>
+        </div>
+
+        <div class="row lm-grid full-height" ng-if="(userInfoService.isSuperUser() && hubId ) || (!userInfoService.isSuperUser())">
+            <div class="col-md-12 margin-bottom-15">
+                <div ng-show='showSpinner'>
+                    <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                </div>
+                <div class="grid" ng-if="lang === 'ar'" dir='rtl' ui-if="offloadingListOptions.data.length>0"
+                     ui-grid="offloadingListOptions" ui-grid-expandable ui-grid-resize-columns
+                     ui-grid-auto-resize ng-style="getTableHeight()">
+                </div>
+                <div class="grid" ng-if="lang === 'en'"  ui-if="offloadingListOptions.data.length>0"
+                     ui-grid="offloadingListOptions" ui-grid-expandable ui-grid-resize-columns
+                     ui-grid-auto-resize ng-style="getTableHeight()">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

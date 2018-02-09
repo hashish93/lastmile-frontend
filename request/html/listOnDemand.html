@@ -1,0 +1,44 @@
+<script src="request/js/listOnDemandController.js"></script>
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="row entity-title margin-bottom-15">
+            <p>{{'ON_DEMAND_PICKUP_REQUESTS'| translate}}</p>
+        </div>
+        <div class="row lm-grid   margin-bottom-15">
+            <div class="col-md-12 ">
+                <div ng-show='showSpinner'>
+                    <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                </div>
+                <div class="untaken-grid">
+                    <div class="grid" ng-if="lang === 'ar'" dir='rtl' ui-if="OnDemandunTakenListOptions.data.length>0" 
+                         ui-grid="OnDemandunTakenListOptions" ui-grid-selection ui-grid-resize-columns
+                         ui-grid-auto-resize ng-style="getTableHeight('u')"></div>
+                    <div class="grid"  ng-if="lang === 'en'"  ui-if="OnDemandunTakenListOptions.data.length>0" 
+                         ui-grid="OnDemandunTakenListOptions" ui-grid-selection ui-grid-resize-columns
+                         ui-grid-auto-resize ng-style="getTableHeight('u')"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row lm-grid margin-bottom-15">
+            <div class="col-md-12 ">
+                <div ng-show='showSpinnerB'>
+                    <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                </div>
+                <div class="taken-grid ">
+                    <div class="grid"  ng-if="lang === 'ar'" dir='rtl' ui-if="OnDemandTakenListOptions.data.length>0" 
+                         ui-grid="OnDemandTakenListOptions" ui-grid-selection ui-grid-resize-columns
+                         ui-grid-auto-resize ng-style="getTableHeight('t')">
+
+                    </div>
+
+                    <div class="grid"  ng-if="lang === 'en'"  ui-if="OnDemandTakenListOptions.data.length>0" 
+                         ui-grid="OnDemandTakenListOptions" ui-grid-selection ui-grid-resize-columns
+                         ui-grid-auto-resize ng-style="getTableHeight('t')">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,69 @@
+<script src="distribution/js/loadingJobsController.js" type="text/javascript"></script>
+
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="row entity-title margin-bottom-15">
+            <p class="pull-left">{{'LOADING_ACTIVITIES'| translate}}</p>
+        </div>
+        <div class="col-md-12" super-user>
+            <div class="form-group">
+
+                <select ng-change="changeHub()" class="form-control" name="hubId" ng-model="hubId"
+                        ng-options="building.id  as building.name for building in buildingList"
+                        ng-required="userInfoService.isSuperUser()">
+                    <option disabled hidden value="">{{'SELECT_BUILDING'|translate}}*</option>
+                </select>
+
+            </div>
+        </div>
+        <div class="row margin-bottom-30">
+            <div class="col-md-12" data-toggle="buttons">
+                <label class="btn btn-default selectable-vehicle-box" 
+                       ng-repeat="vehicle in vehicles" 
+                       ng-model="vehicle.selectedStatus" uib-btn-checkbox 
+                       ng-change="selectVehicle($index, vehicle.selectedStatus)" 
+                       ng-class="{'btn-primary': vehicle.selectedStatus}">
+                    <i ng-if="vehicle.selectedStatus" class="fa fa-check" aria-hidden="true"></i>
+                    {{vehicle.vehicleType}} - {{vehicle.driverName}}
+                </label>
+            </div>
+        </div>
+        <div class="row margin-bottom-30">
+            <div class="center-block" ng-if="vehicles.length <= 0">
+                <h2 class="text-center">
+                    {{"NO_ASSGINED_ORDERS_OV"|translate}}
+                </h2>
+            </div>
+            <div class="col-md-3" ng-if="vehicles.length > 0" ng-repeat="car in selectedVehicles">
+                <div class="col-md-12 panel text-center vehicle-container">
+                    <h5><b>{{car.vehicleType}} - {{car.driverName}}</b></h5>
+                    <h5><b>{{car.workShiftFrom| date : "shortTime" }} - {{car.workShiftTo| date : "shortTime" }}</b></h5>
+                    <div class="vehicles-job-container text-align-left text-capitalize">
+                        <div ng-if="car.loaded !== true">
+                            <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                        </div>
+                        <div ng-repeat="job in car.jobs" class="job-in-vehicle loading-jobs" 
+                             ng-class="job.driverResponse === 'REJECT' ? 'rejected-job': ''">
+                            <h5><b>{{job.packageType | translate}} ({{job.actualWeight}}{{ 'KG' | translate}})</b></h5>
+                            <h5>{{job.content}}</h5>
+                            <h5>{{ 'DRIVER_RESPONSE' | translate}} :
+                                <b ng-if=' job.driverResponse === null '> {{ 'N_A' | translate }} </b>
+                                <b ng-if="job.driverResponse !== null && job.driverResponse !== undefined"
+                                   ng-class="job.driverResponse == 'ACCEPT' ? 'text-success' : 'text-danger'">
+                                    {{job.driverResponse | translate}}
+                                </b>
+
+                            </h5>
+                            <h5 ng-if="job.reason">{{job.reason}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--        <div class="row" ng-if="vehicles.length > 0">
+            <div class="col-lg-12 text-center margin-bottom-30">
+                <button class="btn btn-primary text-capitalize" authorized-block privilege-name="editloading" ng-disabled="true" >{{"REASSIGN_ALL"|translate}}</button>
+            </div>
+        </div>-->
+    </div>
+</div>

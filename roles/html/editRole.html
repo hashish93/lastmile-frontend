@@ -1,0 +1,214 @@
+<script src="roles/js/editRoleController.js"></script>
+<form name='roleForm'>
+    <div class="lm-container-holder">
+        <div class="lm-container">
+            <div class='pre-table-containere'>
+                <div class="row entity-title">
+                    <p>{{'EDIT_ROLE'|translate}}</p>
+                </div>
+                <div class="row entity-title small-entity-title">
+                    <p>{{'SET_ROLE'|translate}}</p>
+                </div>
+                <div class="row margin-bottom-10">
+
+                    <div class="col-md-12"  super-user>
+                        <div class="error-container">
+                            <div ng-hide="roleForm.hubId.key">{{serverError.hubId}}</div>
+                        </div>
+                        <select class="form-control" name="hubId" ng-model="role.hubId" ng-change="clearUsers()"
+                                ng-options="hub.id  as hub.name for hub in buildingList"
+                                >
+                            <option value="">{{'SELECT_BUILDING'|translate}}*</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="error-container">
+                            <div ng-show="roleForm.name.$dirty && roleForm.name.$invalid">
+                                <div ng-show="roleForm.name.$error.required">{{'ROLE_NAME'|translate}} {{ 'REQUIRED' |
+                                    translate}}
+                                </div>
+                                <div ng-show="roleForm.name.$error.pattern">{{'ROLE_NAME'|translate}} {{ 'INVALID' |
+                                    translate}}
+                                </div>
+                                <div ng-show="roleForm.name.$error.maxlength && !roleForm.name.$error.pattern">
+                                    {{'ROLE_NAME'|translate}} {{ 'LONG' | translate}}
+                                </div>
+                                <div ng-show="roleForm.name.$error.minlength && !roleForm.name.$error.pattern">
+                                    {{'ROLE_NAME'|translate}} {{ 'SHORT' | translate}}
+                                </div>
+                            </div>
+                            <div ng-hide="roleForm.name.key">{{serverError.name.toString()}}</div>
+                        </div>
+                       
+                            <input class="form-control" ng-maxlength="32" ng-minlength="2" ng-model="role.name"
+                                   type="text" name="name" ng-pattern="/^[a-zA-Z0-9\-\_\ \u0621-\u064A\u0660-\u0669]*$/"
+                                   placeholder="{{'ROLE_NAME'|translate}}*" required ng-change="mode()"
+                                   ng-keydown="backendVisibilityService.checkKey(roleForm.name, serverError)">
+                       
+                    </div>
+                    <div class="col-md-12">
+                        <div class="error-container">
+                            <div ng-show="roleForm.description.$dirty && roleForm.description.$invalid">
+                                <div ng-show="roleForm.description.$error.required">{{'ROLE_DES'|translate}}{{
+                                            'REQUIRED' | translate}}
+                                </div>
+                                <div ng-show="roleForm.description.$error.pattern">{{'ROLE_DES'|translate}} {{ 'INVALID'
+                                                    | translate}}
+                                </div>
+                                <div ng-show="roleForm.description.$error.maxlength && !roleForm.description.$error.pattern">
+                                    {{'ROLE_DES'|translate}}{{ 'LONG' | translate}}
+                                </div>
+                                <div ng-show="roleForm.description.$error.minlength && !roleForm.description.$error.pattern">
+                                    {{'ROLE_DES'|translate}}{{ 'SHORT' | translate}}
+                                </div>
+                            </div>
+                            <div ng-hide="roleForm.description.key">{{serverError.description.toString()}}</div>
+                        </div>
+                      
+                            <textarea class="form-control role-textArea" ng-model="role.description" type="text" name="description"
+                                      placeholder="{{'ROLE_DES'|translate}}*" ng-maxlength="250" ng-minlength="2"
+                                      required ng-change="mode()"
+                                      ng-keydown="backendVisibilityService.checkKey(roleForm.description, serverError)"></textarea>
+                       
+                    </div>
+
+                </div>
+                <hr>
+                <div class="row entity-title small-entity-title">
+                    <p>{{' SET_PERMISSIONS'|translate}}</p>
+                </div>
+                <div class="row config-grid roles-grid">
+                    <div class="error-container">
+                        {{serverError.acceptedPrivileges.toString()}}
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <col style="width: 30%;">
+                            <col style="width: 70%;">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div>
+                                            {{'MODULE_NAME'|translate}}
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div>
+                                            {{'PERMISSIONS'|translate}}
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="level_0 in role.privileges| orderBy:'moduleName' track by $index ">
+                                    <td class="config_item_name">{{level_0.moduleName| translate}}</td>
+                                    <td>
+                                        <div ng-repeat="level_1 in level_0.permissions  track by $index">
+                                            <div class="col-md-2 view-col">
+                                                <input id="{{level_1.name}}"
+                                                       class="custom-checkbox" ng-change="changeStatus(level_1)"
+                                                       type='checkbox' ng-model="level_1['value']">
+                                                <label for="{{level_1.name}}">{{level_1['displayName']|
+                                                translate}}</label>
+                                            </div>
+                                            <div ng-repeat="level_2 in level_1.children | orderBy:'Id' track by $index">
+                                                <div class="col-md-2 admin-col">
+                                                    <input id="{{level_1.moduleName}}{{level_2['name']}}"
+                                                           ng-change="changeStatus(level_2)"
+                                                           class="custom-checkbox"
+                                                           ng-disabled="!level_1['value']" type='checkbox'
+                                                           ng-model="level_2['value']">
+                                                    <label for="{{level_1.moduleName}}{{level_2['name']}}">
+                                                        {{level_2['displayName']| translate}}</label>
+                                                </div>
+                                                <div ng-repeat="level_3 in level_2.children | orderBy:'Id' track by $index"
+                                                     class="pull-left">
+                                                    <div class="col-md-2">
+                                                        <input id="{{level_0.moduleName}}{{level_3['name']}}"
+                                                               class="custom-checkbox"
+                                                               ng-disabled="!level_2['value']" type='checkbox'
+                                                               ng-model="level_3['value']"
+                                                               ng-change="setAcceptedPrivileges()">
+                                                        <label for="{{level_0.moduleName}}{{level_3['name']}}">
+                                                            {{level_3['displayName']| translate}}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                <hr>
+                <div class="row entity-title small-entity-title margin-bottom-15">
+                    <p>{{'ASSIGN_USER'|translate}}</p>
+                </div>
+                <div class="row margin-bottom-15">
+                    <div class='col-md-12'>
+                        <ui-select ng-model="allEmployees.selected"
+                                   theme="bootstrap"
+                                   on-select="selectedEmp($item , 'employeeId')"
+                                   reset-search-input="true"
+                                   style="width: 100%;"
+                                   >
+                            <ui-select-match class="text-left" placeholder="{{'SERCH_USER'| translate}}...">
+                                {{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices repeat=" employee in allEmployees | filter: $select.search"
+                                               refresh="listUsers($select.search)" refresh-delay="0">
+                                <div ng-bind-html="employee.firstname +' '+employee.lastname+' '+'/'+' '+employee.email | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn lm-btn dark-btn no-margin-bottom" ng-show="show" ng-click="clearSelection()">
+                            <span class="fa fa-eraser"></span>{{'CLEAR_BTN'| translate}}
+                        </button>
+                        <button type="button" class="btn lm-btn dark-btn no-margin-bottom" ng-show="show" ng-click="deleteSelection()">
+                            <span class="fa fa-trash"></span>{{'REMOVE_ASS_BTN'| translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row lm-grid full-height">
+                <div class="error-container">
+                    {{serverError.users.toString()}}
+                </div>
+                <div class="col-md-12 margin-bottom-15 ">
+                    <div ng-show='showSpinner'>
+                        <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                    </div>
+                    <div class="grid no-margin-top" ng-if="lang === 'ar'" dir='rtl' ui-if="userListOpt.data.length>0"
+                         ui-grid="userListOpt" ui-grid-pagination ui-grid-resize-columns
+                         ui-grid-auto-resize ui-grid-selection ng-style="getTableHeight()" ui-grid-pinning>
+<!--                        <div class="watermark" ng-show="!userListOpt.data.length">{{'NO_USER_ASSIGNED'| translate}}
+                        </div>-->
+                    </div>
+                    <div class="grid no-margin-top" ng-if="lang === 'en'" ui-if="userListOpt.data.length>0"
+                         ui-grid="userListOpt" ui-grid-pagination ui-grid-resize-columns
+                         ui-grid-auto-resize ui-grid-selection ng-style="getTableHeight()" ui-grid-pinning>
+<!--                        <div class="watermark" ng-show="!userListOpt.data.length">{{'NO_USER_ASSIGNED'| translate}}
+                        </div>-->
+                    </div>
+
+                </div>
+                <div class='col-md-12 center-block text-center margin-bottom-30'>
+                    <button class="btn lm-btn blue-btn" type="button" ng-click="saveRole()"
+                            ng-disabled="roleForm.$invalid || !editMode || disableBTN">{{'SAVE'| translate}}
+                    </button>
+                    <button class="btn lm-btn dark-btn" ui-sref="admin.listroles" type="button">{{'CANCLE'|
+                        translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

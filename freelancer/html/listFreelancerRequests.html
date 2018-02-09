@@ -1,0 +1,25 @@
+<script src="freelancer/js/listFreelancerRequestsController.js" type="text/javascript"></script>
+<script src="freelancer/js/freelancerFilterDirective.js" type="text/javascript"></script>
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="pre-table-container">
+            <div class="row entity-title margin-bottom-15">
+                <p>{{'FREELANCER_REQUESTS'| translate}}</p>
+            </div>
+            <freelancer-filter-directive filter-search="filter" filter-in-grid="refreshGrid"></freelancer-filter-directive>
+        </div>
+        <div class="row lm-grid full-height margin-bottom-15">
+            <div class="col-md-12">
+                <div ng-show='showSpinner'>
+                    <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                </div>
+                <div class="grid" ng-if="lang === 'ar'" dir='rtl' ui-if="freelancerRequestListOptions.data.length>0"
+                     ui-grid="freelancerRequestListOptions" ui-grid-pagination ui-grid-resize-columns ui-grid-selection
+                     ui-grid-auto-resize ng-style="getTableHeight()"></div>
+                <div class="grid" ng-if="lang === 'en'" ui-if="freelancerRequestListOptions.data.length>0"
+                     ui-grid="freelancerRequestListOptions" ui-grid-pagination ui-grid-resize-columns ui-grid-selection
+                     ui-grid-auto-resize ng-style="getTableHeight()"></div>
+            </div>
+        </div>
+    </div>
+</div>

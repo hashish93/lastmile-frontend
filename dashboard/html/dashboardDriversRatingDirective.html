@@ -1,0 +1,27 @@
+<div class="statistics-box dark-blue" id="pickupRequestsBox">
+    <div class="stat-box-header margin-bottom-10">
+        <div class="pull-left">
+            <h6 class="white"><b>{{'DRIVERS_RATING'|translate}}</b></h6>
+        </div>
+        <div class="pull-right margin-top-10">
+            <div class="custom-select gray-select">
+                <span class="selector-arrow selector-caret blue"></span>
+                <select ng-model="selectedDriversType"
+                        ng-change="getDriversRating()"
+                        ng-options="driversType as driversType for driversType in driversTypes">
+                </select>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="stat-box-body">
+        <div class="row">
+            <div class="col-xs-12 chart-container"> 
+                <canvas id="bar" class="chart chart-bar"
+                        chart-data="chartObj.data" chart-labels="chartObj.labels" chart-options="chartObj.options"
+                        chart-dataset-override="chartObj.datasets">
+                </canvas>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="statistics-box dark-blue" id="pickupRequestsBox">
+    <div class="stat-box-header">
+        <div class="pull-left">
+            <h6 class="white"><b>{{'GO_EXTRA'|translate}}</b></h6>
+        </div>
+        <div class="pull-right margin-top-10 margin-bottom-10">
+            <div class="custom-select gray-select">
+                <span class="selector-arrow selector-caret blue"></span>
+                <select ng-model="selectedTimeInterval"
+                        ng-change="getGoExtraData()"
+                        ng-options="timeInterval as timeInterval | translate for timeInterval in timeIntervals">
+                </select>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="stat-box-body">
+        <div class="row">
+            <div class="col-xs-8"> 
+                <div class="chart-container">
+                    <div class="in-chart-streacher">
+                        <h1 class="no-margin green">{{chartObj.data | sum}}</h1>
+                        <h4 class="no-margin text-capitalize white">{{ "ORDERS" | translate}}</h4>
+                    </div>
+                    <canvas id="doughnut" class="chart chart-doughnut"
+                            chart-data="chartObj.data" chart-labels="chartObj.labels" chart-options="chartObj.options"
+                            chart-dataset-override="chartObj.datasets">
+                    </canvas> 
+                </div>
+            </div>
+            <div>
+                <div class="floating-chart-maps bottom-right white">
+                    <ul>
+                        <li ng-repeat="label in chartObj.labels">
+                            <h5 class="no-margin">{{label}}</h5>
+                            <div class="reference-smaller-circle" 
+                                 ng-style="{'background-color' : chartObj.datasets.backgroundColor[$index]}">
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

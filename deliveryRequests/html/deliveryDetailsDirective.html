@@ -1,0 +1,190 @@
+<section class="detailedRequest">
+    <div class="panel panel-default">
+        <div class="panel-heading">{{'REQUEST_DETAILS'| translate}}</div>
+        <div class="panel-body">
+               
+                <p>
+                    <span>{{'REQUEST_ID'| translate}}:</span>
+                    <span>{{requestDetails.requestId}}</span>
+                </p>
+                <p ng-show="requestDetails.history">
+                    <span>{{'REQUEST_TYPE'| translate}}:</span>
+                    <span>{{requestDetails.requestType}}</span>
+                </p>
+                <p>
+                    <span>{{'REQUEST_STATUS'| translate}}:</span>
+                    <span>
+                        {{requestDetails.requestStatus| translate}}
+                        <!--                        <span ng-show="requestDetails.orderStatus === 'Cancelled' && requestDetails.history">
+                                                    (Reason)
+                                                </span>-->
+                    </span>
+                </p>
+                <p>
+                    <span>{{'REQUEST_DATE'| translate}}:</span>
+                    <span>{{requestDetails.requestTime| date:('DATE_FORMAT' | translate) }}</span>
+                </p>
+                <p>
+                    <span>{{'REQUEST_TIME_UTC'| translate}}:</span>
+                    <span>{{requestDetails.requestTime| date:'shortTime' }}</span>
+                </p>
+                <p>
+                    <span>{{'REQUESTER_ID'| translate}}:</span>
+                    <span>{{requestDetails.requesterId}}</span>
+                </p>
+                <p>
+                    <span>{{'REQUESTER_NAME'| translate}}:</span>
+                    <span>{{requestDetails.requesterName}}</span>
+                </p>
+                <p>
+                    <span>{{'REQUEST_MOBILE'| translate}}:</span>
+                    <span>{{requestDetails.requesterMobile}}</span>
+                </p>
+            
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">{{'PICKUP_DETAILS'| translate}}</div>
+        <div class="panel-body">
+            
+                <p>
+                    <span>{{'PICKUP_ADDRESS'| translate}}:</span>
+                    <span>{{requestDetails.pickupFormattedAddress}}</span>
+                </p>
+                <p>
+                    <span>{{'PICKUP_TIME_UTC'| translate}}:</span>
+                    <span>{{requestDetails.created| date:'shortTime'}}</span>
+
+                </p>
+                <p>
+                    <span>{{'PICKUP_DATE'| translate}}:</span>
+                    <span>{{requestDetails.pickupDate| date:('DATE_FORMAT' | translate) | onEmpty}}</span>
+                </p>
+            
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">{{'PACKAGE_DETAILS'| translate}}</div>
+        <div class="panel-body">
+            
+                <p>
+                    <span>{{'PACKAGE_ID'| translate}}:</span>
+                    <span>{{requestDetails.packageId}}</span>
+                </p>
+                <p>
+                    <span>{{'PACKAGE_NICKNAME'| translate}}:</span>
+                    <span>{{requestDetails.package.nickName| onEmpty}}</span>
+                </p>
+                <p>
+                    <span>{{'PACKAGE_TYPE'| translate}}:</span>
+                    <span>{{requestDetails.package.packageType| uppercase | translate}}</span>
+                </p>
+                <p>
+                    <span>{{'PACKAGE_WEIGHT_KG'| translate}}:</span>
+                    <span>{{requestDetails.package.actualWeight}}</span>
+                </p>
+                <!--/* commented only until the demo reales then will be returned when real used by driver*/-->
+                <!--                <p>
+                                    <span>{{'PACKAGE_DIMENSION_CM'| translate}}:</span>
+                                    <span>{{requestDetails.package.packageDimension}}</span>
+                                </p>-->
+                <p>
+                    <span>{{'PACKAGE_CONTAINER_LABELING'| translate}}:</span>
+                    <span>
+                        <span ng-show="requestDetails.package.labels.length > 0" >{{requestDetails.package.labels.toString()}}</span>
+                        <span ng-hide="requestDetails.package.labels.length > 0">{{requestDetails.package.labels.toString() | onEmpty}}</span>
+                    </span>
+                </p>
+                <p>
+                    <span>{{'PACKAGE_BRIEF'| translate}}:</span>
+                    <span>{{requestDetails.package.description| onEmpty}}</span>
+                </p>
+            
+        </div>
+
+        <div class="imageWrapper">
+            <div class="col-md-3 col-lg-2 col-sm-12 col-xs-12" ng-repeat="image in requestDetails.package.imagePreview">
+                <div class="img-detail-holder">
+                    <a href="{{image}}/original"  data-lightbox="delivery" data-title="{{'PACKAGE_IMG'|translate}} {{$index + 1}}">
+                        <img alt="package image {{$index + 1}}" title="package image {{$index + 1}}" class="img-responsive"
+                             ng-src="{{image}}/large"
+                             uib-tooltip="{{'PACKAGE_IMG'|translate}} {{$index + 1}}">
+                    </a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">{{'SHIPPING_RECIPIENT_DETAILS'| translate}}</div>
+        <div class="panel-body">
+            
+                <p>
+                    <span>{{'DELIVERY_DATE'| translate}}:</span>
+                    <span>{{requestDetails.deliveryDate| date:('DATE_FORMAT' | translate) | onEmpty}}</span>
+                </p>
+                <p>
+                    <span>{{'DELIVERY_TIME'| translate}}:</span>
+                    <span>{{requestDetails.deliveryTimeFrom| date:'shortTime' }} - {{requestDetails.deliveryTimeTo| date:'shortTime' }}</span>
+                </p>
+                <p>
+                    <span>{{'SHIPPING_SERVICE'| translate}}:</span>
+                    <span>{{requestDetails.package.shipmentService|uppercase| translate}}</span>
+                </p>
+                <p>
+                    <span>{{'SUB_SHIPPING_SERVICE'| translate}}:</span>
+                    <span>{{requestDetails.package.subShipmentService | removeSpaces | uppercase | translate}}</span>
+                </p>
+                <p>
+                    <span>{{'RECIPIENT_FULL_NAME'| translate}}:</span>
+                    <span>{{requestDetails.recipientName}}</span>
+                </p>
+                <p>
+                    <span>{{'RECIPIENT_MOBILE_NUMBER'| translate}}:</span>
+                    <span>{{requestDetails.recipientMobile}}</span>
+                </p>
+                <p>
+                    <span>{{'RECIPIENT_ADDRESS'| translate}}:</span>
+                    <span>{{requestDetails.recipientFormattedAddress}}</span>
+                </p>
+                <p>
+                    <span>{{'ADDITIONAL_INFORMATION'| translate}}:</span>
+                    <span>{{requestDetails.recipientAdditionalInfo|onEmpty}}</span>
+                </p>
+            
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">{{'PAYMENT_DETAILS'| translate}}</div>
+        <div class="panel-body">
+            
+                <p>
+                    <span>{{'PAYMENT_AT'| translate}}:</span>
+                    <span>{{requestDetails.paymentType|uppercase| translate}}</span>
+                </p>
+                <p>
+                    <span>{{'PAYMENT_METHOD'| translate}}:</span>
+                    <span>{{requestDetails.paymentMethod| translate}}</span>
+                </p>
+            
+        </div>
+    </div>
+    <div   class="panel panel-default">
+        <div class="panel-heading">{{'ADDITIONAL_SERVICES'| translate}}</div>
+        <div class="panel-body">
+            
+                <p>
+                    <span>{{'WRAP_LABEL'| translate}}:</span>
+                    <span>{{requestDetails.labelingText| onEmpty}}</span>
+                </p>
+                <p>
+                    <span>{{'PACKAGING_BOX'| translate}}:</span>
+                    <span>{{requestDetails.additionalServices| onEmpty}}</span>
+                </p>
+            
+        </div>
+    </div>
+</section>

@@ -1,0 +1,227 @@
+<script src="configurations/systemConfigurations/js/systemConfigurationsController.js" type="text/javascript"></script>
+<script src="configurations/systemConfigurations/js/addPackageWeightController.js" type="text/javascript"></script>
+<div class="lm-container-holder">
+    <form name="systemConfigurationTable">
+        <div class="lm-container">
+            <div class="row entity-title margin-bottom-30">
+                <p>{{"SYSTEM_CONFIG"|translate}}</p>
+            </div>
+            <div class="margin-bottom-30" id="packageWeight">
+                <div class="row">
+                    <div class="col-md-8 col-lg-9 col-xs-12 col-sm-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn lm-btn blue-btn" type="button" 
+                                        ng-click="addPWPopup()" 
+                                        ng-disabled="systemConfigurationTable.$dirty">
+                                    <span class="fa fa-plus"></span>
+                                    {{'ADD_PACKAGE_WEIGHT'| translate}}
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="weight-grid" class="config-grid">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div ng-show='showSpinner'>
+                                <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                            </div>
+
+
+                            <div class=" table-responsive ">
+                                <table border="0" class="table">
+                                    <col style="width:19%">
+                                    <col style="width:19%">
+                                    <col style="width:19%">
+                                    <col style="width:19%">
+                                    <col style="width:19%">
+                                    <col style="width:5%">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <div>{{'SIZE'| translate}}</div>
+                                            </th>
+                                            <th>
+                                                <div>{{'LENGTH'| translate}}</div>
+                                            </th>
+                                            <th>
+                                                <div>{{'WIDTH'| translate}}</div>
+                                            </th>
+                                            <th>
+                                                <div>{{'HEIGHT'| translate}}</div>
+                                            </th>
+                                            <th>
+                                                <div>{{'CORRESPONDENCE'| translate}}</div>
+                                            </th>
+                                            <th>
+                                                <div>{{'ACTIONS'| translate}}</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="row in packageWeightList">
+                                            <td class="config_input">
+                                                <div>
+                                                    <input type="text" ng-model="row.sizeName" required ng-change="checkValidation('sizeName' + $index)" name="sizeName{{$index}}"
+                                                           ng-maxlength="32" ng-minlength="2" ng-pattern="/^[a-zA-Z0-9\u0621-\u064A\u0660-\u0669 -]*[a-zA-Z0-9\u0621-\u064A\u0660-\u0669]+$/"
+                                                           ng-disabled="systemConfigurationTable.sizeName{{$index}}.$dirty !== systemConfigurationTable.$dirty"
+                                                           ng-class="{focus: editedField === 'sizeName' + $index}" stopccp>
+                                                    <div ng-show="systemConfigurationTable.sizeName{{$index}}.$dirty">
+                                                        <div class="inside-input-error">
+                                                            <div ng-show="systemConfigurationTable.sizeName{{$index}}.$error.pattern && !systemConfigurationTable.sizeName{{$index}}.$error.required">
+                                                                * {{' SIZE'| translate}} {{'INVALID'| translate}}
+                                                            </div>
+                                                            <div ng-show="systemConfigurationTable.sizeName{{$index}}.$error.required">
+                                                                * {{' SIZE'| translate}} {{'REQUIRED'| translate}}
+                                                            </div>
+                                                            <div ng-show="systemConfigurationTable.sizeName{{$index}}.$error.maxlength && !systemConfigurationTable.sizeName{{$index}}.$error.pattern">
+                                                                * {{' SIZE'| translate}} {{'LONG'| translate}}
+                                                            </div>
+                                                            <div ng-show="systemConfigurationTable.sizeName{{$index}}.$error.minlength && !systemConfigurationTable.sizeName{{$index}}.$error.pattern">
+                                                                * {{' SIZE'| translate}} {{'SHORT'| translate}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="valueOptions">
+                                                            <span ng-show="systemConfigurationTable.sizeName{{$index}}.$valid" ng-click="submitPWValue($index)">
+                                                                <i class="fa fa-check"></i>
+                                                            </span>
+                                                            <span ng-click="revertPWValue($index, 'sizeName')">
+                                                                <i class="fa fa-times"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="config_input">
+                                                <div>
+                                                    <input type="text" ng-model="row.length" required ng-pattern="/^[1-9]\d*$/" ng-maxlength="6" ng-change="checkValidation('length' + $index)"
+                                                           name="length{{$index}}" ng-disabled="systemConfigurationTable.length{{$index}}.$dirty !== systemConfigurationTable.$dirty"
+                                                           ng-class="{focus:editedField === 'length' + $index}" stopccp>
+                                                    <div ng-show="systemConfigurationTable.length{{$index}}.$dirty">
+                                                        <div class="inside-input-error">
+                                                            <div ng-show="systemConfigurationTable.length{{$index}}.$error.pattern && !systemConfigurationTable.length{{$index}}.$error.required">
+                                                                * {{'LENGTH'|translate}} {{'INVALID'| translate}}
+                                                            </div>
+                                                            <div ng-show="systemConfigurationTable.length{{$index}}.$error.required">
+                                                                * {{'LENGTH'|translate}} {{'REQUIRED'| translate}}
+                                                            </div>
+                                                            <div ng-show="systemConfigurationTable.length{{$index}}.$error.maxlength && !systemConfigurationTable.length{{$index}}.$error.pattern">
+                                                                * {{'LENGTH'|translate}} {{'LONG'| translate}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="valueOptions">
+                                                            <span ng-show="systemConfigurationTable.length{{$index}}.$valid" ng-click="submitPWValue($index)">
+                                                                <i class="fa fa-check"></i>
+                                                            </span>
+                                                            <span ng-click="revertPWValue($index, 'length')">
+                                                                <i class="fa fa-times"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="config_input">
+                                                <div>
+                                                    <input type="text" ng-model="row.width" required ng-pattern="/^[1-9]\d*$/" ng-maxlength="6" ng-change="checkValidation('width' + $index)"
+                                                           name="width{{$index}}" ng-disabled="systemConfigurationTable.width{{$index}}.$dirty !== systemConfigurationTable.$dirty"
+                                                           ng-class="{focus:editedField === 'width' + $index}" stopccp>
+                                                    <div ng-show="systemConfigurationTable.width{{$index}}.$dirty">
+                                                        <div class="inside-input-error">
+                                                            <div ng-show="systemConfigurationTable.width{{$index}}.$error.pattern && !systemConfigurationTable.width{{$index}}.$error.required">
+                                                                * {{'WIDTH'|translate}} {{'INVALID'| translate}}
+                                                            </div>
+                                                            <div ng-show="systemConfigurationTable.width{{$index}}.$error.required">
+                                                                * {{'WIDTH'|translate}} {{'REQUIRED'| translate}}
+                                                            </div>
+                                                            <div ng-show="systemConfigurationTable.width{{$index}}.$error.maxlength && !systemConfigurationTable.width{{$index}}.$error.pattern">
+                                                                * {{'WIDTH'|translate}} {{'LONG'| translate}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="valueOptions">
+                                                            <span ng-show="systemConfigurationTable.width{{$index}}.$valid" ng-click="submitPWValue($index)">
+                                                                <i class="fa fa-check"></i>
+                                                            </span>
+                                                            <span ng-click="revertPWValue($index, 'width')">
+                                                                <i class="fa fa-times"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="config_input">
+                                                <div>
+                                                    <input type="text" ng-model="row.height" required ng-pattern="/^[1-9]\d*$/" ng-maxlength="6" ng-change="checkValidation('height' + $index)"
+                                                           name="height{{$index}}" ng-disabled="systemConfigurationTable.height{{$index}}.$dirty !== systemConfigurationTable.$dirty"
+                                                           ng-class="{focus:editedField === 'height' + $index}" stopccp>
+                                                    <div ng-show="systemConfigurationTable.height{{$index}}.$dirty">
+                                                        <div class="inside-input-error">
+                                                            <div ng-show="systemConfigurationTable.height{{$index}}.$error.pattern && !systemConfigurationTable.height{{$index}}.$error.required">
+                                                                * {{'HEIGHT'|translate}} {{'INVALID'| translate}}
+                                                            </div>
+                                                            <div ng-show="systemConfigurationTable.height{{$index}}.$error.required">
+                                                                * {{'HEIGHT'|translate}} {{'REQUIRED'| translate}}
+                                                            </div>
+                                                            <div ng-show="systemConfigurationTable.height{{$index}}.$error.maxlength && !systemConfigurationTable.height{{$index}}.$error.pattern">
+                                                                * {{'HEIGHT'|translate}} {{'LONG'| translate}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="valueOptions">
+                                                            <span ng-show="systemConfigurationTable.height{{$index}}.$valid" ng-click="submitPWValue($index)">
+                                                                <i class="fa fa-check"></i>
+                                                            </span>
+                                                            <span ng-click="revertPWValue($index, 'height')">
+                                                                <i class="fa fa-times"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="config_input">
+                                                <div>
+                                                    <input type="text" ng-model="row.correspondence" required ng-pattern="/^[1-9]\d*$/" ng-maxlength="6" ng-change="checkValidation('correspondence' + $index)"
+                                                           name="correspondence{{$index}}" ng-disabled="systemConfigurationTable.correspondence{{$index}}.$dirty !== systemConfigurationTable.$dirty"
+                                                           ng-class="{focus:editedField === 'correspondence' + $index}"
+                                                           stopccp>
+
+                                                    <div ng-show="systemConfigurationTable.correspondence{{$index}}.$dirty">
+                                                        <div class="inside-input-error">
+                                                            <div ng-show="systemConfigurationTable.correspondence{{$index}}.$error.pattern && !systemConfigurationTable.correspondence{{$index}}.$error.required">
+                                                                * {{'CORRESPONDENCE'|translate}} {{'INVALID'| translate}}
+                                                            </div>
+                                                            <div ng-show="systemConfigurationTable.correspondence{{$index}}.$error.required">
+                                                                * {{'CORRESPONDENCE'|translate}} {{'REQUIRED'| translate}}
+                                                            </div>
+                                                            <div ng-show="systemConfigurationTable.correspondence{{$index}}.$error.maxlength && !systemConfigurationTable.correspondence{{$index}}.$error.pattern">
+                                                                * {{'CORRESPONDENCE'|translate}} {{'LONG'| translate}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="valueOptions">
+                                                            <span ng-show="systemConfigurationTable.correspondence{{$index}}.$valid" ng-click="submitPWValue($index)">
+                                                                <i class="fa fa-check"></i>
+                                                            </span>
+                                                            <span ng-click="revertPWValue($index, 'correspondence')">
+                                                                <i class="fa fa-times"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="text-center">
+                                                    <a class="actions-icons"><span class="fa fa-trash" authorized-block privilege-name="editconfig" rendering-option="remove" ng-click="!systemConfigurationTable.$dirty && deletePackageWeight(row.sizeId)" popover-append-to-body="true" uib-popover="{{'DELETE'|translate}}" popover-trigger="'mouseenter'" popover-placement="{{ 'LEFT' | translate}}"></span></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

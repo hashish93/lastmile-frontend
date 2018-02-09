@@ -1,0 +1,47 @@
+<div class="lm-popup schdule-req-popup">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title"> {{'SCHEDULE_REQUEST_CAP'| translate}}</h3>
+    </div>
+    <form name="scheduleRequestForm" novalidate>
+        <div class="modal-body lm-popup-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="error-container">
+                            <div ng-show=" scheduleRequestForm.pickupDate.$invalid && afterSubmit">
+                                <div ng-show="scheduleRequestForm.pickupDate.$error.required">{{'PICKUP_DATE'| translate}} {{ 'REQUIRED' | translate}}*</div>
+                            </div>
+                        </div>
+                        <div class="input-group hide-today-btn">
+                            <input ng-paste="$event.preventDefault();" type="text" class="form-control" uib-datepicker-popup="{{'DATE_FORMAT'| translate}}"
+                                   ng-click="datePopup(1)" onkeydown="return false" name="pickupDate" ng-model="schduleObj.pickupDate" is-open="datePopupOpen[1]" 
+                                   current-text="{{'TODAY'| translate}}" clear-text="{{'RESET'| translate}}"  placeholder="{{'PICKUP_DATE'| translate}}*" datepicker-options="options" required/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="datePopup(1)"><i class="adjust-line-height glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="error-container">
+                            <div ng-show=" scheduleRequestForm.pickupTime.$invalid && afterSubmit">
+                                <div ng-show="scheduleRequestForm.pickupTime.$error.required">{{'TIME_INTERVAL'| translate}} {{ 'REQUIRED' | translate}}*</div>
+                            </div>
+                        </div>
+                        <select  class="col-md-12 col-sm-12 col-xs-12 customSelect" ng-options="time.pickupTimeId as time.fromTime + ' - ' + time.toTime for time in pickupTime track by time.pickupTimeId" name="pickupTime" ng-model="schduleObj.pickupTime" required>
+                            <option disabled hidden value="">{{'TIME_INTERVAL'| translate}}*</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <button class="btn reschduleBtn"  ng-click="reschedule()">{{'SCHEDULE'| translate}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>

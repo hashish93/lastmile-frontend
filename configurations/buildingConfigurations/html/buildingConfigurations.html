@@ -1,0 +1,490 @@
+<script src="configurations/buildingConfigurations/js/buildingConfigurationsController.js" type="text/javascript"></script>
+<script src="configurations/buildingConfigurations/js/distributionConfigurationController.js" type="text/javascript"></script>
+<script src="configurations/buildingConfigurations/js/generalOperationConfigurationController.js" type="text/javascript"></script>
+<script src="configurations/buildingConfigurations/js/ondemandConfigurationController.js" type="text/javascript"></script>
+<script src="configurations/buildingConfigurations/js/calendarConfigurationsController.js" type="text/javascript"></script>
+
+
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="row entity-title">
+            <p>{{"BUILDING_CONFIG"|translate}}</p>
+        </div>
+        <div class="row margin-bottom-30">
+            <div class="col-md-12 margin-top-15">
+                <div super-user>
+                    <!--                    <div class="error-container">
+                                            <div ng-show="configurationTable.hubId.$error.required && afterSubmit">{{'BUILDING'| translate}}{{ 'REQUIRED' | translate}} *</div>
+                                            <div ng-hide="configurationTable.hubId.key">{{serverError.hubId}}</div>
+                                        </div>-->
+                    <select ng-change="childrenInits()" class="form-control margin-bottom-15" name="hubId" ng-model="hubId"
+                            ng-options="hub.id  as hub.name for hub in buildingList" 
+                            ng-required="userInfoService.isSuperUser()">
+                        <option disabled hidden value="">{{'SELECT_BUILDING'|translate}}*</option>
+                    </select>
+                </div>
+                <section class="row" ng-show="hubId">
+                    <div class="col-md-12 tabs tabs-style-linebox">
+                        <nav>
+                            <ul class="text-capitalize">
+                                <li ng-click='activeTab = 0; childrenInits()' ng-class="{'active': activeTab === 0 }">
+                                    <a><span><b>{{'ON_DEMAND_CONFIG'| translate}}</b></span></a>
+                                </li>
+                                <li ng-click='activeTab = 1; childrenInits()' ng-class="{'active': activeTab === 1 }">
+                                    <a><span><b>{{'DISTRIBUTION_CONFIG'| translate}}</b></span></a>
+                                </li>
+                                <li ng-click='activeTab = 2; childrenInits()' ng-class="{'active': activeTab === 2 }">
+                                    <a><span><b>{{'WORK_CALENDAR'| translate}}</b></span></a>
+                                </li>
+                                <li ng-click='activeTab = 3; childrenInits()' ng-class="{'active': activeTab === 3 }">
+                                    <a><span><b>{{'GENERAL_OPERATIONS'| translate}}</b></span></a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="content-wrap">
+                            <section ng-show="activeTab === 0" ng-controller="OndemandConfigurationController">
+                                <form name="ondemandConfigTable">
+                                    <div class="row config_lables_cont text-capitalize">
+                                        <div class="col-sm-6 col-xs-6">
+                                            <div class="pull-right">
+                                                <input id="label0" ng-value="0" ng-click="submitConfigValue(dispatchModeItem.index)" type='radio' name="dispatching" ng-model="dispatchModeItem.value"
+                                                       stopccp>
+                                                <label>{{'MANUAL_DISPATCHING'| translate}}</label>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="col-sm-6 col-xs-6">
+                                            <input id="label1" ng-value="1" ng-click="submitConfigValue(dispatchModeItem.index)" type='radio' name="dispatching" ng-model="dispatchModeItem.value"
+                                                   stopccp>
+                                            <label>{{'AUTOMATIC_DISPATCHING'| translate}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center dispatching-catalog">
+                                            <p>*{{'MANUAL_PARAGRAPH'| translate}}</p>
+                                            <p>* {{'AUTOMATIC_PARAGRAPH'| translate}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="config-grid panel panel-default">
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <div ng-show='showSpinner'>
+                                                    <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                                                </div>
+                                                <div class=" table-responsive ">
+                                                    <table border="0" class="table">
+                                                        <col style="width: 25%;">
+                                                        <col style="width: 15%;">
+                                                        <col style="width: 15%">
+                                                        <col style="width: 45%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    <div>{{'CONFIGURATION_ITEM'| translate}}</div>
+                                                                </th>
+                                                                <th>
+                                                                    <div>{{'VALUE'| translate}}</div>
+                                                                </th>
+                                                                <th>
+                                                                    <div>{{'UNIT'| translate}}</div>
+                                                                </th>
+                                                                <th>
+                                                                    <div>{{'DESCRIPTION'| translate}}</div>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="configItem in listOndemandConfig" 
+                                                                ng-if="configItem.configId !== 2">
+                                                                <td class="config_item_name">{{configItem.displayname| translate}}</td>
+                                                                <td class="config_input">
+                                                                    <div>
+                                                                        <input type="text" ng-model="configItem.value" 
+                                                                               required ng-pattern="/^[1-9]\d*$/" ng-maxlength="6" 
+                                                                               ng-change="checkValidation('item' + $index)"
+                                                                               name="item{{$index}}" 
+                                                                               ng-disabled="ondemandConfigTable.item{{$index}}.$dirty !== ondemandConfigTable.$dirty"
+                                                                               ng-class="{focus:editedField === 'item' + $index}" stopccp>
+
+                                                                        <div ng-show="ondemandConfigTable.item{{$index}}.$dirty">
+                                                                            <div class="inside-input-error">
+                                                                                <div ng-show="ondemandConfigTable.item{{$index}}.$error.pattern && !ondemandConfigTable.item{{$index}}.$error.required">
+                                                                                    * {{'ENTER_NUM_ONLY'| translate}}
+                                                                                </div>
+                                                                                <div ng-show="ondemandConfigTable.item{{$index}}.$error.required">
+                                                                                    * {{'REQUIRED'| translate}}
+                                                                                </div>
+                                                                                <div ng-show="ondemandConfigTable.item{{$index}}.$error.maxlength && !ondemandConfigTable.item{{$index}}.$error.pattern">
+                                                                                    * {{' NUMBER'| translate}} {{'LONG'| translate}}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="valueOptions">
+                                                                                <span ng-show="ondemandConfigTable.item{{$index}}.$valid" ng-click="submitConfigValue($index)">
+                                                                                    <i class="fa fa-check"></i>
+                                                                                </span>
+                                                                                <span ng-click="revertConfigValue($index)">
+                                                                                    <i class="fa fa-times"></i>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>{{configItem.unit| translate}}</td>
+                                                                <td>{{configItem.description| translate}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </section>
+                            <section ng-show="activeTab === 1" ng-controller="DistributionConfigurationController">
+                                <form name="distributionConfigTable">
+                                    <div class="row config_lables_cont text-capitalize">
+                                        <div class="col-sm-6 col-xs-6">
+                                            <div class="pull-right">
+                                                <input id="label0" ng-value="0" ng-click="submitConfigValue(distributionModeItem.index)" type='radio' name="distribution"
+                                                       ng-model="distributionModeItem.value" stopccp>
+                                                <label>{{'MANUAL_DISTRIBUTION'| translate}}</label>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="col-sm-6 col-xs-6">
+                                            <input id="label1" ng-value="1" ng-click="submitConfigValue(distributionModeItem.index)" type='radio' name="distribution"
+                                                   ng-model="distributionModeItem.value" stopccp>
+                                            <label>{{'AUTOMATIC_DISTRIBUTION'| translate}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center dispatching-catalog">
+                                            <p>*{{'MANUAL_PARAGRAPH'| translate}}</p>
+                                            <p>* {{'AUTOMATIC_PARAGRAPH'| translate}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="config-grid panel panel-default">
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <div ng-show='showSpinner'>
+                                                    <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                                                </div>
+                                                <div class=" table-responsive ">
+                                                    <table border="0" class="table">
+                                                        <col style="width: 25%;">
+                                                        <col style="width: 15%;">
+                                                        <col style="width: 15%">
+                                                        <col style="width: 45%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    <div>{{'CONFIGURATION_ITEM'| translate}}</div>
+                                                                </th>
+                                                                <th>
+                                                                    <div>{{'VALUE'| translate}}</div>
+                                                                </th>
+                                                                <th>
+                                                                    <div>{{'UNIT'| translate}}</div>
+                                                                </th>
+                                                                <th>
+                                                                    <div>{{'DESCRIPTION'| translate}}</div>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="configItem in listDistributionConfig" 
+                                                                ng-if="configItem.configId !== 14">
+                                                                <td class="config_item_name">{{configItem.displayname| translate}}</td>
+                                                                <td class="config_input">
+                                                                    <div>
+                                                                        <input type="text" ng-model="configItem.value" 
+                                                                               required ng-pattern="/^[1-9]\d*$/" ng-maxlength="6" 
+                                                                               ng-change="checkValidation('item' + $index)"
+                                                                               name="item{{$index}}" 
+                                                                               ng-disabled="distributionConfigTable.item{{$index}}.$dirty !== distributionConfigTable.$dirty"
+                                                                               ng-class="{focus:editedField === 'item' + $index}" stopccp>
+
+                                                                        <div ng-show="distributionConfigTable.item{{$index}}.$dirty">
+                                                                            <div class="inside-input-error">
+                                                                                <div ng-show="distributionConfigTable.item{{$index}}.$error.pattern && !distributionConfigTable.item{{$index}}.$error.required">
+                                                                                    * {{'ENTER_NUM_ONLY'| translate}}
+                                                                                </div>
+                                                                                <div ng-show="distributionConfigTable.item{{$index}}.$error.required">
+                                                                                    * {{'REQUIRED'| translate}}
+                                                                                </div>
+                                                                                <div ng-show="distributionConfigTable.item{{$index}}.$error.maxlength && !distributionConfigTable.item{{$index}}.$error.pattern">
+                                                                                    * {{' NUMBER'| translate}} {{'LONG'| translate}}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="valueOptions">
+                                                                                <span ng-show="distributionConfigTable.item{{$index}}.$valid" ng-click="submitConfigValue($index)">
+                                                                                    <i class="fa fa-check"></i>
+                                                                                </span>
+                                                                                <span ng-click="revertConfigValue($index)">
+                                                                                    <i class="fa fa-times"></i>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>{{configItem.unit| translate}}</td>
+                                                                <td>{{configItem.description| translate}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </section>
+                            <section ng-show="activeTab === 2" class="" ng-controller="CalendarConfigurationController">
+                                <form name="calendarForm">
+                                    <div ng-hide="userInfoService.isSuperUser() && !hubId">
+                                        <div class="panel">
+                                            <div class="entity-title margin-bottom-10">
+                                                <p>{{'SET_WORKING_DAYS'| translate}}</p>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12">
+                                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 list-days margin-bottom-30">
+                                                        <ul class="list-group list-unstyled">
+                                                            <li class="list-group-item text-capitalize" ng-repeat="day in days"
+                                                                ng-class="{ 'selected': day.id === selectedDay.id }"
+                                                                ng-click="selectDay($index)">
+                                                                {{ day.dayName| uppercase | translate}}
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-lg-8 col-lg-offset-1 col-md-6 col-sm-12 col-xs-12"
+                                                         id="calendar_side_controls">
+                                                        <div class="row margin-bottom-30">
+                                                            <div class="col-md-12">
+                                                                <h5 class="text-capitalize pull-left text-capitalize"><b>{{ 'WORKING_DAYS' | translate }} : </b>
+                                                                </h5>
+                                                                <h5 ng-repeat="day in days| filter: {'status' : 'working'}:true"
+                                                                    class="pull-left dash-after text-capitalize">
+                                                                    {{ day.dayName| uppercase | translate}}</h5>
+                                                                <div class="clearfix"></div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <h5 class="text-capitalize pull-left"><b>{{ 'NON_WORKING_DAYS' | translate }}
+                                                                    : </b>
+                                                                </h5>
+                                                                <h5 ng-repeat="day in days| filter: {'status' : 'non-working'}:true"
+                                                                    class="pull-left dash-after text-capitalize">
+                                                                    {{ day.dayName | uppercase | translate}}
+                                                                </h5>
+                                                                <div class="clearfix"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <p class="margin-bottom-10">
+                                                                    {{'SET_SEL_DAY_W_N'| translate}}
+                                                                </p>
+                                                                <div>
+                                                                    <input class="pull-left" type="radio" value="working"
+                                                                           ng-model="selectedDay.status"
+                                                                           ng-change="changeDayState()">
+                                                                    <h5 class="side-label">{{'SET_WORK'| translate}}</h5>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                                <div>
+                                                                    <input class="pull-left" type="radio" value="non-working"
+                                                                           ng-model="selectedDay.status"
+                                                                           ng-change="changeDayState()">
+                                                                    <h5 class="side-label">{{'SET_NON_WORK'| translate}}</h5>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="entity-title margin-bottom-10">
+                                                <p>{{'SET_WORKING_SHIFTS'| translate}}</p>
+                                            </div>
+                                            <div class="col-md-12 margin-top-10 margin-bottom-10">
+                                                <button class="btn lm-btn blue-btn" ng-if="shifts.length <= 6"
+                                                        ng-click="addNewShift()"
+                                                        ng-disabled="(calendarForm.$invalid || disabled) || edited">
+                                                    <i class="fa fa-plus"></i>
+                                                    <strong>{{'ADD_SHIFT'| translate}}</strong>
+                                                </button>
+                                                <div class="error-holder">
+                                                    <div ng-repeat="shift in shifts">
+                                                        <div class="error-container">
+                                                            <div ng-show="calendarForm['from' + 'shift' + $index].$error.time">
+                                                                {{'ENTER_DATE'| translate}}
+                                                            </div>
+                                                            <div ng-show="!calendarForm['from' + 'shift' + $index].$error.time && calendarForm['from' + 'shift' + $index].$invalid">
+                                                                {{'SHIFT_OCCURS'| translate}}
+                                                            </div>
+                                                            <div ng-show="calendarForm['to' + 'shift' + $index].$error.required">
+                                                                {{'ENTER_DATE'| translate}}
+                                                            </div>
+                                                            <div ng-show="!calendarForm['to' + 'shift' + $index].$error.required && !calendarForm['to' + 'shift' + $index].$error.time && calendarForm['to' + 'shift' + $index].$invalid">
+                                                                {{'SHIFT_LESS'| translate}}
+                                                            </div>
+                                                            <div ng-repeat="error in serverError">
+                                                                <div ng-show="error === shift.id">{{'ERROR'| translate}}</div>
+                                                            </div>
+                                                            <div>{{serverErrorObj[shift.id]}}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-5 col-md-8 col-sm-12 col-xs-12 form-group">
+                                                <table class="table table-hover transparent-input table-responsive shifts-table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="col-md-4 col-sm-4 col-xs-4">
+                                                            <div>{{'FROM'| translate}}</div>
+                                                        </th>
+                                                        <th class="col-md-4 col-sm-4 col-xs-4">
+                                                            <div>{{'TO'| translate}}</div>
+                                                        </th>
+                                                        <th class="col-md-4 col-sm-4 col-xs-4">
+                                                            <div>{{'ACTIONS'| translate}}</div>
+                                                        </th>
+                                                    </tr>
+                                                    </thead>
+
+
+                                                    <tr ng-repeat="shift in shifts" ng-click="privileged && selectRow($index)">
+                                                        <td class="col-md-4 col-sm-4 col-xs-4">
+                                                            <div uib-timepicker show-meridian="true" name="fromshift{{$index}}"
+                                                                 show-spinners="false" ng-disabled="editedField == null || editedField != $index"
+                                                                 ng-model="shift.from" ng-change="checkToShift(shifts, shift, $index)"
+                                                                 ng-class="{focus:editedField === $index,
+                                        focus_error:(calendarForm['from' + 'shift' + $index].$invalid || calendarForm['to' + 'shift' + $index].$invalid)}"
+                                                            >
+                                                            </div>
+                                                        </td>
+                                                        <td class="col-md-4 col-sm-4 col-xs-4">
+                                                            <div uib-timepicker show-meridian="true" name="toshift{{$index}}"
+                                                                 show-spinners="false"
+                                                                 ng-required="shift.from"
+                                                                 ng-disabled="editedField == null || editedField != $index || !shift.from"
+                                                                 ng-model="shift.to" ng-change="checkToShift(shifts, shift, $index)"
+                                                                 ng-class="{focus:editedField === $index,
+                                    focus_error:(calendarForm['from' + 'shift' + $index].$invalid || calendarForm['to' + 'shift' + $index].$invalid)}"
+                                                            ></div>
+                                                        </td>
+                                                        <td class="col-md-4 col-sm-4 col-xs-4">
+                                                            <a class="actions-icons custom-fa" id="deleteShift" ng-show="editedField != $index"
+                                                               authorized-block privilege-name="editcalendar"
+                                                               ng-click="calendarForm.$valid && !edited && removeShift(shifts, $index); $event.stopPropagation()">
+                                                                <span class="fa fa-trash"></span>
+                                                            </a>
+                                                            <a class="actions-icons custom-fa" id="editShift" authorized-block
+                                                               privilege-name="editcalendar"
+                                                               ng-show="editedField == $index && (calendarForm['from' + 'shift' + $index].$valid && calendarForm['to' + 'shift' + $index].$valid) && (shift.from != '' && shift.to != '')
+                                                                       && (shift.from != null && shift.to != null)"
+                                                               ng-click="checkActiveVehicleAffect(shift, $index)">
+                                                                <span class="fa fa-check green-check"></span>
+                                                            </a>
+                                                            <a class="actions-icons custom-fa" id="resetShift" ng-show="editedField == $index"
+                                                               authorized-block privilege-name="editcalendar"
+                                                               ng-click="resetShift($index)">
+                                                                <span class="fa fa-close red-close"></span>
+                                                            </a>
+
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </section>
+                            <section ng-show="activeTab === 3" class="" ng-controller="GeneralOperationConfigurationController">
+                                <form name="generalConfigTable">
+                                    <div class="config-grid panel panel-default">
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <div ng-show='showSpinner'>
+                                                    <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                                                </div>
+                                                <div class=" table-responsive ">
+                                                    <table border="0" class="table">
+                                                        <col style="width: 25%;">
+                                                        <col style="width: 15%;">
+                                                        <col style="width: 15%">
+                                                        <col style="width: 45%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    <div>{{'CONFIGURATION_ITEM'| translate}}</div>
+                                                                </th>
+                                                                <th>
+                                                                    <div>{{'VALUE'| translate}}</div>
+                                                                </th>
+                                                                <th>
+                                                                    <div>{{'UNIT'| translate}}</div>
+                                                                </th>
+                                                                <th>
+                                                                    <div>{{'DESCRIPTION'| translate}}</div>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="configItem in listGeneralConfig">
+                                                                <td class="config_item_name">{{configItem.displayname| translate}}</td>
+                                                                <td class="config_input">
+                                                                    <div>
+                                                                        <input type="number" class="hide-spinner" ng-model="configItem.value" min="0" max="100" required 
+                                                                               ng-pattern="/^[0-9]\d*$/"
+                                                                               ng-change="checkValidation('item' + $index)" name="item{{$index}}" 
+                                                                               ng-disabled="generalConfigTable.item{{$index}}.$dirty !== generalConfigTable.item{{$index}}.$dirty"
+                                                                               ng-class="{focus:editedField === 'item' + $index}" stopccp>
+                                                                        <div ng-show="generalConfigTable.item{{$index}}.$dirty">
+                                                                            <div class="inside-input-error">
+                                                                                <div ng-show="generalConfigTable.item{{$index}}.$error.pattern && !generalConfigTable.item{{$index}}.$error.required">
+                                                                                    * {{'ENTER_NUM_ONLY'| translate}}
+                                                                                </div>
+                                                                                <div ng-show="generalConfigTable.item{{$index}}.$error.required">
+                                                                                    * {{'REQUIRED'| translate}}
+                                                                                </div>
+                                                                                <div ng-show="generalConfigTable.item{{$index}}.$error.max && !generalConfigTable.item{{$index}}.$error.pattern">
+                                                                                    * {{' NUMBER'| translate}} {{'LONG'| translate}}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="valueOptions">
+                                                                                <span ng-show="generalConfigTable.item{{$index}}.$valid" ng-click="submitConfigValue($index)">
+                                                                                    <i class="fa fa-check"></i>
+                                                                                </span>
+                                                                                <span ng-click="revertConfigValue($index)">
+                                                                                    <i class="fa fa-times"></i>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>{{configItem.unit| translate}}</td>
+                                                                <td>{{configItem.description|translate}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </section>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,47 @@
+ <script src="package/js/listPackageController.js"></script>
+<script src="package/js/addPackageController.js"></script>
+<script src="package/js/editPackageController.js"></script>
+<script src="package/js/deletePackageController.js"></script>
+
+<div class="lm-container-holder">
+    <div class="lm-container">
+        <div class="pre-table-container">
+        <div class="row entity-title margin-bottom-15">
+            <p>{{'PACKAGES'| translate}}</p>
+
+        </div>
+        <div class="row">
+            <div class="col-md-9  col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn lm-btn blue-btn" type="button" authorized-block privilege-name="addeditpackage" ng-click="addPopup()"><span class="fa fa-plus"></span>{{'ADD_PACKAGE'| translate}}</button>
+                        <button type="button" class="btn lm-btn dark-btn" id="clearAllSelectionPackage" ng-show="show" ng-click="clearAll()"><span class="fa fa-eraser"></span>{{'CLEAR_BTN'| translate}}</button>
+                        <button type="button" class="btn lm-btn dark-btn" id="deleteSelectionPackage" ng-show="show" ng-click="deleteSelected()"><span class="fa fa-trash"></span>{{'DELETE_BTN'| translate}}</button>
+
+                    </div>
+
+            </div>
+            </div>
+            
+            <div class="col-md-3 col-xs-12 col-sm-12 pull-right lm-filter">
+                <i class="fa fa-search"></i>
+                <input type="text" class="form-control" placeholder="{{'FILTER'| translate}}">
+            </div>
+
+        </div>
+        </div>
+        <div class="row lm-grid full-height margin-bottom-15">
+            <div class="col-md-12">
+                <div ng-show='showSpinner'>
+                <three-bounce-spinner class='spinner-container'></three-bounce-spinner>
+                </div>
+                <div class="grid"  ng-if="lang==='ar'" dir='rtl' ui-if="pkgListOptions.data.length>0" 
+                     ui-grid="pkgListOptions" ui-grid-pagination ui-grid-resize-columns
+                     ui-grid-auto-resize ui-grid-selection ng-style="getTableHeight()"></div>
+                <div class="grid" ng-if="lang==='en'" ui-if="pkgListOptions.data.length>0" 
+                     ui-grid="pkgListOptions" ui-grid-pagination ui-grid-resize-columns
+                     ui-grid-auto-resize ui-grid-selection ng-style="getTableHeight()"></div>
+            </div>
+        </div>
+    </div>
+</div>
